@@ -8,6 +8,10 @@
     --color-success: #57b846;
 
     --transition: all 300ms ease;
+    --tran-02: all 0.2 ease;
+    --tran-03: all 0.3 ease;
+    --tran-04: all 0.4 ease;
+    --tran-05: all 0.5 ease;
 }
 
 html {
@@ -26,6 +30,15 @@ body {
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     background-color: #efefef;
+
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #695CFE;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #707070;
+    --text-heading: #000;
+    --header-color: #fff;
 }
 
 img,

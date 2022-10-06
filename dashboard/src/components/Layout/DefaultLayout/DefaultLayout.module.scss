@@ -1,0 +1,9 @@
+.default__layout {
+    display: flex;
+}
+
+.container {
+    position: relative;
+    flex: 1;
+    transition: var(--transition);
+}

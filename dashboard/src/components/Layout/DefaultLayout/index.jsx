@@ -1,21 +1,20 @@
-import styled from 'styled-components';
+import classNames from 'classnames/bind';
 import Header from '../components/Header';
-import NavigationBar from '../components/NavigationBar';
+import SideBar from '../components/SideBar';
+import styles from './DefaultLayout.module.scss';
+
+const cx = classNames.bind(styles);
 
 function DefaultLayout(props) {
     return (
-        <Wrapper>
-            <NavigationBar />
-            <div className="container">
+        <div className={cx('default__layout')}>
+            <SideBar />
+            <div className={cx('container')}>
                 <Header />
-                <div className="content">{props.children}</div>
+                <div className={cx('content')}>{props.children}</div>
             </div>
-        </Wrapper>
+        </div>
     );
 }
-
-const Wrapper = styled.div`
-    display: flex;
-`;
 
 export default DefaultLayout;
