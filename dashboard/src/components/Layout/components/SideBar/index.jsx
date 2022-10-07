@@ -3,55 +3,29 @@ import { useState } from 'react';
 import styles from './SideBar.module.scss';
 
 import Switch from '@mui/material/Switch';
-import {
-    BiAddToQueue,
-    BiBox,
-    BiCartAlt,
-    BiCategory,
-    BiChevronLeft,
-    BiCog,
-    BiDollarCircle,
-    BiGridAlt,
-    BiLogOut,
-    BiMoon,
-    BiSearch,
-    BiSun,
-    BiUser,
-    BiAnalyse
-} from 'react-icons/bi';
+import { BiAnalyse, BiChevronLeft, BiCog, BiLogOut, BiMoon, BiSearch, BiSun } from 'react-icons/bi';
+import { sideBars } from '~/constants';
 import SideBarItem from './SideBarItem';
 
 const cx = classNames.bind(styles);
-
-const sideBars = [
-    { title: 'Dashboard', path: '/login', icon: <BiGridAlt /> },
-    { title: 'Users', path: '/', icon: <BiUser /> },
-    { title: 'Products', path: '/', icon: <BiBox /> },
-    { title: 'Add Products', path: '/', icon: <BiAddToQueue /> },
-    { title: 'Categories', path: '/', icon: <BiCategory /> },
-    { title: 'Orders', path: '/', icon: <BiCartAlt /> },
-    { title: 'Sellers', path: '/', icon: <BiDollarCircle /> },
-];
 
 function SideBar() {
     const [darkMode, setDarkMode] = useState(false);
     const [closeSide, setCloseSide] = useState(false);
 
-    const handleThemeMode = () => {
-        setDarkMode((prev) => !prev);
-    };
-
     const handleOpenSideBarWithBtn = () => {
-        if(closeSide) {
+        if (closeSide) {
             setCloseSide(false);
         }
-    }
+    };
 
     return (
         <div className={cx('sidebar', closeSide ? 'close' : '', darkMode ? 'dark' : '')}>
             <div className={cx('sidebar-top')}>
                 <header>
-                    <span className={cx('logo')}><BiAnalyse /></span>
+                    <span className={cx('logo')}>
+                        <BiAnalyse />
+                    </span>
                     <span className={cx('shop-name')}>DeathShop</span>
                     <span
                         className={cx('toggle')}
@@ -63,8 +37,8 @@ function SideBar() {
                     </span>
                 </header>
                 <div className={cx('input-group')} onClick={handleOpenSideBarWithBtn}>
-                    <input type="text" placeholder="Search..."/>
-                    <BiSearch/>
+                    <input type="text" placeholder="Search..." />
+                    <BiSearch />
                     <div />
                 </div>
                 <div className={cx('menu-list')}>
@@ -77,7 +51,9 @@ function SideBar() {
                 <SideBarItem
                     icon={darkMode ? <BiSun /> : <BiMoon />}
                     title={darkMode ? 'Dark' : 'Light'}
-                    onClick={handleThemeMode}
+                    onClick={() => {
+                        setDarkMode((prev) => !prev);
+                    }}
                     moreElement={<Switch checked={darkMode} color="secondary" />}
                 />
                 <SideBarItem title="Settings" path="/settings" icon={<BiCog />} />
@@ -86,6 +62,5 @@ function SideBar() {
         </div>
     );
 }
-
 
 export default SideBar;
