@@ -37,10 +37,12 @@ function Login(props) {
 
     const handleOnSubmit = async (values) => {
         const { email, password } = values;
+        console.log(email, password)
         const { data } = await axios.post(loginRoute, {
             email,
             password,
         });
+        console.log(data)
     };
 
     return (

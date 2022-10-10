@@ -1,8 +1,12 @@
-import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
+import { Avatar, IconButton, Menu } from '@mui/material';
+import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { BiBell } from 'react-icons/bi';
+import styles from './Header.module.scss';
 
-function UserOptions({ avatar }) {
+const cx = classNames.bind(styles);
+
+const NotificationBubble = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -21,7 +25,9 @@ function UserOptions({ avatar }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
             >
-                <Avatar alt="avt" src={avatar} />
+                <Avatar sx={{ backgroundColor: 'var(--bg-button)' }}>
+                    <BiBell size={25} style={{ transform: 'rotate(-14deg)', color: 'black' }} />
+                </Avatar>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
@@ -35,18 +41,7 @@ function UserOptions({ avatar }) {
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
-                        width: 140,
-                        '& .MuiMenuItem-root': {
-                            fontSize: 13,
-                            fontFamily: 'Poppins, sans-serif',
-                            py: 1,
-                            color: 'var(--text-color)',
-
-                            '&:hover': {
-                                backgroundColor: 'var(--primary-color)',
-                                color: '#fff',
-                            },
-                        },
+                        width: 300,
                         '&:before': {
                             content: '""',
                             display: 'block',
@@ -59,27 +54,18 @@ function UserOptions({ avatar }) {
                             transform: 'translateY(-50%) rotate(45deg)',
                             zIndex: 0,
                         },
-                        '& a': {
-                            textDecoration: 'none',
-                        },
                     },
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <Link to="/login">
-                    <MenuItem> My Profile</MenuItem>
-                </Link>
-                <Link>
-                    <MenuItem> Settings</MenuItem>
-                </Link>
-                <Divider />
-                <Link>
-                    <MenuItem>Logout</MenuItem>
-                </Link>
+                <div className={cx('noti-item')}>Show message here ...</div>
+                {/*Show more message ...  
+                    css noti item (Header.module.css)
+                */}
             </Menu>
         </>
     );
-}
+};
 
-export default UserOptions;
+export default NotificationBubble;
