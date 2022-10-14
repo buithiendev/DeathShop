@@ -2,9 +2,10 @@
     cursor: pointer;
     margin-top: 25px;
     width: 100%;
+    min-width: 100px;
     padding: 15px;
     background-color: var(--color-success);
-    border-radius: 25px;
+    border-radius: 10px;
     border: 0;
     font-weight: 600;
     color: var(--white-color);

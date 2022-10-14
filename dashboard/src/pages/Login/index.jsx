@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import imgLogin from '~/assets/images/img-01.webp';
 import Button from '~/components/Button';
-import InputField from '~/components/CustomField/InputField/InputField';
+import InputField from '~/components/CustomField/InputField';
 import { loginRoute } from '~/utils/APIRoutes';
 import styles from './Login.module.scss';
 
@@ -37,12 +37,12 @@ function Login(props) {
 
     const handleOnSubmit = async (values) => {
         const { email, password } = values;
-        console.log(email, password)
+        console.log(email, password);
         const { data } = await axios.post(loginRoute, {
             email,
             password,
         });
-        console.log(data)
+        console.log(data);
     };
 
     return (
@@ -61,7 +61,7 @@ function Login(props) {
                         >
                             {(formikProps) => {
                                 return (
-                                    <Form>
+                                    <Form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                         <FastField
                                             name="email"
                                             component={InputField}

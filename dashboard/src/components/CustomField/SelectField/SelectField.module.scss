@@ -1,0 +1,11 @@
+.select-field__group {
+    width: 100%;
+    position: relative;
+
+    .validate__error {
+        position: absolute;
+        font-size: 1.1rem;
+        right: 20px;
+        color: #eb475a;
+    }
+}

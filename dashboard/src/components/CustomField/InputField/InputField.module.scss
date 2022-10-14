@@ -1,6 +1,5 @@
 .input-field__group {
     width: 100%;
-    margin-bottom: 15px;
     position: relative;
 
     section {
@@ -29,7 +28,7 @@
     }
 
     input.valid__error {
-        border: 1px solid #F17E8B;
+        border: 1px solid #f17e8b;
     }
 
     input:hover input + svg {
@@ -40,7 +39,7 @@
         position: absolute;
         font-size: 1.1rem;
         right: 20px;
-        color: #EB475A;
+        color: #eb475a;
     }
 
     svg {
