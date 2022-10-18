@@ -1,9 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DefaultLayout from '~/components/Layout/DefaultLayout';
+import { getUsers } from './pages/Users/pages/MainPage/usersSlice';
 import { routes } from './routes';
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUsers());
+    }, []);
     return (
         <Router>
             <div className="App">
