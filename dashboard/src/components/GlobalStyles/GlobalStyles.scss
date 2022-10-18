@@ -42,6 +42,22 @@ body {
     --text-color: #707070;
     --text-heading: #000;
     --header-color: #fff;
+    --white-color: #fff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #bebebe;
+    border-radius: 10px;
 }
 
 img,

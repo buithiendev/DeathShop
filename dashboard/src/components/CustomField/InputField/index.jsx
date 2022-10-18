@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import styles from './InputField.module.scss'
+import PropTypes from 'prop-types';
+import styles from './InputField.module.scss';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 InputField.propTypes = {
     field: PropTypes.object.isRequired,
@@ -22,13 +22,18 @@ InputField.defaultProps = {
 };
 
 function InputField(props) {
-    const { field, form, type, label, placeholder, disabled, icon } = props;
+    const { field, form, type, label, placeholder, disabled, icon, required } = props;
     const { name } = field;
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
     return (
-        <div className={cx("input-field__group")}>
-            {label && <label for={name}>{label}</label>}
+        <div className={cx('input-field__group')} >
+            {label && (
+                <label>
+                    {required && <span>✻</span>}
+                    {label}
+                </label>
+            )}
             <section>
                 <input
                     id={name}
@@ -36,11 +41,15 @@ function InputField(props) {
                     placeholder={placeholder}
                     type={type}
                     disabled={disabled}
-                    className={(disabled ? cx('disabled') : '', showError ? cx('valid__error') : '')}
+                    className={
+                        (disabled ? cx('disabled') : '',
+                        showError ? cx('valid__error') : '',
+                        !icon ? cx('is-icon') : '')
+                    }
                 />
                 {icon}
             </section>
-            {showError && <p className={cx("validate__error")}>{errors[name]}</p>}
+            {showError && <p className={cx('validate__error')}>{errors[name]}</p>}
         </div>
     );
 }

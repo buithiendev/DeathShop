@@ -8,5 +8,4 @@ export const sideBars = [
     { title: 'Categories', path: '/categories', icon: <BiCategory /> },
     { title: 'Orders', path: '/orders', icon: <BiCartAlt /> },
     { title: 'Sellers', path: '/sellers', icon: <BiDollarCircle /> },
-    { title: 'Settings', path: '/settings', icon: <BiDollarCircle /> },
 ];

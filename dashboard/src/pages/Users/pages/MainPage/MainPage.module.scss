@@ -1,0 +1,32 @@
+.main-page__container {
+    margin: 20px 40px;
+    height: calc(100vh - 200px);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .title {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.content {
+    margin-top: 16px;
+    width: 100%;
+
+    .table {
+        height: 580px;
+    }
+} 
+

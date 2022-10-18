@@ -75,7 +75,7 @@ function Login(props) {
                                             placeholder="Password"
                                             icon={<FaLock />}
                                         />
-                                        <Button type="submit">Login</Button>
+                                        <Button primary type="submit">Login</Button>
                                     </Form>
                                 );
                             }}

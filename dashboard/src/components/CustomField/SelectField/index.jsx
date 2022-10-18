@@ -23,16 +23,14 @@ SelectField.defaultProps = {
 };
 
 function SelectField(props) {
-    const { field, form, options, label, placeholder, disabled } = props;
+    const { field, form, options, label, placeholder, disabled, required } = props;
     const { name, value } = field;
     const selectedOption = options.find((option) => option.value === value);
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
     const handleSelectedOptionChange = (selectedOption) => {
-        console.log(selectedOption);
         const selectedValue = selectedOption ? selectedOption.value : selectedOption;
-
         const changeEvent = {
             target: {
                 name: name,
@@ -46,19 +44,19 @@ function SelectField(props) {
         control: () => ({
             cursor: 'pointer',
             display: 'flex',
-            backgroundColor: 'red',
             height: '50px',
             width: '100%',
-            borderRadius: '25px',
-            backgroundColor: 'var(--gray-color-500)',
-            padding: '0 10px 0 30px ',
+            border: '1px solid #e6e6e6',
+            borderRadius: '10px',
+            backgroundColor: 'var(--white-color)',
+            padding: '0 10px 0 10px ',
             fontSize: '1.5rem',
         }),
     };
 
     return (
         <div className={cx('select-field__group')}>
-            {label && <label for={name}>{label}</label>}
+            {label && <label>{required && <span>✻</span>}{label}</label>}
             <Select
                 styles={customStyles}
                 id={name}
