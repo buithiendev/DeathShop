@@ -3,10 +3,9 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Button from '~/components/Button';
-import { getUsers } from './usersSlice';
 import CreateUserModal from './components/CreateUserModal';
 import TableUsers from './components/TableUser';
 import styles from './MainPage.module.scss';
@@ -24,6 +23,9 @@ function MainPage() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const { users } = useSelector((state) => state.users);
+
     const completeSubmit = () => {
         handleClose();
     };
@@ -33,8 +35,7 @@ function MainPage() {
             <div className={cx('header')}>
                 <span className={cx('title')}>List of employee</span>
                 <div className={cx('feature')}>
-                    <Button outline>Import</Button>
-                    <Button primary onClick={handleOpen}>
+                    <Button primary onClick={handleOpen} style={{fontWeight: 400}}>
                         Add new users
                     </Button>
                     <Modal
@@ -59,7 +60,7 @@ function MainPage() {
 
             <div className={cx('content')}>
                 <div className={cx('table')}>
-                    <TableUsers />
+                    <TableUsers users={users} />
                 </div>
             </div>
         </div>

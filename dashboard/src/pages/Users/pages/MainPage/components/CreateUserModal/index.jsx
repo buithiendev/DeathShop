@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { useState } from 'react';
 import { BiUserPlus } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
@@ -20,8 +20,10 @@ const rules = [
 ];
 
 function CreateUserModal({ complete }) {
+    
+    const { loading, success } = useSelector((state) => state.users);
+
     const dispatch = useDispatch();
-    const [loader, setLoader] = useState(false);
 
     const initialValues = {
         firstName: '',
@@ -49,6 +51,7 @@ function CreateUserModal({ complete }) {
 
     const handleOnSubmit = async (values) => {
         dispatch(addUser(values));
+        success && complete()
     };
     return (
         <div className={cx('create-user__modal')}>
@@ -115,7 +118,7 @@ function CreateUserModal({ complete }) {
                                 />
                                 <Button
                                     type="submit"
-                                    loader={loader}
+                                    loader={loading}
                                     primary
                                     style={{ margin: '10px auto', width: '50%' }}
                                 >

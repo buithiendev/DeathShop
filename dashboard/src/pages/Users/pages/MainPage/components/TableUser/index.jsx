@@ -7,11 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
-import { BiEdit, BiTrash } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { memo, useState } from 'react';
+import { BiEdit } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
 import Button from '~/components/Button';
 import HighLight from '~/components/HighLight';
+import { updateStatusUser } from './../../usersSlice';
 
 const columns = [
     { id: 'stt', label: '#', minWidth: 40 },
@@ -20,21 +21,21 @@ const columns = [
         id: 'email',
         label: 'Email',
         minWidth: 100,
-        align: 'center',
+        align: 'left',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
         id: 'phone',
         label: 'Phone',
         minWidth: 50,
-        align: 'right',
+        align: 'left',
         format: (value) => value.toFixed(2),
     },
     {
         id: 'role',
         label: 'Role',
         minWidth: 50,
-        align: 'right',
+        align: 'center',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
@@ -60,59 +61,58 @@ const columns = [
     },
 ];
 
-const handleChangeStatus = (e) => {};
+function TableUsers({ users }) {
+    const dispatch = useDispatch();
 
-function createData(_id, firstName, lastName, phone, role, status, email) {
-    const fullName = firstName + ' ' + lastName;
+    function createData(_id, firstName, lastName, phone, role, status, email) {
+        const fullName = firstName + ' ' + lastName;
 
-    const changeStatus = <Switch onChange={handleChangeStatus} defaultChecked={status} />;
-    status = status ? (
-        <HighLight primary small>
-            Active
-        </HighLight>
-    ) : (
-        <HighLight outline small>
-            Non-Active
-        </HighLight>
-    );
-    const action = (
-        <>
-            <Button
-                primary
-                style={{ width: 50, height: 20, fontSize: '1.2rem' }}
-                onClick={() => {
-                    console.log(_id);
+        const changeStatus = (
+            <Switch
+                onChange={(e) => {
+                    const checked = e.target.checked;
+                    const dataSent = {
+                        id: _id,
+                        status: checked,
+                    };
+                    dispatch(updateStatusUser(dataSent));
                 }}
-                leftIcon={<BiEdit />}
-            >
-                Edit
-            </Button>
-            <Button
-                outline
-                style={{ width: 70, height: 20, fontSize: '1.2rem' }}
-                onClick={() => {
-                    console.log(_id);
-                }}
-                leftIcon={<BiTrash />}
-            >
-                Delete
-            </Button>
-        </>
-    );
-    return { fullName, email, phone, role, status, changeStatus, action };
-}
+                defaultChecked={status}
+            />
+        );
+        status = status ? (
+            <HighLight primary small>
+                Active
+            </HighLight>
+        ) : (
+            <HighLight outline small>
+                Non-Active
+            </HighLight>
+        );
+        const action = (
+            <>
+                <Button
+                    primary
+                    style={{ width: 60, height: 25, fontSize: '1.2rem' }}
+                    onClick={() => {}}
+                    leftIcon={<BiEdit />}
+                >
+                    Edit
+                </Button>
+            </>
+        );
+        return { fullName, email, phone, role, status, changeStatus, action };
+    }
 
-function changeListUsers(users) {
-    return users.map((user) => {
-        const { _id, firstName, lastName, phone, role, status, email } = user;
-        return createData(_id, firstName, lastName, phone, role, status, email);
-    });
-}
+    function changeListUsers(users) {
+        return users.map((user) => {
+            const { _id, firstName, lastName, phone, role, status, email } = user;
+            return createData(_id, firstName, lastName, phone, role, status, email);
+        });
+    }
 
-function TableUsers() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    const { users, loading } = useSelector((state) => state.users);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -185,4 +185,4 @@ function TableUsers() {
     );
 }
 
-export default TableUsers;
+export default memo(TableUsers);

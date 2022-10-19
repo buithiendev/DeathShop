@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getAllUsersRoute, registerRoute } from '~/utils/APIRoutes';
+import { getAllUsersRoute, registerRoute, updateStatus } from '~/utils/APIRoutes';
 
 export const getUsers = createAsyncThunk('users/getUsers', async () => {
     const res = await axios.get(getAllUsersRoute);
@@ -18,23 +18,33 @@ export const addUser = createAsyncThunk('users/addUser', async (data, thunkAPI) 
         phone,
         status,
     });
-    return res.data;
+    return res.data.user;
 });
 
+export const updateStatusUser = createAsyncThunk('users/updateStatusUser', async (data, thunkAPI) => {
+    const { id, status } = data;
+    const res = await axios.post(`${updateStatus}/${id}`, {
+        status: status,
+    });
+    return res.data;
+});
 
 const users = createSlice({
     name: 'users',
     initialState: {
         users: [],
         loading: false,
+        success: false,
     },
     reducers: {},
     extraReducers: {
         [getUsers.pending]: (state, action) => {
             state.loading = true;
+            state.success = false;
         },
         [getUsers.fulfilled]: (state, action) => {
             state.loading = false;
+            state.success = true;
             state.users = action.payload;
         },
         [getUsers.rejected]: (state, action) => {
@@ -45,14 +55,32 @@ const users = createSlice({
         },
         [addUser.fulfilled]: (state, action) => {
             state.loading = false;
-            state.users.push(action.payload);
+            if (action.payload) state.users.push(action.payload);
         },
-        [getUsers.rejected]: (state, action) => {
+        [addUser.rejected]: (state, action) => {
+            state.loading = false;
+        },
+        [updateStatusUser.pending]: (state, action) => {
+            state.loading = true;
+            state.success = false;
+        },
+        [updateStatusUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.users.find((user, index) => {
+                if (user._id === action.payload._id) {
+                    state.users[index] = action.payload;
+                    return true;
+                }
+                return false;
+            });
+        },
+        [updateStatusUser.rejected]: (state, action) => {
             state.loading = false;
         },
     },
 });
 
-const { reducer, actions } = users;
+const { reducer } = users;
 
 export default reducer;
