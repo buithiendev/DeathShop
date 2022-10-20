@@ -8,7 +8,7 @@ import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
 import SwitchField from '~/components/CustomField/SwitchField';
-import { addUser } from '~/pages/Users/pages/MainPage/usersSlice';
+import { addUser } from '~/pages/Users/usersSlice';
 import styles from './CreateUserModal.module.scss';
 
 const cx = classNames.bind(styles);
@@ -20,7 +20,6 @@ const rules = [
 ];
 
 function CreateUserModal({ complete }) {
-    
     const { loading, success } = useSelector((state) => state.users);
 
     const dispatch = useDispatch();

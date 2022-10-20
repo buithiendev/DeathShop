@@ -37,12 +37,13 @@ function Login(props) {
 
     const handleOnSubmit = async (values) => {
         const { email, password } = values;
-        console.log(email, password);
         const { data } = await axios.post(loginRoute, {
-            email,
-            password,
-        });
-        console.log(data);
+            email: email,
+            password: password,
+        },{withCredentials: true});
+        console.log(data)
+        if (data.user) localStorage.setItem('current-user', JSON.stringify(data.user));
+        if (data.status) navigate('/');
     };
 
     return (
@@ -75,7 +76,9 @@ function Login(props) {
                                             placeholder="Password"
                                             icon={<FaLock />}
                                         />
-                                        <Button primary type="submit">Login</Button>
+                                        <Button primary type="submit">
+                                            Login
+                                        </Button>
                                     </Form>
                                 );
                             }}

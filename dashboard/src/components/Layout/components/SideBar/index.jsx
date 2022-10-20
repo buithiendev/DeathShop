@@ -19,6 +19,10 @@ function SideBar() {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.setItem('current-user', JSON.stringify(undefined))
+    }
+
     return (
         <div className={cx('sidebar', closeSide ? 'close' : '', darkMode ? 'dark' : '')}>
             <div className={cx('sidebar-top')}>
@@ -57,7 +61,7 @@ function SideBar() {
                     moreElement={<Switch checked={darkMode} color="secondary" />}
                 />
                 <SideBarItem title="Settings" path="/settings" icon={<BiCog />} />
-                <SideBarItem title="Logout" path="/login" icon={<BiLogOut />} />
+                <SideBarItem title="Logout" path="/login" onClick={handleLogout} icon={<BiLogOut />} />
             </div>
         </div>
     );

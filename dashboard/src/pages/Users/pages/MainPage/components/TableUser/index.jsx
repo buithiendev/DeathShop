@@ -12,7 +12,8 @@ import { BiEdit } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
 import Button from '~/components/Button';
 import HighLight from '~/components/HighLight';
-import { updateStatusUser } from './../../usersSlice';
+import { updateStatusUser } from '../../../../usersSlice';
+import { useNavigate } from 'react-router';
 
 const columns = [
     { id: 'stt', label: '#', minWidth: 40 },
@@ -62,6 +63,7 @@ const columns = [
 ];
 
 function TableUsers({ users }) {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
 
     function createData(_id, firstName, lastName, phone, role, status, email) {
@@ -94,7 +96,7 @@ function TableUsers({ users }) {
                 <Button
                     primary
                     style={{ width: 60, height: 25, fontSize: '1.2rem' }}
-                    onClick={() => {}}
+                    onClick={() => {navigate(`/users/edit/${_id}`)}}
                     leftIcon={<BiEdit />}
                 >
                     Edit

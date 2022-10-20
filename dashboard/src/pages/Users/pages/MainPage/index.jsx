@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '~/components/Button';
+import HeaderChild from '~/components/HeaderChild';
 import CreateUserModal from './components/CreateUserModal';
 import TableUsers from './components/TableUser';
 import styles from './MainPage.module.scss';
@@ -32,10 +33,8 @@ function MainPage() {
 
     return (
         <div className={cx('main-page__container')}>
-            <div className={cx('header')}>
-                <span className={cx('title')}>List of employee</span>
-                <div className={cx('feature')}>
-                    <Button primary onClick={handleOpen} style={{fontWeight: 400}}>
+            <HeaderChild title="List of employee">
+            <Button primary onClick={handleOpen} style={{fontWeight: 400}}>
                         Add new users
                     </Button>
                     <Modal
@@ -55,8 +54,7 @@ function MainPage() {
                             </Box>
                         </Fade>
                     </Modal>
-                </div>
-            </div>
+            </HeaderChild>
 
             <div className={cx('content')}>
                 <div className={cx('table')}>

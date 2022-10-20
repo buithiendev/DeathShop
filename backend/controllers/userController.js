@@ -4,15 +4,19 @@ const brcypt = require("bcrypt");
 module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await Users.findOne({ email });
     if (!user)
       return res.json({ msg: "Incorrect email or password", status: false });
     const isPasswordValid = await brcypt.compare(password, user.password);
     if (!isPasswordValid)
       return res.json({ msg: "Incorrect email or password", status: false });
-    delete user.password;
 
-    return res.json({ status: true, user });
+    delete user.password;
+    if (user.status) return res.json({ status: true, user });
+    return res.json({
+      msg: "Account is currently restricted. Please contact admin",
+      status: false,
+    });
   } catch (ex) {
     next(ex);
   }
@@ -76,6 +80,48 @@ module.exports.updateStatus = async (req, res, next) => {
       { new: true }
     );
     return res.json(userData);
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+module.exports.updateUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const password = req.body.password;
+    if (password === "") {
+      delete req.body.password;
+    } else {
+      const hashedPassword = await brcypt.hash(password, 10);
+      req.body.password = hashedPassword;
+    }
+    const userData = await Users.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+      },
+      { new: true }
+    );
+    return res.json(userData);
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+module.exports.getUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const user = await Users.findById(userId).select([
+      "_id",
+      "firstName",
+      "lastName",
+      "email",
+      "role",
+      "phone",
+      "status",
+      "avatarImage",
+    ]);
+    return res.json(user);
   } catch (ex) {
     next(ex);
   }

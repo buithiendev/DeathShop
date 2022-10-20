@@ -11,6 +11,11 @@ function UserOptions({ avatar }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleLogout = () => {
+        localStorage.setItem('current-user', JSON.stringify(undefined));
+    };
+
     return (
         <>
             <IconButton
@@ -67,15 +72,15 @@ function UserOptions({ avatar }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <Link to="/login">
+                <Link >
                     <MenuItem> My Profile</MenuItem>
                 </Link>
-                <Link>
+                <Link to="/settings">
                     <MenuItem> Settings</MenuItem>
                 </Link>
                 <Divider />
-                <Link>
-                    <MenuItem>Logout</MenuItem>
+                <Link to="/login">
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Link>
             </Menu>
         </>

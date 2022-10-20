@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getAllUsersRoute, registerRoute, updateStatus } from '~/utils/APIRoutes';
+import { getAllUsersRoute, registerRoute, updateStatus,updateUserRoute } from '~/utils/APIRoutes';
 
 export const getUsers = createAsyncThunk('users/getUsers', async () => {
     const res = await axios.get(getAllUsersRoute);
@@ -25,6 +25,14 @@ export const updateStatusUser = createAsyncThunk('users/updateStatusUser', async
     const { id, status } = data;
     const res = await axios.post(`${updateStatus}/${id}`, {
         status: status,
+    });
+    return res.data;
+});
+
+export const updateUser = createAsyncThunk('users/updateUser', async (pack, thunkAPI) => {
+    const { id, data } = pack;
+    const res = await axios.post(`${updateUserRoute}/${id}`, {
+        ...data,
     });
     return res.data;
 });
@@ -76,6 +84,25 @@ const users = createSlice({
             });
         },
         [updateStatusUser.rejected]: (state, action) => {
+            state.loading = false;
+        },
+        [updateUser.pending]: (state, action) => {
+            state.loading = true;
+            state.success = false;
+        },
+        [updateUser.fulfilled]: (state, action) => {
+            state.success = true;
+            state.loading = false;
+            state.users.find((user, index) => {
+                if (user._id === action.payload._id) {
+                    state.users[index] = action.payload;
+                    return true;
+                }
+                return false;
+            });
+            
+        },
+        [updateUser.rejected]: (state, action) => {
             state.loading = false;
         },
     },
