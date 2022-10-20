@@ -6,10 +6,11 @@ import { theme } from '~/assets/theme';
 import GlobalStyles from '~/components/GlobalStyles';
 import App from './App';
 import store from './app/store';
+import '~/interceptors/axios'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <Provider store={store}>
             <GlobalStyles>
                 <ThemeProvider theme={theme}>
@@ -17,5 +18,5 @@ root.render(
                 </ThemeProvider>
             </GlobalStyles>
         </Provider>
-    </React.StrictMode>,
+    // </React.StrictMode>,
 );

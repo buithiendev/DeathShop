@@ -37,13 +37,18 @@ function Login(props) {
 
     const handleOnSubmit = async (values) => {
         const { email, password } = values;
-        const { data } = await axios.post(loginRoute, {
-            email: email,
-            password: password,
-        },{withCredentials: true});
-        console.log(data)
-        if (data.user) localStorage.setItem('current-user', JSON.stringify(data.user));
-        if (data.status) navigate('/');
+        try {
+            const { data } = await axios.post(
+                loginRoute,
+                {
+                    email,
+                    password,
+                },
+                { withCredentials: true },
+            );
+            axios.defaults.headers.common['Authorization'] = `Bearer ${data['token']}`;
+            navigate('/');
+        } catch (ex) {}
     };
 
     return (

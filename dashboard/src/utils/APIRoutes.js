@@ -1,11 +1,11 @@
 const host = 'http://localhost:5000';
 
-export const loginRoute = `${host}/api/auth/login`;
-export const registerRoute = `${host}/api/auth/register`;
-export const checkEmail = `${host}/api/auth/checkEmail`;
-export const getAllUsersRoute = `${host}/api/auth/getAllUsers`;
-export const getUserByIdRoute = `${host}/api/auth/getUserById`;
-export const updateStatus = `${host}/api/auth/updateStatus`;
-export const updateUserRoute = `${host}/api/auth/updateUser`;
-
-// http://localhost:5000/api/auth/login
+export const loginRoute = '/auth/login';
+export const user = '/auth/user';
+export const logout = '/auth/logout';
+export const registerRoute = '/auth/register';
+export const checkEmail = '/auth/checkEmail';
+export const getAllUsersRoute = '/auth/getAllUsers';
+export const getUserByIdRoute = '/auth/getUserById';
+export const updateStatus = '/auth/updateStatus';
+export const updateUserRoute = '/auth/updateUser';

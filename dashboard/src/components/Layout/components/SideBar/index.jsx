@@ -3,13 +3,17 @@ import { useState } from 'react';
 import styles from './SideBar.module.scss';
 
 import Switch from '@mui/material/Switch';
+import axios from 'axios';
 import { BiAnalyse, BiChevronLeft, BiCog, BiLogOut, BiMoon, BiSearch, BiSun } from 'react-icons/bi';
+import { useNavigate } from 'react-router';
 import { sideBars } from '~/constants';
+import { logout } from '~/utils/APIRoutes';
 import SideBarItem from './SideBarItem';
 
 const cx = classNames.bind(styles);
 
 function SideBar() {
+    const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState(false);
     const [closeSide, setCloseSide] = useState(false);
 
@@ -19,8 +23,12 @@ function SideBar() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.setItem('current-user', JSON.stringify(undefined))
+    const handleLogout = async () => {
+        try {
+            await axios.post(logout,{},{withCredentials: true});
+        } catch (ex) {
+            navigate('/login')
+        }
     }
 
     return (

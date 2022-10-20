@@ -1,7 +1,6 @@
 import AddProducts from '~/pages/AddProducts';
 import Categories from '~/pages/Categories';
 import Dashboard from '~/pages/Dashboard';
-import Login from '~/pages/Login';
 import Orders from '~/pages/Orders';
 import Products from '~/pages/Products';
 import Sellers from '~/pages/Sellers';
@@ -42,11 +41,5 @@ export const routes = [
         path: '/users',
         title: 'Dashboard',
         component: Users,
-    },
-    {
-        path: '/login',
-        title: 'Login',
-        component: Login,
-        layout: null,
     },
 ];
