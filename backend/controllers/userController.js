@@ -1,8 +1,8 @@
 const Users = require('../model/userModel');
-const Token = require('../model/tokenModal')
+const Token = require('../model/tokenModal');
 const brcypt = require('bcrypt');
 const { sign, verify } = require('jsonwebtoken');
-const {MoreThanOrEqual} = require('typeorm')
+const { MoreThanOrEqual } = require('typeorm');
 
 module.exports.login = async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ module.exports.login = async (req, res, next) => {
                 status: false,
             });
         }
-        
+
         const refreshToken = sign(
             {
                 id: user._id,
@@ -34,15 +34,15 @@ module.exports.login = async (req, res, next) => {
         });
 
         const createAt = new Date();
-        const expiredAt= new Date();
-        expiredAt.setDate(expiredAt.getDate() + 7)
+        const expiredAt = new Date();
+        expiredAt.setDate(expiredAt.getDate() + 7);
 
         await Token.create({
             userId: user._id,
             token: refreshToken,
             createdAt: createAt,
             expiredAt: expiredAt,
-        })
+        });
 
         const token = sign(
             {
@@ -52,15 +52,17 @@ module.exports.login = async (req, res, next) => {
             { expiresIn: '30s' },
         );
 
-        return res.json({ token });
+        res.send({
+            token,
+        });
     } catch (ex) {
         next(ex);
     }
 };
 
-module.exports.authenticatedUser = async (req, res, next) => {
+module.exports.authenticated = async (req, res, next) => {
     try {
-        const accessToken = req.header('Authorization')?.split(' ')[1] || "";
+        const accessToken = req.header('Authorization')?.split(' ')[1] || '';
 
         const payload = verify(accessToken, 'access_secret');
         if (!payload) {
@@ -69,7 +71,9 @@ module.exports.authenticatedUser = async (req, res, next) => {
             });
         }
 
-        const user = await Users.findOne(payload._id).lean();
+        const user = await Users.findOne(payload.id).lean();
+
+        console.log(user);
 
         if (!user) {
             return res.status(401).send({
@@ -77,7 +81,9 @@ module.exports.authenticatedUser = async (req, res, next) => {
             });
         }
         const { password, ...data } = user;
-        return res.json(data);
+        console.log(data);
+        // res.send(data);
+        return res.json(data)
     } catch (ex) {
         return res.status(401).send({
             status: 'unauthenticated',
@@ -92,33 +98,32 @@ module.exports.refresh = async (req, res) => {
         const payload = verify(refreshToken, 'refresh_secret');
         if (!payload) {
             return res.status(401).send({
-                status: 'unauthenticated1',
+                status: 'unauthenticated',
             });
         }
 
         const dbToken = await Token.findOne({
-            userId: payload._id,
-            expiredAt: MoreThanOrEqual(new Date())
-        })
+            userId: payload.id,
+            expiredAt: { $gte: new Date()},
+        });
 
-        if(!dbToken) {
+        if (!dbToken) {
             return res.status(401).send({
-                status: 'unauthenticated2',
+                status: 'unauthenticated',
             });
         }
 
         const token = sign(
             {
-                id: payload._id,
+                id: payload.id,
             },
             'access_secret',
             { expiresIn: '30s' },
         );
-
-        return res.json({ token });
+        res.send({ token });
     } catch (ex) {
         return res.status(401).send({
-            status: 'unauthenticated3',
+            status: 'unauthenticated',
         });
     }
 };
@@ -126,12 +131,12 @@ module.exports.refresh = async (req, res) => {
 module.exports.logout = async (req, res) => {
     const refreshToken = req.cookies['refreshToken'];
 
-    await Token.delete({token: refreshToken})
+    await Token.findOneAndDelete({ token: refreshToken });
 
     res.cookie('refreshToken', '', { maxAge: 0 });
 
-    return res.json({
-        status: true,
+    res.send({
+        message: 'success',
     });
 };
 

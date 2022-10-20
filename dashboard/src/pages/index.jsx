@@ -11,6 +11,7 @@ function Pages() {
         (async () => {
             try {
                 const { data } = await axios.get(user);
+                console.log(data);
             } catch (ex) {
                 navigate('/login');
             }

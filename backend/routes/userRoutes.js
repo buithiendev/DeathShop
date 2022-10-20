@@ -6,7 +6,7 @@ const {
     getUserById,
     updateUser,
     login,
-    authenticatedUser,
+    authenticated,
     refresh,
     logout,
 } = require('../controllers/userController');
@@ -15,7 +15,7 @@ const router = require('express').Router();
 
 router.post('/register', register);
 router.post('/login', login);
-router.get('/user', authenticatedUser);
+router.get('/user', authenticated);
 router.post('/refresh', refresh);
 router.post('/logout', logout);
 router.post('/checkEmail', checkEmail);
