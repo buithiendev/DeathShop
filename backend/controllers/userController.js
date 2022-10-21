@@ -65,15 +65,14 @@ module.exports.authenticated = async (req, res, next) => {
         const accessToken = req.header('Authorization')?.split(' ')[1] || '';
 
         const payload = verify(accessToken, 'access_secret');
+
         if (!payload) {
             return res.status(401).send({
                 status: 'unauthenticated',
             });
         }
 
-        const user = await Users.findOne(payload.id).lean();
-
-        console.log(user);
+        const user = await Users.findOne({_id: payload.id}).lean();
 
         if (!user) {
             return res.status(401).send({
@@ -81,9 +80,7 @@ module.exports.authenticated = async (req, res, next) => {
             });
         }
         const { password, ...data } = user;
-        console.log(data);
-        // res.send(data);
-        return res.json(data)
+        res.send(data);
     } catch (ex) {
         return res.status(401).send({
             status: 'unauthenticated',
@@ -136,7 +133,7 @@ module.exports.logout = async (req, res) => {
     res.cookie('refreshToken', '', { maxAge: 0 });
 
     res.send({
-        message: 'success',
+        status: true,
     });
 };
 

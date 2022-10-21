@@ -7,3 +7,12 @@
     flex: 1;
     transition: var(--transition);
 }
+
+.content {
+    overflow-x: scroll;
+    height: calc(100vh - var(--height-header));
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+}

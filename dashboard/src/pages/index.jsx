@@ -5,18 +5,33 @@ import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { routes } from '~/routes';
 import { user } from '~/utils/APIRoutes';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
+import { getUsers } from './Users/usersSlice';
+
 function Pages() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { status } = useSelector((state) => state.currentUser);
+
     useEffect(() => {
         (async () => {
             try {
                 const { data } = await axios.get(user);
-                console.log(data);
+                if (!data) {
+                    navigate('/login');
+                } else {
+                    dispatch(setInfoCurrentUser(data));
+                }
             } catch (ex) {
                 navigate('/login');
             }
         })();
     }, []);
+
+    useEffect(() => {
+        if(status) dispatch(getUsers());
+    }, [status]);
 
     return (
         <Routes>

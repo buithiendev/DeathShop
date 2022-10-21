@@ -25,11 +25,10 @@ function SideBar() {
 
     const handleLogout = async () => {
         try {
-            await axios.post(logout,{},{withCredentials: true});
-        } catch (ex) {
-            navigate('/login')
-        }
-    }
+            const { data } = await axios.post(logout, {}, { withCredentials: true });
+            if (data.status) navigate('/login');
+        } catch (ex) {}
+    };
 
     return (
         <div className={cx('sidebar', closeSide ? 'close' : '', darkMode ? 'dark' : '')}>
@@ -69,7 +68,7 @@ function SideBar() {
                     moreElement={<Switch checked={darkMode} color="secondary" />}
                 />
                 <SideBarItem title="Settings" path="/settings" icon={<BiCog />} />
-                <SideBarItem title="Logout" path="/login" onClick={handleLogout} icon={<BiLogOut />} />
+                <SideBarItem title="Logout" onClick={handleLogout} icon={<BiLogOut />} />
             </div>
         </div>
     );

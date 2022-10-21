@@ -19,7 +19,9 @@ function Header() {
                 </div>
                 <div className={cx('header-right')}>
                     <NotificationBubble />
-                    <UserOptions avatar={avatar}></UserOptions>
+                    <div className={cx('quick-view')}>
+                        <UserOptions avatar={avatar}></UserOptions>
+                    </div>
                 </div>
             </div>
         </div>

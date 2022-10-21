@@ -6,10 +6,6 @@ import Login from './pages/Login';
 import { getUsers } from './pages/Users/usersSlice';
 
 function App() {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getUsers());
-    }, []);
     return (
         <Router>
             <div className="App">
