@@ -1,5 +1,6 @@
 import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { BiUserCircle, BiLogOut, BiCog } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -28,13 +29,12 @@ function UserOptions({ avatar }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 sx={{
-                    backgroundColor: 'var(--gray-color-500)',
                     borderRadius: '6px',
-                    padding: '5px 12px',
+                    padding: '4px 16px',
                     border: '1px solid #ccc',
                 }}
             >
-                {info && <p style={{ marginRight: '16px' }}>{`${info.lastName}`}</p>}
+                {info && <p style={{ marginRight: '16px', fontSize: 17,  }}>{`${info.lastName}`}</p>}
                 <Avatar alt="avt" src={avatar} />
             </IconButton>
             <Menu
@@ -49,11 +49,13 @@ function UserOptions({ avatar }) {
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
-                        width: 160,
+                        width: 150,
                         '& .MuiMenuItem-root': {
-                            fontSize: 16,
+                            display: 'flex',
+                            gap: '10px',
+                            fontSize: 14,
                             fontFamily: 'Poppins, sans-serif',
-                            py: 1.5,
+                            py: 1.2,
                             color: 'var(--text-color)',
 
                             '&:hover': {
@@ -74,22 +76,27 @@ function UserOptions({ avatar }) {
                             zIndex: 0,
                         },
                         '& a': {
+                            color: 'var(--text-color)',
                             textDecoration: 'none',
                         },
+
+                        '& a svg': {
+                            fontSize: 18,
+                        }
                     },
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <Link>
-                    <MenuItem> My Profile</MenuItem>
+                    <MenuItem><BiUserCircle/> My Profile</MenuItem>
                 </Link>
                 <Link to="/settings">
-                    <MenuItem> Settings</MenuItem>
+                    <MenuItem><BiCog/> Settings</MenuItem>
                 </Link>
                 <Divider />
                 <Link to="/login">
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}> <BiLogOut/> Logout</MenuItem>
                 </Link>
             </Menu>
         </>

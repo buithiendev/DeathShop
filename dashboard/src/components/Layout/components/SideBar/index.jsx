@@ -7,7 +7,7 @@ import axios from 'axios';
 import { BiAnalyse, BiChevronLeft, BiCog, BiLogOut, BiMoon, BiSearch, BiSun } from 'react-icons/bi';
 import { useNavigate } from 'react-router';
 import { sideBars } from '~/constants';
-import { logout } from '~/utils/APIRoutes';
+import { logout } from '~/utils/UsersAPIRoutes';
 import SideBarItem from './SideBarItem';
 
 const cx = classNames.bind(styles);

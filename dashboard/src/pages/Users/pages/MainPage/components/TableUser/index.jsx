@@ -14,6 +14,7 @@ import Button from '~/components/Button';
 import HighLight from '~/components/HighLight';
 import { updateStatusUser } from '../../../../usersSlice';
 import { useNavigate } from 'react-router';
+import {v4 as uuidv4} from 'uuid'
 
 const columns = [
     { id: 'stt', label: '#', minWidth: 40 },
@@ -148,7 +149,7 @@ function TableUsers({ users }) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.email}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={uuidv4()}>
                                         {columns.map((column) => {
                                             let value;
                                             column.id === 'stt' ? (value = index + 1) : (value = row[column.id]);

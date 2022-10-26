@@ -1,5 +1,3 @@
-const host = 'http://localhost:5000';
-
 export const loginRoute = '/auth/login';
 export const user = '/auth/user';
 export const logout = '/auth/logout';
@@ -9,3 +7,4 @@ export const getAllUsersRoute = '/auth/getAllUsers';
 export const getUserByIdRoute = '/auth/getUserById';
 export const updateStatus = '/auth/updateStatus';
 export const updateUserRoute = '/auth/updateUser';
+

@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '~/components/Button';
+import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
 import CreateUserModal from './components/CreateUserModal';
 import TableUsers from './components/TableUser';
@@ -32,7 +33,7 @@ function MainPage() {
     };
 
     return (
-        <div className={cx('main-page__container')}>
+        <Container>
             <HeaderChild title="List of employee">
             <Button primary onClick={handleOpen} style={{fontWeight: 400}}>
                         Add new users
@@ -61,7 +62,7 @@ function MainPage() {
                     <TableUsers users={users} />
                 </div>
             </div>
-        </div>
+        </Container>
     );
 }
 

@@ -19,6 +19,16 @@
         pointer-events: none;
         opacity: 0.5;
     }
+
+    @media only screen and (max-width: 1200px) {
+        .title {
+            display: none;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
 }
 
 .wrapper:active {
@@ -27,15 +37,19 @@
 
 .title {
     font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 
 .icon + .title,
 .title + .icon {
-    margin-left: 8px;
+    margin-left: 4px;
 }
 
 .icon {
     display: flex;
+    justify-content: center;
     width: 24px;
     text-align: center;
 }
@@ -83,6 +97,17 @@
 .small {
     min-width: 88px;
     padding: 4px 16px;
+}
+
+.smallest {
+    min-width: 60;
+    padding: 4px 8px;
+    font-size: 1.2rem;
+}
+
+.smallest .icon + .title,
+.smallest .title + .icon {
+    margin-left: 0px;
 }
 
 .large {

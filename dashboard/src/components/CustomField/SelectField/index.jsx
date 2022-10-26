@@ -55,7 +55,7 @@ function SelectField(props) {
     };
 
     return (
-        <div className={cx('select-field__group')}>
+        <div className={cx('wrap')}>
             {label && <label>{required && <span>✻</span>}{label}</label>}
             <Select
                 styles={customStyles}

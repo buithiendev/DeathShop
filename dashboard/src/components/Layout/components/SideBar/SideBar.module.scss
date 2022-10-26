@@ -10,7 +10,7 @@
     left: 0;
     width: 250px;
     padding: 20px 20px;
-    height: 100vh;
+    min-height: 100vh;
     background-color: var(--sidebar-color);
     transition: var(--transition);
     border-right: 1px solid #ccc;
@@ -123,7 +123,7 @@ body .dark {
     align-items: center;
     cursor: pointer;
     list-style: none;
-    height: 45px;
+    height: 50px;
     margin-top: 10px;
     border-radius: 10px;
     transition: var(--transition);

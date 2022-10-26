@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getAllUsersRoute, registerRoute, updateStatus,updateUserRoute } from '~/utils/APIRoutes';
+import { getAllUsersRoute, registerRoute, updateStatus,updateUserRoute } from '~/utils/UsersAPIRoutes';
 
 export const getUsers = createAsyncThunk('users/getUsers', async () => {
     const res = await axios.get(getAllUsersRoute);

@@ -3,19 +3,20 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import logo from '~/assets/images/0_0_13.png';
 import Button from '~/components/Button';
+import Container from '~/components/Container';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
 import SwitchField from '~/components/CustomField/SwitchField';
 import HeaderChild from '~/components/HeaderChild';
 import HighLight from '~/components/HighLight';
-import { getUserByIdRoute } from '~/utils/APIRoutes';
-import styles from './EditUser.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { getUserByIdRoute } from '~/utils/UsersAPIRoutes';
 import { updateUser } from '../../usersSlice';
+import styles from './EditUser.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -26,17 +27,16 @@ const rules = [
 ];
 
 function EditUser() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const params = useParams();
     const [currentUser, setCurrentUser] = useState();
-    const {loading } = useSelector((state) => state.users)
+    const { loading } = useSelector((state) => state.users);
 
     useEffect(() => {
-        async function asyncUseEffect() {
+        (async () => {
             const user = await axios.get(`${getUserByIdRoute}/${params.id}`);
             setCurrentUser(user.data);
-        }
-        asyncUseEffect();
+        })();
     }, []);
 
     const initialValues = {
@@ -63,12 +63,12 @@ function EditUser() {
     });
 
     const handleOnSubmit = (values) => {
-        dispatch(updateUser({id: params.id, data: values}))
+        dispatch(updateUser({ id: params.id, data: values }));
     };
     return (
         <>
             {currentUser && (
-                <div className={cx('container')}>
+                <Container>
                     <HeaderChild title="User Profile" />
                     <div className={cx('content__container')}>
                         <div className={cx('group__card-profile')}>
@@ -77,7 +77,9 @@ function EditUser() {
                                     <Avatar alt="avatar" src={logo} sx={{ width: 110, height: 110 }} />
                                     <h3>{`${currentUser.firstName} ${currentUser.lastName}`}</h3>
                                     <p>Project Manager</p>
-                                    <Button outline small style={{fontSize: 12}}>Update Profile Picture</Button>
+                                    <Button outline small style={{ fontSize: 12 }}>
+                                        Update Profile Picture
+                                    </Button>
                                 </div>
                                 <div className={cx('show-active')}>
                                     {currentUser.status ? (
@@ -176,7 +178,7 @@ function EditUser() {
                             </Formik>
                         </div>
                     </div>
-                </div>
+                </Container>
             )}
         </>
     );

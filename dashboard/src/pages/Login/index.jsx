@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import imgLogin from '~/assets/images/img-01.webp';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
-import { loginRoute } from '~/utils/APIRoutes';
+import { loginRoute } from '~/utils/UsersAPIRoutes';
 import styles from './Login.module.scss';
 
 const cx = classNames.bind(styles);

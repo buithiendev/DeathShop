@@ -1,95 +1,136 @@
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
-import { BiLock, BiMailSend, BiRename, BiUser } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { BiUserPlus } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
-import styles from './CreateUser.module.scss';
+import SwitchField from '~/components/CustomField/SwitchField';
+import { addUser } from '~/pages/Users/pages/MainPage/usersSlice';
+import styles from './CreateUserModal.module.scss';
 
 const cx = classNames.bind(styles);
 
+const rules = [
+    { value: 1, label: 'Administrator' },
+    { value: 2, label: 'Manager' },
+    { value: 3, label: 'Staff' },
+];
 
-function CreateUser() {
+function CreateUserModal({ complete }) {
+    
+    const { loading, success } = useSelector((state) => state.users);
+
+    const dispatch = useDispatch();
+
     const initialValues = {
+        firstName: '',
+        lastName: '',
         email: '',
-        fullName: '',
         role: null,
         password: '',
+        phone: '',
+        status: false,
     };
-    const rules = [{ value: 1, label: 'Tech' }];
 
+    // Fix here ...
     const validationSchema = Yup.object().shape({
-        email: Yup.string().email().required('Please enter your email'),
+        email: Yup.string().email('Email should be valid and contain @').required('Please enter your email'),
+        // .test('CheckEmail', 'Email already in use', async (value) => {
+        //     const { data } = await axios.post(checkEmail, { email: value });
+        //     if (data.status) return true;
+        //     return false;
+        // }),
         password: Yup.string().required('Please enter a password'),
-        fullName: Yup.string().required('Please enter your full name'),
+        firstName: Yup.string().required('Please enter your first name'),
+        lastName: Yup.string().required('Please enter your last name'),
         role: Yup.number().required('Please choose a role').nullable(),
     });
 
     const handleOnSubmit = async (values) => {
-        console.log('day');
-        console.log(values);
+        dispatch(addUser(values));
+        success && complete()
     };
-
     return (
-        <div className={cx('form-container')}>
-            <header>
-                <h2 className={cx('title')}>Create A New User</h2>
-                <p className={cx('desc')}>Create a new user and add to this page</p>
-            </header>
+        <div className={cx('create-user__modal')}>
+            <div className={cx('heading')}>
+                <BiUserPlus />
+                <h4>Add employees to the system</h4>
+                <p>Please enter username, email and settings for new users</p>
+            </div>
             <div className={cx('form')}>
                 <Formik initialValues={initialValues} onSubmit={handleOnSubmit} validationSchema={validationSchema}>
                     {(formikProps) => {
                         return (
-                            <Form>
-                                <div className={cx('field-group')}>
-                                    <label>Email</label>
+                            <Form className={cx('form-wrap')}>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
                                     <FastField
-                                        name="email"
+                                        name="firstName"
+                                        label="First Name"
+                                        required
                                         component={InputField}
-                                        placeholder="Eg: deathteam@dev.com"
-                                        icon={<BiMailSend />}
+                                        placeholder="Eg: Death"
                                     />
-                                </div>
-                                <div className={cx('field-group')}>
-                                    <label>Full Name</label>
                                     <FastField
-                                        name="fullName"
+                                        name="lastName"
+                                        label="Last Name"
+                                        required
                                         component={InputField}
-                                        placeholder="Eg: Cristiano Ronaldo"
-                                        icon={<BiRename />}
+                                        placeholder="Eg: Lock"
                                     />
                                 </div>
-                                <div className={cx('field-group')}>
-                                    <label>Role</label>
-                                    <FastField
-                                        name="role"
-                                        component={SelectField}
-                                        placeholder="Choose a role ..."
-                                        options={rules}
-                                        icon={<BiUser />}
-                                    />
-                                </div>
-                                <div className={cx('field-group')}>
-                                    <label>Password</label>
-                                    <FastField
-                                        name="password"
-                                        type="password"
-                                        component={InputField}
-                                        placeholder="*********"
-                                        icon={<BiLock />}
-                                    />
-                                </div>
-                                <Button type="submit">Create User</Button>
+                                <FastField
+                                    name="email"
+                                    component={InputField}
+                                    required
+                                    label="Email"
+                                    placeholder="Eg: deathteam@dev.com"
+                                />
+
+                                <FastField
+                                    name="phone"
+                                    label="Phone"
+                                    component={InputField}
+                                    placeholder="Enter your phone number..."
+                                />
+                                <FastField
+                                    name="role"
+                                    label="Decentralization"
+                                    component={SelectField}
+                                    placeholder="Choose a role ..."
+                                    options={rules}
+                                />
+                                <FastField
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    required
+                                    component={InputField}
+                                    placeholder="*********"
+                                />
+                                <FastField
+                                    name="status"
+                                    label="Active status"
+                                    defaultChecked={false}
+                                    component={SwitchField}
+                                />
+                                <Button
+                                    type="submit"
+                                    loader={loading}
+                                    primary
+                                    style={{ margin: '10px auto', width: '50%' }}
+                                >
+                                    Create
+                                </Button>
                             </Form>
                         );
                     }}
                 </Formik>
             </div>
-            <Link to="/users"> → Go to users</Link>
         </div>
     );
 }
 
-export default CreateUser;
+export default CreateUserModal;

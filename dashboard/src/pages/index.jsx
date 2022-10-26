@@ -3,11 +3,14 @@ import { Fragment, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { routes } from '~/routes';
-import { user } from '~/utils/APIRoutes';
+import { user } from '~/utils/UsersAPIRoutes';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setInfoCurrentUser } from '~/app/currentUserSlice';
 import { getUsers } from './Users/usersSlice';
+import { getCategories } from './Categories/categoriesSlice';
+import { getAllSeries } from './Categories/pages/EditCategory/components/AddOrEditSeries/seriesSlice';
+import { memo } from 'react';
 
 function Pages() {
     const navigate = useNavigate();
@@ -30,7 +33,11 @@ function Pages() {
     }, []);
 
     useEffect(() => {
-        if(status) dispatch(getUsers());
+        if(status){ 
+            dispatch(getUsers());
+            dispatch(getCategories());
+            dispatch(getAllSeries());
+        }
     }, [status]);
 
     return (
@@ -60,4 +67,4 @@ function Pages() {
     );
 }
 
-export default Pages;
+export default memo(Pages);
