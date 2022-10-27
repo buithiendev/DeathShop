@@ -23,7 +23,7 @@ function MainCategories() {
     const initialValues = {
         name: '',
         description: '',
-        imageslide: []
+        imageslide: [],
     };
 
     const validationSchema = Yup.object().shape({
@@ -31,13 +31,13 @@ function MainCategories() {
     });
 
     const handleOnSubmit = (values) => {
-        const {name, description, imageslide} = values;
+        const { name, description, imageslide } = values;
         const formData = new FormData();
-        formData.append('name',name);
-        formData.append('description',description);
+        formData.append('name', name);
+        formData.append('description', description);
         imageslide.map((image) => {
-            formData.append('testImage', image)
-        })
+            formData.append('testImage', image);
+        });
         dispatch(addCategory(formData));
     };
     return (

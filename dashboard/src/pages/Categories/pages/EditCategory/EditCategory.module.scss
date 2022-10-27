@@ -20,16 +20,22 @@
     display: flex;
     gap: 1rem;
     width: 100%;
+    flex-wrap: wrap;
+
+    .image-wrap {
+        border-radius: 6px;
+        overflow: hidden;
+        height: 100px;
+    }
 
     img {
         cursor: pointer;
-        border-radius: 6px;
-        height: 100px;
         transition: var(--transition);
+        height: 100%;
 
         &:hover {
             opacity: 0.8;
-            scale: 1.1;
+            scale: 1.04;
         }
     }
 }

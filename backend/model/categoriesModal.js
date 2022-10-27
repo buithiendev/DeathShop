@@ -8,16 +8,18 @@ const categoriesSchema = new Schema({
         require: true,
         max: 50,
     },
+    description: {
+        type: String,
+        default: '',
+    },
+    linksImage: [String]
+    ,
     createdAt: {
         type: Date,
     },
     updateDates: {
         type: Array,
         default: [],
-    },
-    description: {
-        type: String,
-        default: '',
     },
 });
 

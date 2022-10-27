@@ -4,6 +4,7 @@ import { FastField, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
@@ -12,7 +13,6 @@ import InputField from '~/components/CustomField/InputField';
 import HeaderChild from '~/components/HeaderChild';
 import Paper from '~/components/Paper';
 import { getCategoryById } from '~/utils/CategoriesAPIRoutes';
-import { getImageByCategoryId } from '~/utils/ImagesAPIRoutes';
 import { updateCategory } from '../../categoriesSlice';
 import AddOrEditSeries from './components/AddOrEditSeries';
 import styles from './EditCategory.module.scss';
@@ -24,15 +24,12 @@ function EditCategory() {
     const params = useParams();
     const [categoryCurrent, setCategoryCurrent] = useState(null);
     const [description, setDescription] = useState('');
-    const [images, setImages] = useState([]);
     const series = useSelector((state) => state.series.series);
 
     useEffect(() => {
         (async () => {
             const category = await axios.get(`${getCategoryById}/${params.id}`);
             if (category) setCategoryCurrent(category.data);
-            const images = await axios.get(`${getImageByCategoryId}/${category.data._id}`);
-            if (images) setImages(images.data);
         })();
     }, []);
 
@@ -80,28 +77,18 @@ function EditCategory() {
                                                 stateChange={setDescription}
                                                 component={EditorField}
                                             />
-                                            {images && (
+                                            {categoryCurrent.linksImage && (
                                                 <div className={cx('image-slide')}>
-                                                    {images.map((image, index) => {
-                                                        const base64String = btoa(
-                                                            new Uint8Array(image.image.data.data).reduce(function (
-                                                                data,
-                                                                byte,
-                                                            ) {
-                                                                return data + String.fromCharCode(byte);
-                                                            },
-                                                            ''),
-                                                        );
+                                                    {categoryCurrent.linksImage.map((link, index) => {
                                                         return (
-                                                            <img
-                                                                key={index}
-                                                                alt=""
-                                                                src={`data:image/jpg;base64,${base64String}`}
-                                                            />
+                                                            <div className={cx('image-wrap')}>
+                                                                <img key={uuidv4()} src={link} alt=""/>
+                                                            </div>
                                                         );
                                                     })}
                                                 </div>
                                             )}
+
                                             <Button
                                                 type="submit"
                                                 loader={false}

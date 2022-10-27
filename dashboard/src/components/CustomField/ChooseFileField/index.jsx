@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
+import { BiImageAdd } from 'react-icons/bi';
 import styles from './ChooseFileField.module.scss';
 
 const cx = classNames.bind(styles);
@@ -33,7 +34,7 @@ function ChooseFileField(props) {
                     {label}
                 </label>
             )}
-            <Button variant="contained" component="label" sx={{ marginLeft: '12px' }}>
+            <Button variant="contained" startIcon={<BiImageAdd/>} component="label" sx={{ marginLeft: '12px' }}>
                 Upload
                 <input
                     hidden
