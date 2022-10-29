@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper, Switch } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,15 +12,19 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '~/components/Button';
+import HighLight from '~/components/HighLight';
+import { useDispatch } from 'react-redux';
+import { changeStatus as changeStatusSlice } from '~/pages/Categories/categoriesSlice';
 
 function TableCategories() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
     const { categories } = useSelector((state) => state.categories);
 
-    function createData(_id, name, createdAt) {
+    function createData(_id, name, createdAt, status) {
         const action = (
             <>
                 <Button
@@ -35,13 +39,36 @@ function TableCategories() {
                 </Button>
             </>
         );
-        return { name, createdAt, action };
+        const changeStatus = (
+            <Switch
+                onChange={(e) => {
+                    const checked = e.target.checked;
+                    const dataSent = {
+                        id: _id,
+                        status: checked,
+                    };
+                    dispatch(changeStatusSlice(dataSent));
+                }}
+                defaultChecked={status}
+            />
+        );
+
+        status = status ? (
+            <HighLight primary small>
+                On Sale
+            </HighLight>
+        ) : (
+            <HighLight outline small>
+                Stopped Selling
+            </HighLight>
+        );
+        return { name, createdAt, changeStatus, status, action };
     }
 
-    function changeListUsers(users) {
-        return users.map((user) => {
-            const { _id, name, createdAt } = user;
-            return createData(_id, name, createdAt);
+    function changeListUsers(categories) {
+        return categories.map((category) => {
+            const { _id, name, createdAt, status } = category;
+            return createData(_id, name, createdAt, status);
         });
     }
 
@@ -61,7 +88,21 @@ function TableCategories() {
             id: 'createdAt',
             label: 'Initialize Date',
             minWidth: 50,
-            align: 'left',
+            align: 'center',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'status',
+            label: 'Status',
+            minWidth: 200,
+            align: 'center',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'changeStatus',
+            label: 'On/Off Trading',
+            minWidth: 50,
+            align: 'center',
             format: (value) => value.toLocaleString('en-US'),
         },
         {

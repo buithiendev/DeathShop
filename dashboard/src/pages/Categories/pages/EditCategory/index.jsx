@@ -2,12 +2,14 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import { BiXCircle } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
+import DropFileInput from '~/components/CustomField/DropFileInput';
 import EditorField from '~/components/CustomField/EditorField';
 import InputField from '~/components/CustomField/InputField';
 import HeaderChild from '~/components/HeaderChild';
@@ -24,7 +26,7 @@ function EditCategory() {
     const params = useParams();
     const [categoryCurrent, setCategoryCurrent] = useState(null);
     const [description, setDescription] = useState('');
-    const series = useSelector((state) => state.series.series);
+    const series = useSelector((state) => state.series.series.filter((value) => value.categoryId === params.id));
 
     useEffect(() => {
         (async () => {
@@ -36,6 +38,7 @@ function EditCategory() {
     const initialValues = {
         name: (categoryCurrent && categoryCurrent.name) || '',
         description: (categoryCurrent && categoryCurrent.description) || '',
+        imageslide: [],
     };
 
     const validationSchema = Yup.object().shape({
@@ -43,8 +46,24 @@ function EditCategory() {
     });
 
     const handleOnSubmit = (values) => {
-        values.id = params.id;
-        dispatch(updateCategory(values));
+        const { name, description, imageslide } = values;
+        const id = params.id;
+        const linksImage = categoryCurrent.linksImage;
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('id', id);
+        formData.append('linksImage', JSON.stringify(linksImage));
+        imageslide.map((image) => {
+            formData.append('testImage', image);
+        });
+        dispatch(updateCategory(formData));
+    };
+
+    const imageRemove = (link) => {
+        const newLinks = categoryCurrent.linksImage.filter((_link) => _link !== link);
+        const newCategoryCurrent = { ...categoryCurrent, linksImage: newLinks };
+        setCategoryCurrent(newCategoryCurrent);
     };
 
     return (
@@ -77,16 +96,31 @@ function EditCategory() {
                                                 stateChange={setDescription}
                                                 component={EditorField}
                                             />
+                                            <FastField
+                                                name="imageslide"
+                                                component={DropFileInput}
+                                                label="Slide image"
+                                                placeholder="Type here"
+                                            />
                                             {categoryCurrent.linksImage && (
-                                                <div className={cx('image-slide')}>
-                                                    {categoryCurrent.linksImage.map((link, index) => {
-                                                        return (
-                                                            <div className={cx('image-wrap')}>
-                                                                <img key={uuidv4()} src={link} alt=""/>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
+                                                <>
+                                                    <p className={cx('picture-title')}>Old picture</p>
+                                                    <div className={cx('image-slide')}>
+                                                        {categoryCurrent.linksImage.map((link, index) => {
+                                                            return (
+                                                                <div key={uuidv4()} className={cx('image-wrap')}>
+                                                                    <img src={link} alt="" />
+                                                                    <span
+                                                                        className={cx('delete-image-btn')}
+                                                                        onClick={() => imageRemove(link)}
+                                                                    >
+                                                                        <BiXCircle />
+                                                                    </span>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </>
                                             )}
 
                                             <Button
@@ -101,10 +135,6 @@ function EditCategory() {
                                     );
                                 }}
                             </Formik>
-                        </Paper>
-                        <Paper style={{ minHeight: 300, maxWidth: '1060px' }}>
-                            <h5 className={cx('preview-title')}>Preview Description</h5>
-                            <div dangerouslySetInnerHTML={{ __html: description }} />
                         </Paper>
                     </div>
                 )}

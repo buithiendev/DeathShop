@@ -1,8 +1,9 @@
 .content {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    grid-template-columns: 8fr 8fr;
-    gap: 4rem;
+    gap: 2rem;
+    padding-bottom: 2rem;
 
     .form-wrap {
         display: flex;
@@ -15,7 +16,7 @@
 .left-content {
     display: flex;
     flex-direction: column;
-    max-width: 916px;
+    // max-width: 916px;
     gap: 2rem;
     
     .preview-title {
@@ -32,6 +33,18 @@
         width: 100%;
         border-bottom: 1px solid #ccc;
     }
+}
+
+.group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.left-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .categories {

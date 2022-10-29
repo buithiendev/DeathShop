@@ -96,7 +96,7 @@ function TableUsers({ users }) {
             <>
                 <Button
                     primary
-                    style={{ width: 60, height: 25, fontSize: '1.2rem' }}
+                    style={{  height: 25, fontSize: '1.2rem' }}
                     onClick={() => {navigate(`/users/edit/${_id}`)}}
                     leftIcon={<BiEdit />}
                 >

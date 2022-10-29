@@ -13,6 +13,9 @@ const bucket = admin.storage().bucket();
 
 const uploadImage = (req, res, next) => {
     if (req.files) {
+        if (req.files.length === 0) {
+            next();
+        }
         req.files.map(async (value, index) => {
             if (!value) return next();
             const image = value;
@@ -38,6 +41,9 @@ const uploadImage = (req, res, next) => {
 
             stream.end(image.buffer);
         });
+    } else {
+        console.log('xx');
+        next();
     }
 };
 

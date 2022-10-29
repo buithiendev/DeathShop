@@ -8,8 +8,7 @@ module.exports.add = async (req, res, next) => {
         const createdAt = Date.now();
         const linksImage = [];
         req.files.map((file, index) => {
-            if(!file.filebaseUrl) return;
-            linksImage.push(file.filebaseUrl);
+            if (file.filebaseUrl) linksImage.push(file.filebaseUrl);
         });
         const category = await Categories.create({
             name,
@@ -40,8 +39,12 @@ module.exports.getAll = async (req, res) => {
 module.exports.update = async (req, res) => {
     try {
         const categoryId = req.params.id;
-        const { name, description } = req.body;
-
+        const { id, linksImage, name, description } = req.body;
+        const linksImageArray = JSON.parse(linksImage);
+        req.files.map((file, index) => {
+            const imageUrl = file.filebaseUrl;
+            linksImageArray.push(file.filebaseUrl);
+        });
         const updateDate = new Date();
 
         const category = await Categories.findByIdAndUpdate(
@@ -50,6 +53,7 @@ module.exports.update = async (req, res) => {
                 name,
                 description,
                 $push: { updateDates: updateDate },
+                linksImage: linksImageArray,
             },
             { new: true },
         );
@@ -65,10 +69,36 @@ module.exports.update = async (req, res) => {
     }
 };
 
+module.exports.changeStatus = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        const category = await Categories.findByIdAndUpdate(
+            categoryId,
+            {
+                status: req.body.status,
+            },
+            { new: true },
+        );
+        res.send({
+            category,
+        });
+    } catch (ex) {
+        return res.status(401).send({
+            status: 'failed',
+        });
+    }
+};
+
 module.exports.getById = async (req, res) => {
     try {
         const categoryId = req.params.id;
-        const category = await Categories.findById(categoryId).select(['_id', 'name', 'description', 'createdAt', 'linksImage']);
+        const category = await Categories.findById(categoryId).select([
+            '_id',
+            'name',
+            'description',
+            'createdAt',
+            'linksImage',
+        ]);
         res.send(category);
     } catch (ex) {
         return res.status(401).send({

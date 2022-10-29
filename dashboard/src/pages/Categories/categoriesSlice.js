@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { add, update ,getAll} from '~/utils/CategoriesAPIRoutes';
+import { add, update ,getAll, changeStatusRoute} from '~/utils/CategoriesAPIRoutes';
 
 export const getCategories = createAsyncThunk('categories/getCategories', async () => {
     const res = await axios.get(getAll);
@@ -12,12 +12,18 @@ export const addCategory = createAsyncThunk('categories/addCategory', async (dat
     return res.data;
 });
 
+export const changeStatus = createAsyncThunk('categories/changeStatus', async (data, thunkAPI)=> {
+    const id = data.id;
+    const res = await axios.post(`${changeStatusRoute}/${id}`, data);
+
+
+    console.log(res.data);
+    return res.data.category;
+})
+
 export const updateCategory = createAsyncThunk('categories/updateCategory', async (data, thunkAPI) => {
-    const { id, name, description } = data;
-    const res = await axios.post(`${update}/${id}`, {
-        name,
-        description,
-    });
+    const id = data.get('id');
+    const res = await axios.post(`${update}/${id}`, data);
     return res.data.category;
 });
 
@@ -41,6 +47,7 @@ const categories = createSlice({
         },
         [getCategories.rejected]: (state, action) => {
             state.loading = false;
+            state.success = false;
         },
         [addCategory.pending]: (state, action) => {
             state.loading = true;
@@ -53,6 +60,7 @@ const categories = createSlice({
         },
         [addCategory.rejected]: (state, action) => {
             state.loading = false;
+            state.success = false;
         },
         [updateCategory.pending]: (state, action) => {
             state.loading = true;
@@ -71,6 +79,26 @@ const categories = createSlice({
         },
         [updateCategory.rejected]: (state, action) => {
             state.loading = false;
+            state.success = false;
+        },
+        [changeStatus.pending]: (state,action) => {
+            state.loading= true;
+            state.success = false;
+        },
+        [changeStatus.fulfilled]: (state,action) => {
+            state.loading= false;
+            state.success = true;
+            state.categories.find((category,index) => {
+                if(category._id === action.payload._id) {
+                    state.categories[index] = action.payload;
+                    return true;
+                }
+                return false;
+            })
+        },
+        [changeStatus.rejected]: (state,action) => {
+            state.loading= false;
+            state.success = false;
         },
     },
 });

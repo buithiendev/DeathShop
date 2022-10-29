@@ -27,7 +27,8 @@
 .rdw-editor-main {
     max-width: 100%;
     padding: 0 10px;
-    min-height: 260px;
+    max-height: 360px;
+    height: 360px;
     word-wrap: break-word;
 }
 

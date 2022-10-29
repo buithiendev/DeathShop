@@ -12,6 +12,11 @@ const categoriesSchema = new Schema({
         type: String,
         default: '',
     },
+    status: {
+        type: Boolean,
+        default: true,
+    }
+    ,
     linksImage: [String]
     ,
     createdAt: {
