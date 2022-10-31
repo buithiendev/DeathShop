@@ -35,3 +35,19 @@ module.exports.getAll = async (req, res) => {
         });
     }
 };
+
+module.exports.update = async (req,res) => {
+    try {
+        const id = req.params.id;
+        const series = await Series.findByIdAndUpdate(id, {
+            name: req.body.name,
+            status: req.body.status,
+        }, {new: true})
+
+        res.send(series);
+    } catch(ex) {
+        return res.status(401).send({
+            status: 'failed',
+        });
+    }
+}

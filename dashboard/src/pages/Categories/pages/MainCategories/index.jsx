@@ -32,18 +32,18 @@ function MainCategories() {
     });
 
     const handleOnSubmit = (values, onSubmitProps) => {
-        console.log(values)
+        console.log(values);
         const { name, description, imageslide } = values;
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
         imageslide.map((image) => {
-            formData.append('testImage', image);
+            formData.append('Image', image);
         });
         dispatch(addCategory(formData));
         if (success) {
             onSubmitProps.resetForm();
-            console.log(initialValues)
+            console.log(initialValues);
         }
     };
     return (
@@ -80,12 +80,14 @@ function MainCategories() {
                                                 />
                                             </div>
 
-                                            <FastField
-                                                name="description"
-                                                label="Description"
-                                                stateChange={setDescription}
-                                                component={EditorField}
-                                            />
+                                            <div style={{ maxWidth: '896px' }}>
+                                                <FastField
+                                                    name="description"
+                                                    label="Description"
+                                                    stateChange={setDescription}
+                                                    component={EditorField}
+                                                />
+                                            </div>
                                         </div>
 
                                         <Button

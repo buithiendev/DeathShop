@@ -70,7 +70,7 @@ const DropFileInput = (props) => {
             </div>
             {fileList.length > 0 ? (
                 <div className={cx('drop-file-preview')}>
-                    <p className={cx('drop-file-preview__title')}>Ready to upload</p>
+                    <p className={cx('drop-file-preview__title')}>Preview image upload</p>
                     <div className={cx('list-file')}>
                         {fileList.map((item, index) => {
                             const url = URL.createObjectURL(item);

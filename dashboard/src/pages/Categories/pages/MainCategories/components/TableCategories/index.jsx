@@ -8,12 +8,11 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '~/components/Button';
 import HighLight from '~/components/HighLight';
-import { useDispatch } from 'react-redux';
 import { changeStatus as changeStatusSlice } from '~/pages/Categories/categoriesSlice';
 
 function TableCategories() {

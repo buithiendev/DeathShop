@@ -1,9 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { addRoute, getAllRoute } from '~/utils/SeriesAPIRoutes';
+import { addRoute, getAllRoute, updateRoute } from '~/utils/SeriesAPIRoutes';
 
 export const addSeries = createAsyncThunk('series/addSeries', async (data, thunkAPI) => {
     const res = await axios.post(addRoute, data);
+
+    return res.data;
+});
+
+export const updateSeries = createAsyncThunk('series/updateSeries', async (data, thunkAPI) => {
+    const res = await axios.post(`${updateRoute}/${data.categoryId}`, data);
 
     return res.data;
 });
@@ -46,6 +52,25 @@ const series = createSlice({
             state.series.push(action.payload);
         },
         [addSeries.rejected]: (state, action) => {
+            state.loading = false;
+            state.success = false;
+        },
+        [updateSeries.pending]: (state, action) => {
+            state.loading = true;
+            state.success = false;
+        },
+        [updateSeries.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.series.filter((seri, index) => {
+                if (seri._id === action.payload._id) {
+                    state.series[index] = action.payload;
+                    return true;
+                }
+                return false;
+            });
+        },
+        [updateSeries.rejected]: (state, action) => {
             state.loading = false;
             state.success = false;
         },

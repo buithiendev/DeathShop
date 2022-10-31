@@ -26,7 +26,6 @@ function EditCategory() {
     const params = useParams();
     const [categoryCurrent, setCategoryCurrent] = useState(null);
     const [description, setDescription] = useState('');
-    const series = useSelector((state) => state.series.series.filter((value) => value.categoryId === params.id));
 
     useEffect(() => {
         (async () => {
@@ -138,7 +137,7 @@ function EditCategory() {
                         </Paper>
                     </div>
                 )}
-                <AddOrEditSeries series={series} />
+                <AddOrEditSeries/>
             </div>
         </Container>
     );

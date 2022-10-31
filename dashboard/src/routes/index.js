@@ -1,4 +1,3 @@
-import AddProducts from '~/pages/AddProducts';
 import Categories from '~/pages/Categories';
 import Dashboard from '~/pages/Dashboard';
 import Orders from '~/pages/Orders';
@@ -11,11 +10,6 @@ export const routes = [
         path: '/',
         title: 'Dashboard',
         component: Dashboard,
-    },
-    {
-        path: '/addproducts',
-        title: 'Add Products',
-        component: AddProducts,
     },
     {
         path: '/categories',

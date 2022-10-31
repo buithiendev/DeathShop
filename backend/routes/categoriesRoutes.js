@@ -5,7 +5,7 @@ const router = require('express').Router();
 const multer = require('multer');
 const upload = multer({
     storage: multer.memoryStorage(),
-}).array('testImage', 10);
+}).array('Image', 10);
 
 const uploadImage = require("../services/firebase")
 
