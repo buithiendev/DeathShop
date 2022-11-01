@@ -103,10 +103,6 @@ function MainCategories() {
                             }}
                         </Formik>
                     </Paper>
-                    {/* <Paper style={{ minHeight: 300 }}>
-                        <h5 className={cx('preview-title')}>Preview Description</h5>
-                        <div dangerouslySetInnerHTML={{ __html: description }} />
-                    </Paper> */}
                 </div>
                 <div className={cx('categories')}>
                     <TableCategories />
