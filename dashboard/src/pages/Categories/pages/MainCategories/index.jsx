@@ -12,6 +12,7 @@ import HeaderChild from '~/components/HeaderChild';
 import Paper from '~/components/Paper';
 import { addCategory } from '../../categoriesSlice';
 import styles from './Categories.module.scss';
+import FormCategory from './components/FormCategory';
 import TableCategories from './components/TableCategories';
 
 const cx = classNames.bind(styles);
@@ -26,10 +27,6 @@ function MainCategories() {
         description: '',
         imageslide: [],
     };
-
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Please enter the product type name'),
-    });
 
     const handleOnSubmit = (values, onSubmitProps) => {
         console.log(values);
@@ -56,57 +53,11 @@ function MainCategories() {
             <div className={cx('content')}>
                 <div className={cx('left-content')}>
                     <Paper>
-                        <Formik
+                        <FormCategory
                             initialValues={initialValues}
-                            onSubmit={handleOnSubmit}
-                            validationSchema={validationSchema}
-                        >
-                            {(formikProps) => {
-                                return (
-                                    <Form className={cx('form-wrap')}>
-                                        <div className={cx('group')}>
-                                            <div className={cx('left-group')}>
-                                                <FastField
-                                                    name="name"
-                                                    component={InputField}
-                                                    label="Name"
-                                                    placeholder="Type here"
-                                                />
-                                                <FastField
-                                                    name="imageslide"
-                                                    component={DropFileInput}
-                                                    label="Slide image"
-                                                    placeholder="Type here"
-                                                />
-                                            </div>
-
-                                            <div style={{ maxWidth: '896px' }}>
-                                                <FastField
-                                                    name="description"
-                                                    label="Description"
-                                                    stateChange={setDescription}
-                                                    component={EditorField}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <Button
-                                            type="submit"
-                                            loader={false}
-                                            primary
-                                            style={{ margin: '10px auto', width: '20%' }}
-                                        >
-                                            Create Category
-                                        </Button>
-                                    </Form>
-                                );
-                            }}
-                        </Formik>
+                            handleOnSubmit={handleOnSubmit}
+                        />
                     </Paper>
-                    {/* <Paper style={{ minHeight: 300 }}>
-                        <h5 className={cx('preview-title')}>Preview Description</h5>
-                        <div dangerouslySetInnerHTML={{ __html: description }} />
-                    </Paper> */}
                 </div>
                 <div className={cx('categories')}>
                     <TableCategories />
