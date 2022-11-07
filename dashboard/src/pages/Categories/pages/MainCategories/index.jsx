@@ -46,7 +46,7 @@ function MainCategories() {
     return (
         <Container>
             <HeaderChild title="Categories">
-                <Button outline to="/products">
+                <Button small outline to="/products">
                     → Go to products
                 </Button>
             </HeaderChild>

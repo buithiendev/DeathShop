@@ -35,26 +35,31 @@ function MainPage() {
     return (
         <Container>
             <HeaderChild title="List of employee">
-            <Button primary onClick={handleOpen} style={{fontWeight: 400}}>
-                        Add new users
-                    </Button>
-                    <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
-                        open={open}
-                        onClose={handleClose}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                            timeout: 500,
-                        }}
-                    >
-                        <Fade in={open}>
-                            <Box style={style}>
-                                <CreateUserModal complete={completeSubmit} />
-                            </Box>
-                        </Fade>
-                    </Modal>
+                <Button
+                    small
+                    primary
+                    onClick={handleOpen}
+                    style={{ fontWeight: 400 }}
+                >
+                    Add new users
+                </Button>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <Box style={style}>
+                            <CreateUserModal complete={completeSubmit} />
+                        </Box>
+                    </Fade>
+                </Modal>
             </HeaderChild>
 
             <div className={cx('content')}>

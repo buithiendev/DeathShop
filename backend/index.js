@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const categoriesRoute = require('./routes/categoriesRoutes');
 const seriesRoute = require('./routes/seriesRoutes');
 const imageRoute = require('./routes/imageRoute')
+const productRoute = require('./routes/productRoutes')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -26,6 +27,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api/categories', categoriesRoute);
 app.use('/api/series', seriesRoute);
 app.use('/api/images', imageRoute);
+app.use('/api/product', productRoute)
 
 mongoose
     .connect(process.env.MONGO_URL, {

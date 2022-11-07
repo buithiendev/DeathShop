@@ -7,8 +7,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     background-color: var(--primary-color-light);
+}
+
+.small {
+    width: 30%;
+    height: 30%;
+}
+
+.small p {
+    font-size: 1.2rem;
+}
+
+label {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+label > span {
+    color: red;
+    font-size: 1.2rem;
+    margin-right: 3px;
 }
 
 .drop-file-input input {
@@ -44,8 +64,10 @@
 }
 
 .drop-file-preview__title {
+    font-size: 1.4rem;
+    color: var(--text-color);
     font-weight: 500;
-    margin-bottom: 16px;
+    margin: 10px 0;
 }
 
 .drop-file-preview__item {

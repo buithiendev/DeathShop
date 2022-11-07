@@ -26,6 +26,7 @@ function InputField(props) {
     const { name } = field;
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
+
     return (
         <div className={cx('input-field__group')} >
             {label && (

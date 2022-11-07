@@ -1,10 +1,8 @@
 const Categories = require('../model/categoriesModal');
 const image = require('../model/imageModal');
-const fs = require('fs');
 
 module.exports.add = async (req, res, next) => {
     try {
-        // console.log(req.files);
         const { name, description } = req.body;
         const createdAt = Date.now();
         const linksImage = [];

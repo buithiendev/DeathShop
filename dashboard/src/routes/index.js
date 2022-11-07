@@ -2,6 +2,7 @@ import Categories from '~/pages/Categories';
 import Dashboard from '~/pages/Dashboard';
 import Orders from '~/pages/Orders';
 import Products from '~/pages/Products';
+import Profile from '~/pages/Profile';
 import Sellers from '~/pages/Sellers';
 import Users from '~/pages/Users';
 
@@ -12,28 +13,33 @@ export const routes = [
         component: Dashboard,
     },
     {
+        path: '/profile',
+        title: 'Profile',
+        component: Profile,
+    },
+    {
         path: '/categories',
-        title: 'Dashboard',
+        title: 'Categories',
         component: Categories,
     },
     {
         path: '/orders',
-        title: 'Dashboard',
+        title: 'Orders',
         component: Orders,
     },
     {
         path: '/products',
-        title: 'Dashboard',
+        title: 'Products',
         component: Products,
     },
     {
         path: '/sellers',
-        title: 'Dashboard',
+        title: 'Sellers',
         component: Sellers,
     },
     {
         path: '/users',
-        title: 'Dashboard',
+        title: 'Users',
         component: Users,
     },
 ];

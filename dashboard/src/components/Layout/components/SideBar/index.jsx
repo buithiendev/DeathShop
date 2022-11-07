@@ -4,7 +4,15 @@ import styles from './SideBar.module.scss';
 
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
-import { BiAnalyse, BiChevronLeft, BiCog, BiLogOut, BiMoon, BiSearch, BiSun } from 'react-icons/bi';
+import {
+    BiAnalyse,
+    BiChevronLeft,
+    BiCog,
+    BiLogOut,
+    BiMoon,
+    BiSearch,
+    BiSun,
+} from 'react-icons/bi';
 import { useNavigate } from 'react-router';
 import { sideBars } from '~/constants';
 import { logout } from '~/utils/UsersAPIRoutes';
@@ -14,7 +22,7 @@ const cx = classNames.bind(styles);
 
 function SideBar() {
     const navigate = useNavigate();
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
     const [closeSide, setCloseSide] = useState(false);
 
     const handleOpenSideBarWithBtn = () => {
@@ -25,13 +33,23 @@ function SideBar() {
 
     const handleLogout = async () => {
         try {
-            const { data } = await axios.post(logout, {}, { withCredentials: true });
+            const { data } = await axios.post(
+                logout,
+                {},
+                { withCredentials: true },
+            );
             if (data.status) navigate('/login');
         } catch (ex) {}
     };
 
     return (
-        <div className={cx('sidebar', closeSide ? 'close' : '', darkMode ? 'dark' : '')}>
+        <div
+            className={cx(
+                'sidebar',
+                closeSide ? 'close' : '',
+                darkMode ? 'dark' : '',
+            )}
+        >
             <div className={cx('sidebar-top')}>
                 <header>
                     <span className={cx('logo')}>
@@ -47,14 +65,24 @@ function SideBar() {
                         <BiChevronLeft />
                     </span>
                 </header>
-                <div className={cx('input-group')} onClick={handleOpenSideBarWithBtn}>
+                <div
+                    className={cx('input-group')}
+                    onClick={handleOpenSideBarWithBtn}
+                >
                     <input type="text" placeholder="Search..." />
                     <BiSearch />
                     <div />
                 </div>
                 <div className={cx('menu-list')}>
                     {sideBars.map(({ title, path, icon }, index) => {
-                        return <SideBarItem key={index} title={title} path={path} icon={icon} />;
+                        return (
+                            <SideBarItem
+                                key={index}
+                                title={title}
+                                path={path}
+                                icon={icon}
+                            />
+                        );
                     })}
                 </div>
             </div>
@@ -65,10 +93,15 @@ function SideBar() {
                     onClick={() => {
                         setDarkMode((prev) => !prev);
                     }}
-                    moreElement={<Switch checked={darkMode} color="secondary" />}
+                    moreElement={
+                        <Switch checked={darkMode} color="secondary" />
+                    }
                 />
-                <SideBarItem title="Settings" path="/settings" icon={<BiCog />} />
-                <SideBarItem title="Logout" onClick={handleLogout} icon={<BiLogOut />} />
+                <SideBarItem
+                    title="Logout"
+                    onClick={handleLogout}
+                    icon={<BiLogOut />}
+                />
             </div>
         </div>
     );

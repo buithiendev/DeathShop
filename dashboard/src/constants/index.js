@@ -1,8 +1,18 @@
-import { BiAddToQueue, BiBox, BiCartAlt, BiCategory, BiDollarCircle, BiGridAlt, BiUser } from 'react-icons/bi';
+import {
+    BiAddToQueue,
+    BiBox,
+    BiCartAlt,
+    BiCategory,
+    BiDollarCircle,
+    BiGridAlt,
+    BiGroup,
+    BiUser,
+} from 'react-icons/bi';
 
 export const sideBars = [
     { title: 'Dashboard', path: '/', icon: <BiGridAlt /> },
-    { title: 'Users', path: '/users', icon: <BiUser /> },
+    { title: 'Your Profile', path: '/profile', icon: <BiUser /> },
+    { title: 'Users', path: '/users', icon: <BiGroup /> },
     { title: 'Products', path: '/products', icon: <BiBox /> },
     { title: 'Add Products', path: '/products/add', icon: <BiAddToQueue /> },
     { title: 'Categories', path: '/categories', icon: <BiCategory /> },

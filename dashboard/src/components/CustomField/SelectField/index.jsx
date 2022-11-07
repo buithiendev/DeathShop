@@ -23,20 +23,33 @@ SelectField.defaultProps = {
 };
 
 function SelectField(props) {
-    const { field, form, options, label, placeholder, disabled, required } = props;
+    const {
+        field,
+        form,
+        options,
+        label,
+        placeholder,
+        disabled,
+        required,
+        onChange,
+    } = props;
     const { name, value } = field;
     const selectedOption = options.find((option) => option.value === value);
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
     const handleSelectedOptionChange = (selectedOption) => {
-        const selectedValue = selectedOption ? selectedOption.value : selectedOption;
+        const selectedValue = selectedOption
+            ? selectedOption.value
+            : selectedOption;
         const changeEvent = {
             target: {
                 name: name,
                 value: selectedValue,
             },
         };
+
+        onChange && onChange(selectedOption);
         field.onChange(changeEvent);
     };
 
@@ -56,7 +69,12 @@ function SelectField(props) {
 
     return (
         <div className={cx('wrap')}>
-            {label && <label>{required && <span>✻</span>}{label}</label>}
+            {label && (
+                <label>
+                    {required && <span>✻</span>}
+                    {label}
+                </label>
+            )}
             <Select
                 styles={customStyles}
                 id={name}
@@ -67,7 +85,9 @@ function SelectField(props) {
                 isDisabled={disabled}
                 options={options}
             />
-            {showError && <p className={cx('validate__error')}>{errors[name]}</p>}
+            {showError && (
+                <p className={cx('validate__error')}>{errors[name]}</p>
+            )}
         </div>
     );
 }

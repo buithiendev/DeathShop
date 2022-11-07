@@ -16,6 +16,7 @@ function UserOptions({ avatar }) {
         setAnchorEl(null);
     };
 
+
     const handleLogout = () => {
         localStorage.setItem('current-user', JSON.stringify(undefined));
     };
@@ -32,9 +33,11 @@ function UserOptions({ avatar }) {
                     borderRadius: '6px',
                     padding: '4px 16px',
                     border: '1px solid #ccc',
+                    display: 'flex',
+                    alignItem: 'center',
                 }}
             >
-                {info && <p style={{ marginRight: '16px', fontSize: 17,  }}>{`${info.lastName}`}</p>}
+                {info && <p style={{ marginRight: '16px', fontSize: 14, marginBottom: 0 }}>{`${info.lastName}`}</p>}
                 <Avatar alt="avt" src={avatar} />
             </IconButton>
             <Menu
@@ -90,9 +93,6 @@ function UserOptions({ avatar }) {
             >
                 <Link>
                     <MenuItem><BiUserCircle/> My Profile</MenuItem>
-                </Link>
-                <Link to="/settings">
-                    <MenuItem><BiCog/> Settings</MenuItem>
                 </Link>
                 <Divider />
                 <Link to="/login">

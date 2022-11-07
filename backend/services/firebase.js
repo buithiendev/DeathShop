@@ -17,7 +17,6 @@ const uploadImage = (req, res, next) => {
             next();
         }
         req.files.map(async (value, index) => {
-            console.log(value)
             if (!value) return next();
             const image = value;
             const name = Date.now() + '.' + image.originalname.split('.').pop();

@@ -1,4 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { updateUserRoute } from '~/utils/UsersAPIRoutes';
+
+export const updateUser = createAsyncThunk('users/updateUser', async (pack, thunkAPI) => {
+    const { _id } = pack;
+    delete pack._id;
+    const res = await axios.post(`${updateUserRoute}/${_id}`, {
+        ...pack,
+    });
+    return res.data;
+});
 
 const currentUser = createSlice({
     name: 'currentUser',
@@ -16,6 +27,21 @@ const currentUser = createSlice({
             state.info = null;
         },
     },
+    extraReducers: {
+        [updateUser.pending]: (state, action) => {
+            state.loading = true;
+            state.success = false;
+        },
+        [updateUser.fulfilled]: (state, action) => {
+            state.success = true;
+            state.loading = false;
+            state.info = action.payload;
+            
+        },
+        [updateUser.rejected]: (state, action) => {
+            state.loading = false;
+        },
+    }
 });
 
 const { reducer, actions } = currentUser;

@@ -46,8 +46,10 @@ function Login(props) {
                 },
                 { withCredentials: true },
             );
-            axios.defaults.headers.common['Authorization'] = `Bearer ${data['token']}`;
-            data.token && navigate('/');
+            axios.defaults.headers.common[
+                'Authorization'
+            ] = `Bearer ${data['token']}`;
+            data.token && navigate('/profile');
         } catch (ex) {}
     };
 
@@ -56,7 +58,11 @@ function Login(props) {
             <div className={cx('login__form')}>
                 <div className={cx('form__wrap')}>
                     <div>
-                        <img className={cx('login__form-img')} src={imgLogin} alt="" />
+                        <img
+                            className={cx('login__form-img')}
+                            src={imgLogin}
+                            alt=""
+                        />
                     </div>
                     <div className={cx('form__right')}>
                         <h1>Member Login</h1>
@@ -67,7 +73,13 @@ function Login(props) {
                         >
                             {(formikProps) => {
                                 return (
-                                    <Form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                    <Form
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '20px',
+                                        }}
+                                    >
                                         <FastField
                                             name="email"
                                             component={InputField}
@@ -92,7 +104,10 @@ function Login(props) {
                             Forgot <Link to="/forgot">Username/Password</Link>
                         </span>
                         <p className={cx('form__contact')}>
-                            Contact Admin: <a href="mailto:buithiendev@gmail.com">deathops.dev@gmail.com</a>
+                            Contact Admin:{' '}
+                            <a href="mailto:buithiendev@gmail.com">
+                                deathops.dev@gmail.com
+                            </a>
                         </p>
                     </div>
                 </div>
