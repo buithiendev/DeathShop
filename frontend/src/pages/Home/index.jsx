@@ -1,5 +1,5 @@
 function Home() {
-    return ( <div>
+    return ( <div style={{height: '3000px'}}>
         Home
     </div> );
 }

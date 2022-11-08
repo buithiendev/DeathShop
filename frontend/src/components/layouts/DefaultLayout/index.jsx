@@ -1,12 +1,14 @@
-import Header from '~/components/Layout/Components/Header';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
-function DefaultLayout({children}) {
-    return (<>
-        <Header/>
-        
-        <Footer/>
-    </>);
+function DefaultLayout({ children }) {
+    return (
+        <>
+            <Header />
+            {children}
+            <Footer />
+        </>
+    );
 }
 
 export default DefaultLayout;
