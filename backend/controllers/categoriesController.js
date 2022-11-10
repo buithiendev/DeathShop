@@ -6,10 +6,18 @@ module.exports.add = async (req, res, next) => {
         const { name, description } = req.body;
         const createdAt = Date.now();
         const linksImage = [];
+        const id = name.toLowerCase().replaceAll(' ', '-');
+        const checkId = await Categories.findOne({ id: id });
+        if (checkId) {
+            return res.status(401).send({
+                status: 'Category is already',
+            });
+        }
         req.files.map((file, index) => {
             if (file.filebaseUrl) linksImage.push(file.filebaseUrl);
         });
         const category = await Categories.create({
+            id,
             name,
             description,
             createdAt,

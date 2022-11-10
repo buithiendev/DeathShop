@@ -1,0 +1,21 @@
+.container {
+    width: 100%;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 70%;
+}
+
+.list-series {
+    display: flex;
+    gap: 2rem;
+}
+
+.list-product {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2rem;
+}

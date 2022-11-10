@@ -7,7 +7,12 @@ const categoriesSchema = new Schema({
         type: String,
         require: true,
         max: 50,
-    }, 
+    },
+    id: {
+        type: String,
+        require: true,
+    }
+    ,
     description: {
         type: String,
         default: '',

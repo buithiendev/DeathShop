@@ -8,6 +8,11 @@ const seriesSchema = new Schema({
         require: true,
         max: 50,
     },
+    id: {
+        type: String,
+        require: true,
+        unique: true,
+    },
     status: {
         type: Boolean,
         default: true,
@@ -16,6 +21,11 @@ const seriesSchema = new Schema({
         type: String,
         require: true,
     },
+    categoryIdName: {
+        type: String,
+        require: true,
+    }
+    ,
     createdAt: {
         type: Date,
     },

@@ -3,12 +3,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
+    id: {
+        type: String,
+        require: true,
+    },
     categoryId: {
+        type: String,
+        require: true,
+    },
+    categoryIdName: {
         type: String,
         require: true,
     },
     seriesId: {
         type: String,
+    },
+    seriesIdName: {
+        type: String,
+        require: true,
     },
     name: {
         type: String,
