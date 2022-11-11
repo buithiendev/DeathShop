@@ -6,13 +6,15 @@ module.exports.add = async (req, res, next) => {
         const { name, description } = req.body;
         const createdAt = Date.now();
         const linksImage = [];
-        const id = name.toLowerCase().replaceAll(' ', '-');
+
+        const id = name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
         const checkId = await Categories.findOne({ id: id });
         if (checkId) {
             return res.status(401).send({
                 status: 'Category is already',
             });
         }
+
         req.files.map((file, index) => {
             if (file.filebaseUrl) linksImage.push(file.filebaseUrl);
         });
@@ -35,6 +37,17 @@ module.exports.add = async (req, res, next) => {
 module.exports.getAll = async (req, res) => {
     try {
         const categories = await Categories.find({});
+        res.send(categories);
+    } catch (ex) {
+        return res.status(401).send({
+            status: 'failed',
+        });
+    }
+};
+
+module.exports.getAllActive = async (req, res) => {
+    try {
+        const categories = await Categories.find({status: true});
         res.send(categories);
     } catch (ex) {
         return res.status(401).send({
@@ -108,6 +121,19 @@ module.exports.getById = async (req, res) => {
         ]);
         res.send(category);
     } catch (ex) {
+        return res.status(401).send({
+            status: 'failed',
+        });
+    }
+};
+
+module.exports.getByIdName = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const category = await Categories.findOne({ id: id, status: true });
+
+        res.send(category);
+    } catch {
         return res.status(401).send({
             status: 'failed',
         });

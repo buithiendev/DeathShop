@@ -9,13 +9,24 @@ import 'swiper/css/pagination';
 import '~/assets/style.css';
 
 // import required modules
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Pagination } from 'swiper';
 
 const cx = classNames.bind(styles);
 
-function IndexPreview({ linksImage }) {
-    const [imagePreview, setImagePreview] = useState(linksImage[0]);
+ImagePreview.propTypes = {
+    linksImage: PropTypes.array,
+};
+
+ImagePreview.defaultProps = {
+    linksImage: [],
+};
+
+function ImagePreview({ linksImage }) {
+    const [imagePreview, setImagePreview] = useState(
+        linksImage.length > 0 ? linksImage[0] : null,
+    );
 
     const handleSelectImage = (index) => {
         setImagePreview(linksImage[index]);
@@ -50,7 +61,10 @@ function IndexPreview({ linksImage }) {
                 {linksImage &&
                     linksImage.map((link, index) => {
                         return (
-                            <SwiperSlide key={index} onClick={() => handleSelectImage(index)}>
+                            <SwiperSlide
+                                key={index}
+                                onClick={() => handleSelectImage(index)}
+                            >
                                 <img
                                     className={cx('img-item')}
                                     alt=""
@@ -64,4 +78,4 @@ function IndexPreview({ linksImage }) {
     );
 }
 
-export default IndexPreview;
+export default ImagePreview;

@@ -1,21 +1,52 @@
 .container {
     width: 100%;
     background-color: var(--background-color);
-    display: flex;
-    justify-content: center;
+    padding-bottom: 60px;
 }
 
 .wrapper {
     width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-name {
+    font-size: 3.2rem;
+    margin: 36px auto;
 }
 
 .list-series {
+    cursor: pointer;
     display: flex;
-    gap: 2rem;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 3rem;
+    margin: 18px 0;    
+}
+
+.series-item {
+    color: var(--text-color);
+
+    &:hover {
+        color: black;
+    }
+}
+
+.series-item.active {
+    border-bottom: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
 }
 
 .list-product {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(5,1fr);
     gap: 2rem;
+}
+
+.description {
+    margin-top: 42px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 30px 400px;
 }

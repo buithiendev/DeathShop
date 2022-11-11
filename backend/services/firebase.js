@@ -42,7 +42,6 @@ const uploadImage = (req, res, next) => {
             stream.end(image.buffer);
         });
     } else {
-        console.log('xx');
         next();
     }
 };

@@ -4,6 +4,7 @@ import Home from '~/pages/Home';
 import InstallmentPolicy from '~/pages/InstallmentPolicy';
 import Insurance from '~/pages/Insurance';
 import Introduce from '~/pages/Introduce';
+import NotFound from '~/pages/NotFound';
 import Payment from '~/pages/Payment';
 import Product from '~/pages/Product';
 import ShipCodPolicy from '~/pages/ShipCodPolicy';
@@ -16,6 +17,12 @@ export const routes = [
         path: '/',
         name: 'Trang chủ',
         component: Home,
+    },
+    {
+        path: '/not-found',
+        name: 'Not Found',
+        component: NotFound,
+        layout: null,
     },
     {
         path: '/shop/:id',

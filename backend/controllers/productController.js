@@ -68,6 +68,21 @@ module.exports.get = async (req, res) => {
     }
 };
 
+module.exports.getByIdName = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const products = await Product.findOne({
+            id: id,
+        });
+
+        res.send(products);
+    } catch {
+        return res.status(401).send({
+            status: 'failed',
+        });
+    }
+};
+
 module.exports.getByCateId = async (req, res) => {
     try {
         const id = req.params.id;

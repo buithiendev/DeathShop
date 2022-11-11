@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { getProductByIdName, getProductById } from '~/utils/productsRoute';
+import { getProductByIdName } from '~/utils/productsRoute';
 import DetailsProduct from './components/DetailsProduct/index';
 import ImagePreview from './components/ImagePreview';
 import PromotionInfo from './components/PromotionInfo/index';
@@ -24,6 +24,7 @@ function Product() {
             const resProduct = await axios.get(
                 `${getProductByIdName}/${params.id}`,
             );
+
             if (resProduct.data && !unsubcribed) setProduct(resProduct.data);
         })();
 

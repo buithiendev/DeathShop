@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { BiCartAlt, BiSearchAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { getCategories } from '~/utils/categoriesRoute';
+import { getCategoriesActive } from '~/utils/categoriesRoute';
 import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
@@ -16,7 +16,7 @@ function Header() {
     useEffect(() => {
         let unsubcribed = false;
         (async () => {
-            const res = await axios.get(getCategories);
+            const res = await axios.get(getCategoriesActive);
             if (res.data && !unsubcribed) setCategories(res.data);
         })();
 
@@ -35,7 +35,11 @@ function Header() {
                     {categories &&
                         categories.map((category, index) => {
                             return (
-                                <Link to={`/shop/${category.id}`} key={index} className={cx('nav-item')}>
+                                <Link
+                                    to={`/shop/${category.id}`}
+                                    key={index}
+                                    className={cx('nav-item')}
+                                >
                                     <span>{category.name}</span>
                                 </Link>
                             );

@@ -2,8 +2,22 @@ import { Button } from '@mui/material';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import styles from './Variants.module.scss';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
+
+Variants.propTypes = {
+    rams: PropTypes.array,
+    memorys: PropTypes.array,
+    colors: PropTypes.array,
+};
+
+Variants.defaultProps = {
+    rams: [],
+    memorys: [],
+    colors: [],
+};
+
 
 function Variants({ rams, memorys, colors, basicPrice }) {
     const [ramSelect, setRamSelect] = useState(rams.length > 0 && rams[0]);
