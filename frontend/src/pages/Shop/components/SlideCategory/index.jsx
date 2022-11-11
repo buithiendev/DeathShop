@@ -5,6 +5,7 @@ import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import styles from './SlideCategory.module.scss'
+import '~/assets/style.css'
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +23,7 @@ function SlideCategory({linksImage}) {
             }}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
-            className="swiper-shop-page"
+            className="swiper"
         >
             {linksImage.map((link, index) => {
                 return (

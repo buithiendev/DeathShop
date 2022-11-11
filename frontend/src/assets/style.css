@@ -4,5 +4,9 @@
 }
 
 .swiper {
-    width: 100%;
+    max-width: 100%;
+}
+
+.swiper-product {
+    max-width: 571px;
 }

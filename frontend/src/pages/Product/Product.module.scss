@@ -12,15 +12,18 @@
 }
 
 .view-product {
-    display: flex;
-    align-items: flex-start;
+    max-width: 1193px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
 }
 
 .left {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 2rem;
+    width: 100%;
 
     img {
         width: 570px;
@@ -30,6 +33,7 @@
 }
 
 .right {
+
 
     .product-name {
         font-size: 3rem;

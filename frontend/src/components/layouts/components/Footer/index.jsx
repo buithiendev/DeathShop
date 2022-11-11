@@ -1,43 +1,15 @@
+import axios from 'axios';
 import classNames from 'classnames/bind';
+import { useState, useEffect } from 'react';
 import { BiLocationPlus, BiMailSend, BiPhoneCall } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import logoFb from '~/assets/images/fb-logo.png';
 import logoMess from '~/assets/images/mess-logo.png';
 import logoZalo from '~/assets/images/zalo-icon.png';
 import styles from './Footer.module.scss';
+import { getCategoriesActive } from '~/utils/categoriesRoute';
 
 const cx = classNames.bind(styles);
-
-const products = [
-    {
-        path: '/iphone',
-        label: 'IPhone',
-    },
-    {
-        path: '/ipad',
-        label: 'IPad',
-    },
-    {
-        path: '/mac',
-        label: 'Macbook',
-    },
-    {
-        path: '/applewatch',
-        label: 'Watch',
-    },
-    {
-        path: '/sound',
-        label: 'Sound',
-    },
-    {
-        path: '/accessory',
-        label: 'Accessory',
-    },
-    {
-        path: '/service',
-        label: 'Service',
-    },
-];
 
 const infos = [
     { label: 'Giới thiệu', path: '/' },
@@ -61,6 +33,20 @@ const policy = [
 ];
 
 function Footer() {
+    const [products, setProduct] = useState();
+
+    useEffect(() => {
+        let unsubcribed = false;
+        (async () => {
+            const res = await axios.get(getCategoriesActive);
+            if (res.data && !unsubcribed) setProduct(res.data);
+        })();
+
+        return () => {
+            unsubcribed = true;
+        };
+    },[])
+
     return (
         <footer className={cx('container')}>
             <div className={cx('wrapper')}>
@@ -88,10 +74,10 @@ function Footer() {
                     </div>
                     <div className={cx('col', 'products')}>
                         <h3>Products</h3>
-                        {products.map((product, index) => {
+                        {products && products.map((product, index) => {
                             return (
-                                <Link key={index}>
-                                    <span>{product.label}</span>
+                                <Link key={index} to={`/shop/${product.id}`}>
+                                    <span>{product.name}</span>
                                 </Link>
                             );
                         })}

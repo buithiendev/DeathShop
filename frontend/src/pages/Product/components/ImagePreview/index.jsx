@@ -56,7 +56,7 @@ function ImagePreview({ linksImage }) {
                     },
                 }}
                 modules={[Pagination]}
-                className="swiper"
+                className="swiper-product"
             >
                 {linksImage &&
                     linksImage.map((link, index) => {

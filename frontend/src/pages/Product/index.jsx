@@ -3,7 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProductByIdName } from '~/utils/productsRoute';
 import DetailsProduct from './components/DetailsProduct/index';
 import ImagePreview from './components/ImagePreview';
@@ -14,6 +14,7 @@ import styles from './Product.module.scss';
 const cx = classNames.bind(styles);
 
 function Product() {
+    const navigate = useNavigate();
     const params = useParams();
     const [product, setProduct] = useState();
 
@@ -24,8 +25,10 @@ function Product() {
             const resProduct = await axios.get(
                 `${getProductByIdName}/${params.id}`,
             );
-
-            if (resProduct.data && !unsubcribed) setProduct(resProduct.data);
+            if (!resProduct.data) navigate('/not-found');
+            if (resProduct.data && !unsubcribed) {
+                setProduct(resProduct.data);
+            }
         })();
 
         return () => {
