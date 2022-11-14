@@ -55,7 +55,7 @@ const productSchema = new Schema({
         type: Boolean,
         default: true,
     },
-    variants: [],
+    variants: { type: Schema.Types.ObjectId, ref: 'VariantsProduct' },
     createdAt: {
         type: Date,
     },

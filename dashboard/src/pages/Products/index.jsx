@@ -2,6 +2,7 @@ import { Route } from 'react-router';
 import { Routes } from 'react-router-dom';
 import AddProduct from './pages/AddProduct';
 import MainProduct from './pages/MainProduct';
+import Product from '../Product';
 
 function Products() {
     return (

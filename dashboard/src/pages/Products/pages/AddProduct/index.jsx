@@ -63,7 +63,7 @@ function AddProduct() {
         });
 
         const res = await axios.post(addProductRoute, formData);
-        if (res.data) navigate(`/products/edit/${res.data._id}`);
+        if (res.data) navigate(`/product/${res.data.id}`);
     };
 
     return (

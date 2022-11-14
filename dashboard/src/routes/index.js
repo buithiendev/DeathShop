@@ -1,6 +1,7 @@
 import Categories from '~/pages/Categories';
 import Dashboard from '~/pages/Dashboard';
 import Orders from '~/pages/Orders';
+import Product from '~/pages/Product';
 import Products from '~/pages/Products';
 import Profile from '~/pages/Profile';
 import Sellers from '~/pages/Sellers';
@@ -11,6 +12,11 @@ export const routes = [
         path: '/',
         title: 'Dashboard',
         component: Dashboard,
+    },
+    {
+        path: '/product/:id',
+        title: 'Product',
+        component: Product,
     },
     {
         path: '/profile',
