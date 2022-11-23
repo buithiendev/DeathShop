@@ -6,8 +6,6 @@ const variantsProduct = new Schema({
     idProduct: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
-        require: true,
-        unique: true,
     },
     variants: {
         type: Array,

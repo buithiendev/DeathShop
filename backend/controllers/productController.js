@@ -23,42 +23,18 @@ module.exports.add = async (req, res) => {
         const memorysArray = memoryStorages.split(',');
         const colorsArray = colors.split(',');
 
-        const variants = [];
-
-        for (let i = 0; i < ramsArray.length; i++) {
-            for (let j = 0; j < memorysArray.length; j++) {
-                for (let k = 0; k < colorsArray.length; k++) {
-                    const variant = {
-                        ram: ramsArray[i],
-                        memory: memorysArray[j],
-                        color: colorsArray[k],
-                        price: 0,
-                        oldPrice: 0,
-                        quantity: 0,
-                        changeBy: '',
-                    };
-                    variants.push(variant);
-                }
-            }
-        }
-
-        const now = new Date();
-
-        const resVariant = await VariantsProduct.create({
-            variants: variants,
-            createdAt: now,
-        });
-
         const id = name.toLowerCase().replaceAll(' ', '-');
         const category = await Categories.findById(categoryId);
         const series = await Series.findById(seriesId);
 
-        const createdAt = Date.now();
         const linksImage = [];
-        req.files.map((file, index) => {
-            if (file.filebaseUrl) linksImage.push(file.filebaseUrl);
-        });
+        if(req.files) {
+            req.files.map((file, index) => {
+                if (file.filebaseUrl) linksImage.push(file.filebaseUrl);
+            });
+        }
 
+        const createdAt = new Date();
         const product = await Product.create({
             id: id,
             categoryId: categoryId,
@@ -76,9 +52,7 @@ module.exports.add = async (req, res) => {
             colors: colorsArray,
             createdAt: createdAt,
             linksImage: linksImage,
-            variants: resVariant._id,
         });
-
         res.send(product);
     } catch {
         return res.status(401).send({

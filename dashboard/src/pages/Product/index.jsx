@@ -70,7 +70,7 @@ function Product() {
                             promotion={product.promotionInfo}
                         />
                     </Paper>
-                    <UpdateVariant variants={product.variants}/>
+                    {/* <UpdateVariant variants={product.variants}/> */}
                 </>
             )}
         </div>

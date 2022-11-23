@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// firstName, lastName, email, role, password, phone, status
 const userSchema = new Schema({
   firstName: {
     type: String,

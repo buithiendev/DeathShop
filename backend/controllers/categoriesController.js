@@ -10,8 +10,9 @@ module.exports.add = async (req, res, next) => {
         const id = name.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
         const checkId = await Categories.findOne({ id: id });
         if (checkId) {
-            return res.status(401).send({
-                status: 'Category is already',
+            return res.json({
+                msg: 'Category name is already',
+                status: false,
             });
         }
 

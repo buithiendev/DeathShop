@@ -11,16 +11,18 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-const uploadImage = (req, res, next) => {
+const uploadImage =  (req, res, next) => {
     if (req.files) {
         if (req.files.length === 0) {
             next();
         }
-        req.files.map(async (value, index) => {
+        req.files.map( async (value, index) => {
             if (!value) return next();
             const image = value;
             const name = Date.now() + '.' + image.originalname.split('.').pop();
-            req.files[index].filebaseUrl = `https://storage.googleapis.com/${BUCKET}/${name}`;
+            req.files[
+                index
+            ].filebaseUrl = `https://storage.googleapis.com/${BUCKET}/${name}`;
             const file = bucket.file(name);
 
             const stream = file.createWriteStream({
@@ -35,7 +37,9 @@ const uploadImage = (req, res, next) => {
 
             stream.on('finish', async () => {
                 await file.makePublic();
-                req.files[index].filebaseUrl = `https://storage.googleapis.com/${BUCKET}/${name}`;
+                req.files[
+                    index
+                ].filebaseUrl = `https://storage.googleapis.com/${BUCKET}/${name}`;
                 next();
             });
 

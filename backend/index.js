@@ -10,6 +10,8 @@ const variantsProductRoute = require('./routes/variantsProductRoutes')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const uri = 'mongodb+srv://buithiendev:yenanh123@deathshopcluster.20cpy1e.mongodb.net/?retryWrites=true&w=majority'
+
 const app = express();
 require('dotenv').config();
 
@@ -31,8 +33,20 @@ app.use('/api/images', imageRoute);
 app.use('/api/product', productRoute);
 app.use('/api/variant', variantsProductRoute);
 
+// mongoose
+//     .connect(process.env.MONGO_URL, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//     })
+//     .then(() => {
+//         console.log('DB connection succesfull');
+//     })
+//     .catch((err) => {
+//         console.log(err.message);
+//     });
+
 mongoose
-    .connect(process.env.MONGO_URL, {
+    .connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
