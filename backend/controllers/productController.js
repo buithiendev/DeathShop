@@ -133,3 +133,24 @@ module.exports.getBySeriesId = async (req, res) => {
         });
     }
 };
+
+module.exports.getAll = async (req,res) => {
+    try {
+        const products = await Product.find({});
+        res.send(products)
+    } catch  {
+        return res.status(401).send({
+            status: 'failed',
+        })
+    } 
+}
+
+module.exports.deleteProduct = async (req,res) => {
+    try {
+        const id = req.params.id;
+        const isDelete = await Product.deleteOne({_id: id})
+        res.send(isDelete)
+    } catch {
+
+    }
+}

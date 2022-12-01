@@ -122,7 +122,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                                     width: '20%',
                                 }}
                             >
-                                Create Product
+                                Update Product
                             </Button>
                         </Form>
                     );

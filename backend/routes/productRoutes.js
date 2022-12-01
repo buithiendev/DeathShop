@@ -5,6 +5,8 @@ const {
     getByCateIdName,
     getBySeriesId,
     getByIdName,
+    getAll,
+    deleteProduct,
 } = require('../controllers/productController');
 
 const router = require('express').Router();
@@ -22,5 +24,7 @@ router.get('/getByCateId/:id', getByCateId);
 router.get('/getByIdName/:id', getByIdName);
 router.get('/getByCateIdName/:id', getByCateIdName);
 router.get('/getBySeriesId/:id', getBySeriesId);
+router.get('/getAll',getAll);
+router.post('/delete/:id', deleteProduct);
 
 module.exports = router;

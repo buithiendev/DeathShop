@@ -6,11 +6,12 @@ const categoriesRoute = require('./routes/categoriesRoutes');
 const seriesRoute = require('./routes/seriesRoutes');
 const imageRoute = require('./routes/imageRoute');
 const productRoute = require('./routes/productRoutes');
-const variantsProductRoute = require('./routes/variantsProductRoutes')
+const variantsProductRoute = require('./routes/variantsProductRoutes');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const uri = 'mongodb+srv://buithiendev:yenanh123@deathshopcluster.20cpy1e.mongodb.net/?retryWrites=true&w=majority'
+const uri =
+    'mongodb+srv://buithiendev:yenanh123@deathshopcluster.20cpy1e.mongodb.net/?retryWrites=true&w=majority';
 
 const app = express();
 require('dotenv').config();
