@@ -80,6 +80,7 @@ function SelectField(props) {
                 id={name}
                 {...field}
                 value={selectedOption}
+                defaultValue={selectedOption}
                 onChange={handleSelectedOptionChange}
                 placeholder={placeholder}
                 isDisabled={disabled}
