@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 
 function EditProduct() {
     const params = useParams();
-    const [product, setProduct] = useState();
+    const [product, setProduct] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,19 +28,21 @@ function EditProduct() {
         })();
     }, []);
 
+    console.log(product);
+
     const initialValues = {
-        categoryId: '',
-        seriesId: '',
-        name: '',
-        description: '',
-        details: '',
-        basicPrice: 0,
-        promotionInfo: '',
-        specifications: '',
-        imagePreview: [],
-        rams: [],
-        memoryStorages: [],
-        colors: [],
+        categoryId: (product && product.categoryId) || '',
+        seriesId: (product && product.seriesId) || '',
+        name: (product && product.name) || '',
+        description: (product && product.description) || '',
+        details: (product && product.details) || '',
+        basicPrice: (product && product.basicPrice) || 0,
+        promotionInfo: (product && product.promotionInfo) || '',
+        specifications: (product && product.specifications) || '',
+        imagePreview: (product && product.imagePreview) || [],
+        rams: (product && product.rams) || [],
+        memoryStorages: (product && product.memorys) || [],
+        colors: (product && product.colors) || [],
     };
 
     const handleOnSubmit = async (values) => {
@@ -75,7 +77,6 @@ function EditProduct() {
         imagePreview.map((image) => {
             formData.append('Image', image);
         });
-
     };
 
     return (
@@ -87,10 +88,12 @@ function EditProduct() {
             </HeaderChild>
             <div className={cx('content')}>
                 <Paper>
-                    <FormProduct
-                        initialValues={initialValues}
-                        handleOnSubmit={handleOnSubmit}
-                    />
+                    {product && (
+                        <FormProduct
+                            initialValues={initialValues}
+                            handleOnSubmit={handleOnSubmit}
+                        />
+                    )}
                 </Paper>
             </div>
         </Container>

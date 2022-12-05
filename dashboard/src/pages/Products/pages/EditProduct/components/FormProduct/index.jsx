@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
@@ -31,7 +31,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
 
     useEffect(() => {
         if (categoryId) {
-            optionSeries.splice(0,optionSeries.length)
+            optionSeries.splice(0, optionSeries.length);
             series.map((seri) => {
                 if (seri.categoryId === categoryId.value) {
                     optionSeries.push({
@@ -132,4 +132,4 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
     );
 }
 
-export default memo(FormProduct);
+export default FormProduct;
