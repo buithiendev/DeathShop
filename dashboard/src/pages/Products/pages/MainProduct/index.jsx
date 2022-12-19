@@ -55,7 +55,7 @@ function MainProduct() {
                 if (products.data) setProducts(products.data);
             })();
         }
-    }, [seriesSelect, products]);
+    }, [seriesSelect]);
 
     const handleDeleteProduct = async (id) => {
         const res = await axios.post(`${deleteProduct}/${id}`);

@@ -11,6 +11,9 @@ const productSchema = new Schema({
         type: String,
         require: true,
     },
+    sticker: {
+        type: String,
+    },
     categoryIdName: {
         type: String,
         require: true,
@@ -27,12 +30,16 @@ const productSchema = new Schema({
         require: true,
         max: 50,
     },
-    basicPrice: {
+    oldPrice: {
         type: Number,
         default: 0,
     },
-    rams: [String],
-    memorys: [String],
+    newPrice: {
+        type: Number,
+        default: 0,
+    },
+    rams: String,
+    memorys: String,
     colors: [String],
     linksImage: [String],
     description: {
@@ -55,7 +62,10 @@ const productSchema = new Schema({
         type: Boolean,
         default: true,
     },
-    variants: { type: Schema.Types.ObjectId, ref: 'VariantsProduct' },
+    isDelete: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
     },

@@ -28,15 +28,15 @@ function EditProduct() {
         })();
     }, []);
 
-    console.log(product);
-
     const initialValues = {
         categoryId: (product && product.categoryId) || '',
         seriesId: (product && product.seriesId) || '',
         name: (product && product.name) || '',
         description: (product && product.description) || '',
         details: (product && product.details) || '',
-        basicPrice: (product && product.basicPrice) || 0,
+        newPrice: (product && product.newPrice) || 0,
+        oldPrice: (product && product.oldPrice) || 0,
+        sticker: (product && product.sticker) || '',
         promotionInfo: (product && product.promotionInfo) || '',
         specifications: (product && product.specifications) || '',
         imagePreview: (product && product.imagePreview) || [],
@@ -52,10 +52,12 @@ function EditProduct() {
             name,
             description,
             details,
-            basicPrice,
+            newPrice,
+            oldPrice,
             promotionInfo,
             specifications,
             imagePreview,
+            sticker,
             rams,
             memoryStorages,
             colors,
@@ -67,7 +69,9 @@ function EditProduct() {
         formData.append('name', name);
         formData.append('description', description);
         formData.append('details', details);
-        formData.append('basicPrice', basicPrice);
+        formData.append('sticker', sticker);
+        formData.append('newPrice', newPrice);
+        formData.append('oldPrice',oldPrice);
         formData.append('promotionInfo', promotionInfo);
         formData.append('specifications', specifications);
         formData.append('imagePreview', imagePreview);
@@ -77,6 +81,9 @@ function EditProduct() {
         imagePreview.map((image) => {
             formData.append('Image', image);
         });
+
+        //fix
+        console.log(values)
     };
 
     return (

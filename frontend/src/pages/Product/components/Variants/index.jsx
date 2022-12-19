@@ -1,14 +1,14 @@
 import { Button } from '@mui/material';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import styles from './Variants.module.scss';
-import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
 Variants.propTypes = {
-    rams: PropTypes.array,
-    memorys: PropTypes.array,
+    rams: PropTypes.string,
+    memorys: PropTypes.string,
     colors: PropTypes.array,
 };
 
@@ -18,22 +18,10 @@ Variants.defaultProps = {
     colors: [],
 };
 
-
 function Variants({ rams, memorys, colors, basicPrice }) {
-    const [ramSelect, setRamSelect] = useState(rams.length > 0 && rams[0]);
-    const [memorySelect, setMemorySelect] = useState(
-        memorys.length > 0 && memorys[0],
-    );
     const [colorSelect, setColorSelect] = useState(
         colors.length > 0 && colors[0],
     );
-
-    const handleSelectRam = (index) => {
-        setRamSelect(rams[index]);
-    };
-    const handleSelectMemory = (index) => {
-        setMemorySelect(memorys[index]);
-    };
     const handleSelectColor = (index) => {
         setColorSelect(colors[index]);
     };
@@ -47,31 +35,16 @@ function Variants({ rams, memorys, colors, basicPrice }) {
 
     return (
         <div className={cx('variants')}>
-            <h4 className={cx('product-price')}>
-                {convertToVND(basicPrice)}
-            </h4>
+            <h4 className={cx('product-price')}>{convertToVND(basicPrice)}</h4>
             {rams && (
                 <div className={cx('variants-item')}>
                     <span>Chọn RAM: </span>
                     <div className={cx('list-item')}>
-                        {rams.map((ram, index) => {
-                            return (
-                                <Button
-                                    key={index}
-                                    size="small"
-                                    variant={
-                                        ram === ramSelect
-                                            ? 'contained'
-                                            : 'outlined'
-                                    }
-                                    onClick={() => {
-                                        handleSelectRam(index);
-                                    }}
-                                >
-                                    {ram}
-                                </Button>
-                            );
-                        })}
+                        {rams && (
+                            <Button size="small" variant="contained">
+                                {rams}
+                            </Button>
+                        )}
                     </div>
                 </div>
             )}
@@ -79,24 +52,11 @@ function Variants({ rams, memorys, colors, basicPrice }) {
                 <div className={cx('variants-item')}>
                     <span>Chọn dung lượng: </span>
                     <div className={cx('list-item')}>
-                        {memorys.map((memory, index) => {
-                            return (
-                                <Button
-                                    key={index}
-                                    size="small"
-                                    variant={
-                                        memory === memorySelect
-                                            ? 'contained'
-                                            : 'outlined'
-                                    }
-                                    onClick={() => {
-                                        handleSelectMemory(index);
-                                    }}
-                                >
-                                    {memory}
-                                </Button>
-                            );
-                        })}
+                        {memorys && (
+                            <Button size="small" variant="contained">
+                                {memorys}
+                            </Button>
+                        )}
                     </div>
                 </div>
             )}

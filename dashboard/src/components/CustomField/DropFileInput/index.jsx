@@ -61,54 +61,54 @@ const DropFileInput = (props) => {
                     {label}
                 </label>
             )}
-            <div
-                ref={wrapperRef}
-                className={cx('drop-file-input',small ? 'small':'')}
-                onDragEnter={onDragEnter}
-                onDragLeave={onDragLeave}
-                onDrop={onDrop}
-            >
-                <div className={cx('drop-file-input__label')}>
-                    <img src={uploadImg} alt="" />
-                    <p>Drag & Drop your images here</p>
-                </div>
-                <input
-                    name={name}
-                    accept="image/*"
-                    type="file"
-                    value=""
-                    onChange={onFileDrop}
-                    disabled={disabled}
-                />
-            </div>
-            {fileList.length > 0 ? (
-                <div className={cx('drop-file-preview')}>
-                    <p className={cx('drop-file-preview__title')}>
-                        Preview image upload
-                    </p>
-                    <div className={cx('list-file')}>
-                        {fileList.map((item, index) => {
-                            const url = URL.createObjectURL(item);
-                            return (
-                                <div
-                                    key={uuidv4()}
-                                    className={cx('drop-file-preview__item')}
-                                >
-                                    <img src={url} alt="" />
-                                    <span
+            <div className={cx('block')}>
+                {fileList.length > 0 ? (
+                    <div className={cx('drop-file-preview')}>
+                        <div className={cx('list-file')}>
+                            {fileList.map((item, index) => {
+                                const url = URL.createObjectURL(item);
+                                return (
+                                    <div
+                                        key={uuidv4()}
                                         className={cx(
-                                            'drop-file-preview__item__del',
+                                            'drop-file-preview__item',
                                         )}
-                                        onClick={() => fileRemove(item)}
                                     >
-                                        <BiXCircle />
-                                    </span>
-                                </div>
-                            );
-                        })}
+                                        <img src={url} alt="" />
+                                        <span
+                                            className={cx(
+                                                'drop-file-preview__item__del',
+                                            )}
+                                            onClick={() => fileRemove(item)}
+                                        >
+                                            <BiXCircle />
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
+                ) : null}
+                <div
+                    ref={wrapperRef}
+                    className={cx('drop-file-input', small ? 'small' : '')}
+                    onDragEnter={onDragEnter}
+                    onDragLeave={onDragLeave}
+                    onDrop={onDrop}
+                >
+                    <div className={cx('drop-file-input__label')}>
+                        <img src={uploadImg} alt="" />
+                    </div>
+                    <input
+                        name={name}
+                        accept="image/*"
+                        type="file"
+                        value=""
+                        onChange={onFileDrop}
+                        disabled={disabled}
+                    />
                 </div>
-            ) : null}
+            </div>
         </div>
     );
 };

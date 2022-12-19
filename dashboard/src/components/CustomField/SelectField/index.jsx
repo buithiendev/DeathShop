@@ -32,9 +32,10 @@ function SelectField(props) {
         disabled,
         required,
         onChange,
+        isSearchable = false,
     } = props;
     const { name, value } = field;
-    const selectedOption = options.find((option) => option.value === value);
+    const selectedOption = options.find((option) => option.value === value) || options[0];
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
@@ -85,6 +86,7 @@ function SelectField(props) {
                 placeholder={placeholder}
                 isDisabled={disabled}
                 options={options}
+                isSearchable={isSearchable}
             />
             {showError && (
                 <p className={cx('validate__error')}>{errors[name]}</p>

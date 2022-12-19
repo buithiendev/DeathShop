@@ -27,6 +27,16 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
         categories.map((category) => {
             optionCategory.push({ value: category._id, label: category.name });
         });
+        if(initialValues?.seriesId) {
+            series.map((seri) => {
+                if (seri.categoryId === initialValues.categoryId) {
+                    optionSeries.push({
+                        value: seri._id,
+                        label: seri.name,
+                    });
+                }
+            });
+        }
     }, [categories]);
 
     useEffect(() => {
@@ -60,7 +70,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                             <div style={{ display: 'flex', gap: '3rem' }}>
                                 <FastField
                                     name="categoryId"
-                                    label="Category Id"
+                                    label="Category"
                                     component={SelectField}
                                     onChange={setCategoryId}
                                     placeholder="Choose a category ..."
@@ -68,7 +78,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                                 />
                                 <FastField
                                     name="seriesId"
-                                    label="Series Id"
+                                    label="Series"
                                     component={SelectField}
                                     placeholder="Choose a series ..."
                                     options={optionSeries}
@@ -83,26 +93,36 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                             <FastField
                                 name="imagePreview"
                                 component={DropFileInput}
-                                label="Image preview"
+                                label="Image Preview"
                                 placeholder="Type here"
                             />
                             <FastField
-                                name="basicPrice"
+                                name="sticker"
                                 component={InputField}
-                                label="Basic Price"
+                                label="Sticker"
+                                placeholder="Hot Deal..."
+                            />
+                            <FastField
+                                name="oldPrice"
+                                component={InputField}
+                                label="Old Price"
+                                placeholder="32.000.000 VND"
+                            />
+                            <FastField
+                                name="newPrice"
+                                component={InputField}
+                                label="New Price"
                                 placeholder="32.000.000 VND"
                             />
                             <FastField
                                 name="rams"
-                                mode="multiple"
-                                component={SelectMultiField}
+                                component={SelectField}
                                 label="RAM"
                                 options={optionsRam}
                             />
                             <FastField
                                 name="memoryStorages"
-                                mode="multiple"
-                                component={SelectMultiField}
+                                component={SelectField}
                                 label="Memory Storage"
                                 options={optionsMemory}
                             />

@@ -40,7 +40,10 @@ const uploadImage =  (req, res, next) => {
                 req.files[
                     index
                 ].filebaseUrl = `https://storage.googleapis.com/${BUCKET}/${name}`;
-                next();
+            
+                if(index ===req.files?.length-1) {
+                    next();
+                }
             });
 
             stream.end(image.buffer);

@@ -57,37 +57,37 @@ export default function TabInput() {
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
-                    <Tab label="Description" {...a11yProps(0)} />
-                    <Tab label="Promotion Info" {...a11yProps(1)} />
-                    <Tab label="Specifications" {...a11yProps(2)} />
-                    <Tab label="Details" {...a11yProps(3)} />
+                    <Tab label="Mô tả" {...a11yProps(0)} />
+                    <Tab label="Thông tin khuyến mãi" {...a11yProps(1)} />
+                    <Tab label="Thông số kỹ thuật" {...a11yProps(2)} />
+                    <Tab label="Chi tiết sản phẩm" {...a11yProps(3)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
                 <FastField
                     name="description"
-                    label="Description"
+                    label="Mô tả"
                     component={EditorField}
                 />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <FastField
                     name="promotionInfo"
-                    label="Promotion Info"
+                    label="Thông tin khuyến mãi"
                     component={EditorField}
                 />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <FastField
                     name="specifications"
-                    label="Specifications"
+                    label="Thông số kỹ thuật"
                     component={EditorField}
                 />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <FastField
                     name="details"
-                    label="Details"
+                    label="Chi tiết sản phẩm"
                     component={EditorField}
                 />
             </TabPanel>

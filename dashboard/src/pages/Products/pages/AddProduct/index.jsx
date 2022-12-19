@@ -1,6 +1,7 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router';
+import * as Yup from 'yup';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
@@ -20,12 +21,13 @@ function AddProduct() {
         name: '',
         description: '',
         details: '',
-        basicPrice: 0,
+        newPrice: 0,
+        sticker: '',
         promotionInfo: '',
         specifications: '',
         imagePreview: [],
-        rams: [],
-        memoryStorages: [],
+        rams: '',
+        memoryStorages: '',
         colors: [],
     };
 
@@ -36,7 +38,8 @@ function AddProduct() {
             name,
             description,
             details,
-            basicPrice,
+            newPrice,
+            sticker,
             promotionInfo,
             specifications,
             imagePreview,
@@ -51,7 +54,8 @@ function AddProduct() {
         formData.append('name', name);
         formData.append('description', description);
         formData.append('details', details);
-        formData.append('basicPrice', basicPrice);
+        formData.append('newPrice', newPrice);
+        formData.append('sticker', sticker);
         formData.append('promotionInfo', promotionInfo);
         formData.append('specifications', specifications);
         formData.append('imagePreview', imagePreview);
@@ -62,9 +66,18 @@ function AddProduct() {
             formData.append('Image', image);
         });
 
+        console.log(values);
+
         const res = await axios.post(addProductRoute, formData);
-        if (res.data) navigate(`/product/${res.data.id}`);
+        if (res.data) navigate(`/products/${res.data.id}`);
     };
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Please enter the product type name'),
+        categoryId: Yup.string().required('Please select product category'),
+        seriesId: Yup.string().required('Please select product series'),
+        newPrice: Yup.string().required('Please select product series'),
+    });
 
     return (
         <Container>
@@ -78,6 +91,7 @@ function AddProduct() {
                     <FormProduct
                         initialValues={initialValues}
                         handleOnSubmit={handleOnSubmit}
+                        validationSchema={validationSchema}
                     />
                 </Paper>
             </div>

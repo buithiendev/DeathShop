@@ -20,6 +20,11 @@
     }
 }
 
+.price-group {
+    display: flex;
+    justify-content: space-between;
+}
+
 .stickers {
     position: absolute;
     top: 12px;
@@ -50,6 +55,11 @@
         margin-top: 30px;
         color: #0066cc;
         font-weight: 600;
+    }
+
+    .old {
+        text-decoration-line: line-through;
+        color: rgb(100, 100, 100);
     }
 
     .subtitle {

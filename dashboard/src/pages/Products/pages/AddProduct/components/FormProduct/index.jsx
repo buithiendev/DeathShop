@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import * as Yup from 'yup';
 import Button from '~/components/Button';
 import DropFileInput from '~/components/CustomField/DropFileInput';
 import InputField from '~/components/CustomField/InputField';
@@ -18,7 +17,7 @@ const cx = classNames.bind(styles);
 const optionCategory = [];
 const optionSeries = [];
 
-function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
+function FormProduct({ initialValues, handleOnSubmit,validationSchema, isUpdate }) {
     const categories = useSelector((state) => state.categories.categories);
     const [categoryId, setCategoryId] = useState();
     const series = useSelector((state) => state.series.series);
@@ -42,10 +41,6 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
             });
         }
     }, [categoryId]);
-
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Please enter the product type name'),
-    });
 
     return (
         <>
@@ -87,22 +82,26 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                                 placeholder="Type here"
                             />
                             <FastField
-                                name="basicPrice"
+                                name="sticker"
                                 component={InputField}
-                                label="Basic Price"
+                                label="Sticker"
+                                placeholder="Hot Deal..."
+                            />
+                            <FastField
+                                name="newPrice"
+                                component={InputField}
+                                label="New Price"
                                 placeholder="32.000.000 VND"
                             />
                             <FastField
                                 name="rams"
-                                mode="multiple"
-                                component={SelectMultiField}
+                                component={SelectField}
                                 label="RAM"
                                 options={optionsRam}
                             />
                             <FastField
                                 name="memoryStorages"
-                                mode="multiple"
-                                component={SelectMultiField}
+                                component={SelectField}
                                 label="Memory Storage"
                                 options={optionsMemory}
                             />

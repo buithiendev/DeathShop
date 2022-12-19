@@ -51,7 +51,7 @@ function Product() {
                             <Divider />
 
                             <Variants
-                                basicPrice={product.basicPrice}
+                                basicPrice={product.newPrice}
                                 rams={product.rams}
                                 memorys={product.memorys}
                                 colors={product.colors}
@@ -72,6 +72,7 @@ function Product() {
                     </div>
                     <DetailsProduct
                         description={product.description}
+                        specifications={product.specifications}
                         detailsProduct={product.detailsProduct}
                     />
                 </div>
