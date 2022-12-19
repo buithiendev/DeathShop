@@ -61,13 +61,13 @@ function AddProduct() {
         formData.append('imagePreview', imagePreview);
         formData.append('rams', rams);
         formData.append('memoryStorages', memoryStorages);
-        formData.append('colors', colors);
+        formData.append('colors', JSON.stringify(colors));
         imagePreview.map((image) => {
             formData.append('Image', image);
         });
 
-        console.log(values);
 
+        console.log(colors)
         const res = await axios.post(addProductRoute, formData);
         if (res.data) navigate(`/products/${res.data.id}`);
     };

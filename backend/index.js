@@ -17,7 +17,11 @@ const app = express();
 require('dotenv').config();
 
 const corsOptions = {
-    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    origin: [
+        'http://localhost:3001',
+        'http://localhost:3000',
+        'https://storage.googleapis.com/deathshop-15e27.appspot.com',
+    ],
     credentials: true,
     optionSuccessStatus: 200,
 };

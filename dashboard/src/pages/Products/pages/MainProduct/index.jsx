@@ -60,7 +60,7 @@ function MainProduct() {
     const handleDeleteProduct = async (id) => {
         const res = await axios.post(`${deleteProduct}/${id}`);
 
-        if (res.deletedCount > 0) {
+        if (res?.data.isDelete) {
             setProducts((prev) => {
                 prev.filter((value) => value._id !== id);
             });
@@ -98,7 +98,7 @@ function MainProduct() {
                     options={optionSeries}
                 />
             </div>
-            {products.length > 0 ? (
+            {products?.length > 0 ? (
                 <div className={cx('list-product')}>
                     {products.map((product, index) => {
                         return (

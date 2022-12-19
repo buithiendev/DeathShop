@@ -66,7 +66,10 @@ const DropFileInput = (props) => {
                     <div className={cx('drop-file-preview')}>
                         <div className={cx('list-file')}>
                             {fileList.map((item, index) => {
-                                const url = URL.createObjectURL(item);
+                                let url = null;
+                                if(typeof item !== 'string') {
+                                    url = URL.createObjectURL(item);
+                                }
                                 return (
                                     <div
                                         key={uuidv4()}

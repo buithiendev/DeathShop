@@ -19,8 +19,6 @@ module.exports.add = async (req, res, next) => {
             colors,
         } = req.body;
 
-        const colorsArray = colors.length === 0 ? [] : colors.split(',');
-
         const id = `${name
             .toLowerCase()
             .replaceAll(' ', '-')}-${rams}-${memoryStorages}`;
@@ -61,7 +59,7 @@ module.exports.add = async (req, res, next) => {
             specifications: specifications,
             rams: rams,
             memorys: memoryStorages,
-            colors: colorsArray,
+            colors: JSON.parse(colors),
             createdAt: createdAt,
             linksImage: linksImage,
         });
@@ -170,10 +168,11 @@ module.exports.deleteProduct = async (req, res) => {
     try {
         const id = req.params.id;
         const isDelete = await Product.findOneAndUpdate(
-            { id: id },
+            { _id: id },
             {
                 isDelete: true,
             },
+            { new: true },
         );
         return res.send(isDelete);
     } catch {

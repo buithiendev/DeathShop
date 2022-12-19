@@ -4,6 +4,7 @@ import { FastField, Form, Formik } from 'formik';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '~/components/Button';
+import ColorField from '~/components/CustomField/ColorField';
 import DropFileInput from '~/components/CustomField/DropFileInput';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
@@ -108,7 +109,7 @@ function FormProduct({ initialValues, handleOnSubmit,validationSchema, isUpdate 
                             <FastField
                                 name="colors"
                                 mode="tags"
-                                component={SelectMultiField}
+                                component={ColorField}
                                 label="Colors"
                             />
                             <TabInput />

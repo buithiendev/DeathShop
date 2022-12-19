@@ -48,7 +48,7 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.getAllActive = async (req, res) => {
     try {
-        const categories = await Categories.find({status: true});
+        const categories = await Categories.find({ status: true });
         res.send(categories);
     } catch (ex) {
         return res.status(401).send({
@@ -120,9 +120,10 @@ module.exports.getById = async (req, res) => {
             'createdAt',
             'linksImage',
         ]);
+    
         res.send(category);
     } catch (ex) {
-        return res.status(401).send({
+        return res.status(404).send({
             status: 'failed',
         });
     }

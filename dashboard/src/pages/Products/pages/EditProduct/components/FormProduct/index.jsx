@@ -2,9 +2,12 @@ import 'antd/dist/antd.css';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import { BiXCircle } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
+import ColorField from '~/components/CustomField/ColorField';
 import DropFileInput from '~/components/CustomField/DropFileInput';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
@@ -20,6 +23,7 @@ const optionSeries = [];
 
 function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
     const categories = useSelector((state) => state.categories.categories);
+    const [load,setLoad] = useState(true);
     const [categoryId, setCategoryId] = useState();
     const series = useSelector((state) => state.series.series);
 
@@ -27,7 +31,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
         categories.map((category) => {
             optionCategory.push({ value: category._id, label: category.name });
         });
-        if(initialValues?.seriesId) {
+        if (initialValues?.seriesId) {
             series.map((seri) => {
                 if (seri.categoryId === initialValues.categoryId) {
                     optionSeries.push({
@@ -56,6 +60,16 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Please enter the product type name'),
     });
+
+    console.log(initialValues)
+
+    const imageRemove = (link, formikProps) => {
+        const newLinks = formikProps.initialValues.imagePreview.filter(
+            (_link) => _link !== link,
+        );
+        formikProps.initialValues.imagePreview = newLinks;
+        setLoad(!load)
+    };
 
     return (
         <>
@@ -96,6 +110,45 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                                 label="Image Preview"
                                 placeholder="Type here"
                             />
+                            {initialValues.imagePreview && (
+                                <>
+                                    <p className={cx('picture-title')}>
+                                        Old picture
+                                    </p>
+                                    <div className={cx('image-slide')}>
+                                        {initialValues.imagePreview.map(
+                                            (link, index) => {
+                                                return (
+                                                    <div
+                                                        key={uuidv4()}
+                                                        className={cx(
+                                                            'image-wrap',
+                                                        )}
+                                                    >
+                                                        <img
+                                                            src={link}
+                                                            alt=""
+                                                        />
+                                                        <span
+                                                            className={cx(
+                                                                'delete-image-btn',
+                                                            )}
+                                                            onClick={() =>
+                                                                imageRemove(
+                                                                    link,
+                                                                    formikProps,
+                                                                )
+                                                            }
+                                                        >
+                                                            <BiXCircle />
+                                                        </span>
+                                                    </div>
+                                                );
+                                            },
+                                        )}
+                                    </div>
+                                </>
+                            )}
                             <FastField
                                 name="sticker"
                                 component={InputField}
@@ -129,7 +182,7 @@ function FormProduct({ initialValues, handleOnSubmit, isUpdate }) {
                             <FastField
                                 name="colors"
                                 mode="tags"
-                                component={SelectMultiField}
+                                component={ColorField}
                                 label="Colors"
                             />
                             <TabInput />

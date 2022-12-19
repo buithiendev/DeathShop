@@ -39,7 +39,7 @@ function EditProduct() {
         sticker: (product && product.sticker) || '',
         promotionInfo: (product && product.promotionInfo) || '',
         specifications: (product && product.specifications) || '',
-        imagePreview: (product && product.imagePreview) || [],
+        imagePreview: (product && product.linksImage) || [],
         rams: (product && product.rams) || [],
         memoryStorages: (product && product.memorys) || [],
         colors: (product && product.colors) || [],

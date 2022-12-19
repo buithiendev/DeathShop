@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { BiXCircle } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
@@ -30,7 +30,9 @@ function EditCategory() {
     useEffect(() => {
         (async () => {
             const category = await axios.get(`${getCategoryById}/${params.id}`);
-            if (category) setCategoryCurrent(category.data);
+            if (category) {
+                setCategoryCurrent(category.data);
+            }
         })();
     }, []);
 
@@ -54,13 +56,15 @@ function EditCategory() {
         formData.append('id', id);
         formData.append('linksImage', JSON.stringify(linksImage));
         imageslide.map((image) => {
-            formData.append('testImage', image);
+            formData.append('Image', image);
         });
         dispatch(updateCategory(formData));
     };
 
     const imageRemove = (link) => {
-        const newLinks = categoryCurrent.linksImage.filter((_link) => _link !== link);
+        const newLinks = categoryCurrent.linksImage.filter(
+            (_link) => _link !== link,
+        );
         const newCategoryCurrent = { ...categoryCurrent, linksImage: newLinks };
         setCategoryCurrent(newCategoryCurrent);
     };
@@ -103,21 +107,49 @@ function EditCategory() {
                                             />
                                             {categoryCurrent.linksImage && (
                                                 <>
-                                                    <p className={cx('picture-title')}>Old picture</p>
-                                                    <div className={cx('image-slide')}>
-                                                        {categoryCurrent.linksImage.map((link, index) => {
-                                                            return (
-                                                                <div key={uuidv4()} className={cx('image-wrap')}>
-                                                                    <img src={link} alt="" />
-                                                                    <span
-                                                                        className={cx('delete-image-btn')}
-                                                                        onClick={() => imageRemove(link)}
+                                                    <p
+                                                        className={cx(
+                                                            'picture-title',
+                                                        )}
+                                                    >
+                                                        Old picture
+                                                    </p>
+                                                    <div
+                                                        className={cx(
+                                                            'image-slide',
+                                                        )}
+                                                    >
+                                                        {categoryCurrent.linksImage.map(
+                                                            (link, index) => {
+                                                                return (
+                                                                    <div
+                                                                        key={uuidv4()}
+                                                                        className={cx(
+                                                                            'image-wrap',
+                                                                        )}
                                                                     >
-                                                                        <BiXCircle />
-                                                                    </span>
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                        <img
+                                                                            src={
+                                                                                link
+                                                                            }
+                                                                            alt=""
+                                                                        />
+                                                                        <span
+                                                                            className={cx(
+                                                                                'delete-image-btn',
+                                                                            )}
+                                                                            onClick={() =>
+                                                                                imageRemove(
+                                                                                    link,
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <BiXCircle />
+                                                                        </span>
+                                                                    </div>
+                                                                );
+                                                            },
+                                                        )}
                                                     </div>
                                                 </>
                                             )}
@@ -126,7 +158,10 @@ function EditCategory() {
                                                 type="submit"
                                                 loader={false}
                                                 primary
-                                                style={{ margin: '10px auto', width: '50%' }}
+                                                style={{
+                                                    margin: '10px auto',
+                                                    width: '50%',
+                                                }}
                                             >
                                                 Update Category
                                             </Button>
@@ -137,7 +172,7 @@ function EditCategory() {
                         </Paper>
                     </div>
                 )}
-                <AddOrEditSeries/>
+                <AddOrEditSeries />
             </div>
         </Container>
     );

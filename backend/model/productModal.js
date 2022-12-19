@@ -40,7 +40,7 @@ const productSchema = new Schema({
     },
     rams: String,
     memorys: String,
-    colors: [String],
+    colors: [Object],
     linksImage: [String],
     description: {
         type: String,
