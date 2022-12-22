@@ -8,9 +8,17 @@ module.exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await Users.findOne({ email });
-        if (!user) return res.json({ msg: 'Incorrect email or password', status: false });
+        if (!user)
+            return res.json({
+                msg: 'Incorrect email or password',
+                status: false,
+            });
         const isPasswordValid = await brcypt.compare(password, user.password);
-        if (!isPasswordValid) return res.json({ msg: 'Incorrect email or password', status: false });
+        if (!isPasswordValid)
+            return res.json({
+                msg: 'Incorrect email or password',
+                status: false,
+            });
 
         delete user.password;
         if (!user.status) {
@@ -72,7 +80,7 @@ module.exports.authenticated = async (req, res, next) => {
             });
         }
 
-        const user = await Users.findOne({_id: payload.id}).lean();
+        const user = await Users.findOne({ _id: payload.id }).lean();
 
         if (!user) {
             return res.status(401).send({
@@ -101,7 +109,7 @@ module.exports.refresh = async (req, res) => {
 
         const dbToken = await Token.findOne({
             userId: payload.id,
-            expiredAt: { $gte: new Date()},
+            expiredAt: { $gte: new Date() },
         });
 
         if (!dbToken) {
@@ -139,7 +147,8 @@ module.exports.logout = async (req, res) => {
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { firstName, lastName, email, role, password, phone, status } = req.body;
+        const { firstName, lastName, email, role, password, phone, status } =
+            req.body;
         const emailCheck = await Users.findOne({ email });
         if (emailCheck) {
             return res.json({ msg: 'email already used', status: false });

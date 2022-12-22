@@ -1,6 +1,8 @@
+import { Button } from '@mui/material';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import CardProduct from '~/components/CardProduct';
 import {
@@ -21,9 +23,11 @@ function Shop() {
     const [series, setSeries] = useState();
     const [category, setCategory] = useState();
     const [products, setProducts] = useState();
+    const [showMore, setShowMore] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        setShowMore(false)
     }, [params]);
 
     useEffect(() => {
@@ -70,10 +74,15 @@ function Shop() {
     return (
         <div className={cx('container')}>
             <div className={cx('wrapper')}>
-                {category && <SlideCategory linksImage={category.linksImage} />}
                 <h2 className={cx('category-name')}>
                     {category && category.name}
                 </h2>
+                {category && (
+                    <SlideCategory
+                        linksImage={category.linksImage}
+                        className="slide-category"
+                    />
+                )}
                 <div className={cx('list-series')}>
                     <span
                         onClick={() => setSeriSelect('All')}
@@ -108,12 +117,23 @@ function Shop() {
                             );
                         })}
                 </div>
-                <p
-                    className={cx('description')}
-                    dangerouslySetInnerHTML={{
-                        __html: category ? category.description : '',
-                    }}
-                ></p>
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: '1rem' }}>
+                    <p
+                        className={cx('description', showMore ? 'show-more': '')}
+                        dangerouslySetInnerHTML={{
+                            __html: category ? category.description : '',
+                        }}
+                    ></p>
+                    {showMore ? (
+                        <Button onClick={() => setShowMore(false)}>
+                            Hide Away <BiChevronUp size={24} />
+                        </Button>
+                    ) : (
+                        <Button onClick={() => setShowMore(true)}>
+                            See More <BiChevronDown size={24} />
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );

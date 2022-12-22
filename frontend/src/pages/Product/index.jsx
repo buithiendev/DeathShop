@@ -1,10 +1,12 @@
-import { Button, Divider } from '@mui/material';
+import { Divider, Rating } from '@mui/material';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { BiChevronRight } from 'react-icons/bi';
 import { FaCartPlus } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getProductByIdName } from '~/utils/productsRoute';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Button from '~/components/Button';
+import { getProductByIdName, getProductByName } from '~/utils/productsRoute';
 import DetailsProduct from './components/DetailsProduct/index';
 import ImagePreview from './components/ImagePreview';
 import PromotionInfo from './components/PromotionInfo/index';
@@ -17,6 +19,7 @@ function Product() {
     const navigate = useNavigate();
     const params = useParams();
     const [product, setProduct] = useState();
+    const [similarProducts, setSimilarProducts] = useState([]);
 
     useEffect(() => {
         let unsubcribed = false;
@@ -34,34 +37,100 @@ function Product() {
         return () => {
             unsubcribed = true;
         };
-    }, []);
+    }, [params]);
+
+    useEffect(() => {
+        (async () => {
+            if (product) {
+                const response = await axios.get(
+                    `${getProductByName}/${product.name}/${product.id}`,
+                );
+
+                if (response?.data) setSimilarProducts(response.data);
+            }
+        })();
+    }, [product]);
+
+    const Path = (p) => {
+        return (
+            <div className={cx('path')}>
+                <Link to="/">Home</Link>
+                <Link to={`/${p.product?.categoryIdName}`}>
+                    <BiChevronRight />
+                    {p.product?.categoryIdName}
+                </Link>
+                <Link to={`/shop/${p.product?.categoryIdName}`}>
+                    <BiChevronRight />
+                    {p.product?.seriesIdName}
+                </Link>
+                <Link to={`/product/${p.product?.id}`}>
+                    {' '}
+                    <BiChevronRight /> {p.product?.id}
+                </Link>
+            </div>
+        );
+    };
 
     return (
         <div className={cx('container')}>
             {product && (
                 <div className={cx('wrapper')}>
+                    <Path product={product} />
                     <div className={cx('view-product')}>
                         <div className={cx('left')}>
                             <ImagePreview linksImage={product.linksImage} />
                         </div>
                         <div className={cx('right')}>
                             <h3 className={cx('product-name')}>
-                                {product.name}
+                                {product.name +
+                                    (product.rams ? ` - ${product.rams}` : '') +
+                                    (product.memorys
+                                        ? ` - ${product.memorys}`
+                                        : '')}
                             </h3>
+                            <div className={cx('rating')}>
+                                <Rating
+                                    size="large"
+                                    name="read-only"
+                                    value={5}
+                                    readOnly
+                                />
+                                <a href="#write-rating">Đánh giá</a>
+                            </div>
                             <Divider />
 
                             <Variants
                                 basicPrice={product.newPrice}
+                                similarProducts={similarProducts}
                                 rams={product.rams}
                                 memorys={product.memorys}
                                 colors={product.colors}
+                                id={product.id}
                             />
                             <div className={cx('buy-btns')}>
-                                <Button sx={{ width: 300 }} variant="contained">
+                                <Button
+                                    sx={{ width: 300 }}
+                                    primary
+                                    style={{
+                                        backgroundColor: '#3977CE',
+                                        color: 'white',
+                                        border: 'none',
+                                    }}
+                                >
                                     Mua Ngay
                                 </Button>
-                                <Button variant="outlined">
-                                    <FaCartPlus style={{ marginRight: 10 }} />{' '}
+                                <Button
+                                    outline
+                                    style={{
+                                        color: '#3977CE',
+                                        borderColor: '#3977CE',
+                                    }}
+                                >
+                                    <FaCartPlus
+                                        style={{
+                                            marginRight: 10,
+                                        }}
+                                    />{' '}
                                     Thêm vào giỏ hàng
                                 </Button>
                             </div>
@@ -75,6 +144,7 @@ function Product() {
                         specifications={product.specifications}
                         detailsProduct={product.detailsProduct}
                     />
+                    <div id="write-rating"></div>
                 </div>
             )}
         </div>

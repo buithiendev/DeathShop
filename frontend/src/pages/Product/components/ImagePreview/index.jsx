@@ -27,17 +27,21 @@ function ImagePreview({ linksImage }) {
     const [imagePreview, setImagePreview] = useState(
         linksImage.length > 0 ? linksImage[0] : null,
     );
+    const [active, setActive] = useState(0);
 
     const handleSelectImage = (index) => {
+        setActive(index);
         setImagePreview(linksImage[index]);
     };
 
     return (
-        <>
-            <img className={cx('image-prev')} alt="" src={imagePreview} />
+        <div className={cx('container')}>
+            <div className={cx('thumb-group')}>
+                <img className={cx('image-prev')} alt="" src={imagePreview} />
+            </div>
             <Swiper
-                slidesPerView={1}
-                spaceBetween={10}
+                slidesPerView={5}
+                spaceBetween={1}
                 pagination={{
                     clickable: true,
                 }}
@@ -63,10 +67,17 @@ function ImagePreview({ linksImage }) {
                         return (
                             <SwiperSlide
                                 key={index}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => handleSelectImage(index)}
                             >
                                 <img
                                     className={cx('img-item')}
+                                    style={{
+                                        border:
+                                            active === index
+                                                ? '2px solid #ccc'
+                                                : 'none',
+                                    }}
                                     alt=""
                                     src={link}
                                 />
@@ -74,7 +85,7 @@ function ImagePreview({ linksImage }) {
                         );
                     })}
             </Swiper>
-        </>
+        </div>
     );
 }
 

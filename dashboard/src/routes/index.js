@@ -1,3 +1,4 @@
+import Banner from '~/pages/Banner';
 import Categories from '~/pages/Categories';
 import Dashboard from '~/pages/Dashboard';
 import Orders from '~/pages/Orders';
@@ -41,5 +42,10 @@ export const routes = [
         path: '/users',
         title: 'Users',
         component: Users,
+    },
+    {
+        path: '/banner',
+        title: 'Set Banner',
+        component: Banner,
     },
 ];

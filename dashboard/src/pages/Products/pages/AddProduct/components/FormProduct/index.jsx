@@ -8,7 +8,6 @@ import ColorField from '~/components/CustomField/ColorField';
 import DropFileInput from '~/components/CustomField/DropFileInput';
 import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
-import SelectMultiField from '~/components/CustomField/SelectMultiField';
 import { optionsMemory, optionsRam } from '~/constants/optionProduct';
 import TabInput from '../TabInput';
 import styles from './FormProduct.module.scss';
@@ -18,7 +17,12 @@ const cx = classNames.bind(styles);
 const optionCategory = [];
 const optionSeries = [];
 
-function FormProduct({ initialValues, handleOnSubmit,validationSchema, isUpdate }) {
+function FormProduct({
+    initialValues,
+    handleOnSubmit,
+    validationSchema,
+    isUpdate,
+}) {
     const categories = useSelector((state) => state.categories.categories);
     const [categoryId, setCategoryId] = useState();
     const series = useSelector((state) => state.series.series);
@@ -31,7 +35,7 @@ function FormProduct({ initialValues, handleOnSubmit,validationSchema, isUpdate 
 
     useEffect(() => {
         if (categoryId) {
-            optionSeries.splice(0,optionSeries.length)
+            optionSeries.splice(0, optionSeries.length);
             series.map((seri) => {
                 if (seri.categoryId === categoryId.value) {
                     optionSeries.push({
@@ -42,6 +46,7 @@ function FormProduct({ initialValues, handleOnSubmit,validationSchema, isUpdate 
             });
         }
     }, [categoryId]);
+
 
     return (
         <>

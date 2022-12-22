@@ -9,6 +9,8 @@ const productRoute = require('./routes/productRoutes');
 const variantsProductRoute = require('./routes/variantsProductRoutes');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const bannerRoutes = require('./routes/bannerRoutes')
+const customerRoutes = require('./routes/customerRoutes')
 
 const uri =
     'mongodb+srv://buithiendev:yenanh123@deathshopcluster.20cpy1e.mongodb.net/?retryWrites=true&w=majority';
@@ -37,6 +39,8 @@ app.use('/api/series', seriesRoute);
 app.use('/api/images', imageRoute);
 app.use('/api/product', productRoute);
 app.use('/api/variant', variantsProductRoute);
+app.use('/api/banner', bannerRoutes);
+app.use('/api/customer', customerRoutes)
 
 // mongoose
 //     .connect(process.env.MONGO_URL, {

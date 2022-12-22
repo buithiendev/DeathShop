@@ -9,13 +9,13 @@ import '~/assets/style.css'
 
 const cx = classNames.bind(styles);
 
-function SlideCategory({linksImage}) {
+function SlideCategory({linksImage, className}) {
     return (
         <Swiper
             spaceBetween={30}
             centeredSlides={true}
             autoplay={{
-                delay: 4500,
+                delay: 3000,
                 disableOnInteraction: false,
             }}
             pagination={{
@@ -23,7 +23,7 @@ function SlideCategory({linksImage}) {
             }}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
-            className="swiper"
+            className={className}
         >
             {linksImage.map((link, index) => {
                 return (

@@ -47,7 +47,8 @@ export default function DetailsProduct({ description, detailsProduct,specificati
                 backgroundColor: 'white',
                 borderRadius: '6px',
                 padding: 4,
-                marginTop: 8,
+                border: '1px solid #ccc',
+                marginBottom: '12px'
             }}
         >
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

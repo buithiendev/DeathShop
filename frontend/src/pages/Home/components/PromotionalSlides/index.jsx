@@ -1,22 +1,31 @@
+import axios from 'axios';
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import img1 from '~/assets/images/mac1.jpg';
-import img2 from '~/assets/images/mac2.jpg';
-import img3 from '~/assets/images/ip1.jpg';
-import img4 from '~/assets/images/fullmac.jpg';
-
+import '~/assets/style.css';
+import { getAll } from '~/utils/bannerRoute';
 import styles from './TabSlide.module.scss';
 
 const cx = classNames.bind(styles);
 
 function PromotionalSlides() {
-    const slides = [img1, img3, img2, img2, img4, img2, img1];
+    const [imagesBanner, setImagesBanner] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const response = await axios.get(getAll);
+            if (response?.data) {
+                setImagesBanner(response?.data);
+            }
+        })();
+    }, []);
 
     return (
         <Swiper
+            slidesPerView={1}
             spaceBetween={30}
             centeredSlides={true}
             autoplay={{
@@ -30,10 +39,16 @@ function PromotionalSlides() {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
         >
-            {slides.map((slide, index) => {
+            {imagesBanner?.map((banner, index) => {
                 return (
                     <SwiperSlide key={index}>
-                        <img className={cx('img-slide')} src={slide} alt="" />
+                        <a href={banner.link}>
+                            <img
+                                className={cx('img-slide')}
+                                src={banner.linkImage}
+                                alt=""
+                            />
+                        </a>
                     </SwiperSlide>
                 );
             })}

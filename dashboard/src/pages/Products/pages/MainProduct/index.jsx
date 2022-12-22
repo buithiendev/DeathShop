@@ -8,6 +8,7 @@ import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
 import { deleteProduct, getBySeriesId } from '~/utils/ProductAPIRoutes';
+import ProductTable from './components/ProductTable';
 import styles from './MainProduct.module.scss';
 import ProductCard from './ProductCard';
 
@@ -52,20 +53,13 @@ function MainProduct() {
                     `${getBySeriesId}/${seriesSelect.value}`,
                 );
 
-                if (products.data) setProducts(products.data);
+                if (products.data) {
+                    setProducts(products.data);
+                } 
             })();
         }
     }, [seriesSelect]);
 
-    const handleDeleteProduct = async (id) => {
-        const res = await axios.post(`${deleteProduct}/${id}`);
-
-        if (res?.data.isDelete) {
-            setProducts((prev) => {
-                prev.filter((value) => value._id !== id);
-            });
-        }
-    };
 
     return (
         <Container
@@ -98,7 +92,7 @@ function MainProduct() {
                     options={optionSeries}
                 />
             </div>
-            {products?.length > 0 ? (
+            {/* {products?.length > 0 ? (
                 <div className={cx('list-product')}>
                     {products.map((product, index) => {
                         return (
@@ -119,7 +113,8 @@ function MainProduct() {
                     />
                     <h1>There are no products available</h1>
                 </div>
-            )}
+            )} */}
+            <ProductTable products={products}/>
         </Container>
     );
 }

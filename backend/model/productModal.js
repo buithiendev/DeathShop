@@ -8,8 +8,9 @@ const productSchema = new Schema({
         require: true,
     },
     categoryId: {
-        type: String,
+        type: Schema.Types.ObjectId,
         require: true,
+        ref: 'Categories'
     },
     sticker: {
         type: String,
@@ -19,7 +20,8 @@ const productSchema = new Schema({
         require: true,
     },
     seriesId: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Series'
     },
     seriesIdName: {
         type: String,

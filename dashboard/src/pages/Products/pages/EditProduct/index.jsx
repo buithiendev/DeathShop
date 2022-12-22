@@ -1,12 +1,13 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { BiNavigation, BiTrash } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
 import Paper from '~/components/Paper';
-import { getProductByIdName } from '~/utils/ProductAPIRoutes';
+import { deleteProduct, getProductByIdName, updateProduct } from '~/utils/ProductAPIRoutes';
 import FormProduct from './components/FormProduct';
 import styles from './EditProduct.module.scss';
 
@@ -34,8 +35,8 @@ function EditProduct() {
         name: (product && product.name) || '',
         description: (product && product.description) || '',
         details: (product && product.details) || '',
-        newPrice: (product && product.newPrice) || 0,
-        oldPrice: (product && product.oldPrice) || 0,
+        newPrice:  0,
+        oldPrice: (product && product.newPrice) || 0,
         sticker: (product && product.sticker) || '',
         promotionInfo: (product && product.promotionInfo) || '',
         specifications: (product && product.specifications) || '',
@@ -71,26 +72,51 @@ function EditProduct() {
         formData.append('details', details);
         formData.append('sticker', sticker);
         formData.append('newPrice', newPrice);
-        formData.append('oldPrice',oldPrice);
+        formData.append('oldPrice', oldPrice);
         formData.append('promotionInfo', promotionInfo);
         formData.append('specifications', specifications);
-        formData.append('imagePreview', imagePreview);
+        formData.append('imagePreview', JSON.stringify(imagePreview?.filter((link) => typeof link === 'string')));
         formData.append('rams', rams);
         formData.append('memoryStorages', memoryStorages);
-        formData.append('colors', colors);
+        formData.append('colors', JSON.stringify(colors));
         imagePreview.map((image) => {
-            formData.append('Image', image);
+            if(typeof image != 'string')
+                formData.append('Image', image);
         });
 
-        //fix
-        console.log(values)
+        const update = await axios.post(`${updateProduct}/${product._id}`,formData);
+    };
+
+    const handleDeleteProduct = async (id) => {
+        const res = await axios.post(`${deleteProduct}/${id}`);
+
+        if (res?.data.isDelete) {
+            navigate('/products');
+        }
     };
 
     return (
         <Container>
             <HeaderChild title="Edit Product">
-                <Button small outline to="/products/add">
-                    → Go to product
+                <Button
+                    outline
+                    small
+                    style={{ color: 'red', borderColor: 'red' }}
+                    leftIcon={<BiTrash />}
+                    onClick={() => {
+                        handleDeleteProduct(product._id);
+                    }}
+                >
+                    Delete This Product
+                </Button>
+
+                <Button
+                    small
+                    primary
+                    to="/products/add"
+                    leftIcon={<BiNavigation />}
+                >
+                    Go to product
                 </Button>
             </HeaderChild>
             <div className={cx('content')}>

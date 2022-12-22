@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { BiTrash } from 'react-icons/bi';
-import ip14 from '~/assets/images/iphone14.png';
+// import ip14 from '~/assets/images/iphone14.png';
 import styles from './TableCart.module.scss';
 import IconButton from '@mui/material/IconButton';
 
@@ -8,42 +8,42 @@ const cx = classNames.bind(styles);
 
 function TableCart() {
     const products = [
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
-        {
-            img: ip14,
-            title: 'IPhone 14 256GB',
-            price: '20.000.000VND',
-            quantity: 1,
-        },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
+        // {
+        //     img: ip14,
+        //     title: 'IPhone 14 256GB',
+        //     price: '20.000.000VND',
+        //     quantity: 1,
+        // },
     ];
 
     const handleDelete = (id) => {

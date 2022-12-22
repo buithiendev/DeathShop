@@ -12,6 +12,7 @@ module.exports.add = async (req, res, next) => {
             description,
             details,
             newPrice,
+            sticker,
             promotionInfo,
             specifications,
             rams,
@@ -19,14 +20,19 @@ module.exports.add = async (req, res, next) => {
             colors,
         } = req.body;
 
-        const id = `${name
-            .toLowerCase()
-            .replaceAll(' ', '-')}-${rams}-${memoryStorages}`;
+        let id = name.trim().toLowerCase().replaceAll(' ', '');
 
+        if (rams) {
+            id += `-${rams}`;
+        }
+        if (memoryStorages) {
+            id += `-${memoryStorages}`;
+        }
         const checkProduct = await Product.findOne({
             id: id,
             categoryId: categoryId,
             seriesId: seriesId,
+            isDelete: false,
         });
         if (checkProduct) {
             return res.status(400).send({
@@ -55,6 +61,7 @@ module.exports.add = async (req, res, next) => {
             description: description,
             detailsProduct: details,
             newPrice: newPrice,
+            sticker: sticker,
             promotionInfo: promotionInfo,
             specifications: specifications,
             rams: rams,
@@ -143,7 +150,10 @@ module.exports.getBySeriesId = async (req, res) => {
         const products = await Product.find({
             seriesId: id,
             isDelete: false,
-        });
+        })
+            .populate({ path: 'categoryId', select: 'name' })
+            .populate({ path: 'seriesId', select: 'name' })
+            .exec();
 
         return res.send(products);
     } catch {
@@ -178,6 +188,126 @@ module.exports.deleteProduct = async (req, res) => {
     } catch {
         return res.status(404).send({
             status: 'Delete failed',
+        });
+    }
+};
+
+module.exports.changeStatus = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const isChange = await Product.findOneAndUpdate(
+            {
+                _id: id,
+            },
+            {
+                status: req.body.newStatus,
+            },
+            { new: true },
+        );
+        return res.send(isChange);
+    } catch {
+        return res.status(404).send({
+            status: 'Delete failed',
+        });
+    }
+};
+
+module.exports.update = async (req, res) => {
+    try {
+        const idFind = req.params.id;
+        const {
+            id,
+            name,
+            categoryId,
+            seriesId,
+            description,
+            details,
+            sticker,
+            newPrice,
+            oldPrice,
+            promotionInfo,
+            specifications,
+            rams,
+            memoryStorages,
+        } = req.body;
+
+        const colors = JSON.parse(req.body?.colors);
+
+        let newId = name.trim().toLowerCase().replaceAll(' ', '');
+
+        if (rams) {
+            newId += `-${rams}`;
+        }
+        if (memoryStorages) {
+            newId += `-${memoryStorages}`;
+        }
+        const checkProduct = await Product.findOne({
+            id: id,
+            categoryId: categoryId,
+            seriesId: seriesId,
+            isDelete: false,
+        });
+        if (checkProduct && newId !== id) {
+            return res.status(400).send({
+                status: 'Product is already',
+            });
+        }
+        const imagePreview = JSON.parse(req.body?.imagePreview);
+        if (req.files) {
+            req.files.map((file, index) => {
+                if (file.filebaseUrl) imagePreview.push(file.filebaseUrl);
+            });
+        }
+
+        const category = await Categories.findById(categoryId);
+        const series = await Series.findById(seriesId);
+
+        const isUpdate = await Product.findByIdAndUpdate(
+            idFind,
+            {
+                id: newId,
+                categoryId: categoryId,
+                categoryIdName: category.id,
+                seriesId: seriesId,
+                seriesIdName: series.id,
+                name: name,
+                newPrice: newPrice,
+                oldPrice: oldPrice,
+                rams: rams,
+                memorys: memoryStorages,
+                colors: colors,
+                linksImage: imagePreview,
+                description: description,
+                promotionInfo: promotionInfo,
+                specifications: specifications,
+                detailsProduct: details,
+                sticker: sticker,
+            },
+            { new: true },
+        );
+
+        return res.send(isUpdate);
+    } catch {
+        return res.status(404).send({
+            status: 'Update failed',
+        });
+    }
+};
+
+module.exports.getByName = async (req, res) => {
+    try {
+        const {name, id} = req.params
+
+        const response = await Product.find({
+            id: { $ne: id},
+            name: name,
+            isDelete: false,
+            status: true,
+        });
+        return res.send(response);
+    } catch {
+        return res.status(404).send({
+            status: 'failed',
         });
     }
 };

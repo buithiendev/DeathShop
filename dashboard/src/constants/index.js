@@ -6,6 +6,7 @@ import {
     BiDollarCircle,
     BiGridAlt,
     BiGroup,
+    BiImages,
     BiUser,
 } from 'react-icons/bi';
 
@@ -17,5 +18,5 @@ export const sideBars = [
     { title: 'Add Products', path: '/products/add', icon: <BiAddToQueue /> },
     { title: 'Categories', path: '/categories', icon: <BiCategory /> },
     { title: 'Orders', path: '/orders', icon: <BiCartAlt /> },
-    { title: 'Sellers', path: '/sellers', icon: <BiDollarCircle /> },
+    { title: 'Banner', path: '/banner', icon: <BiImages /> },
 ];

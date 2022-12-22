@@ -1,5 +1,4 @@
 var admin = require('firebase-admin');
-
 var serviceAccount = require('../config/firebase-key.json');
 
 const BUCKET = 'deathshop-15e27.appspot.com';

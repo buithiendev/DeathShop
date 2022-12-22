@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 
 function CardProduct({ product }) {
     const navigate = useNavigate();
-    const { linksImage, name, newPrice, sticker } = product;
+    const { linksImage, name, newPrice, sticker, rams, memorys } = product;
 
     const convertToVND = (price) => {
         return price.toLocaleString('vi', {
@@ -27,7 +27,11 @@ function CardProduct({ product }) {
             {sticker && <div className={cx('stickers')}>{sticker}</div>}
             <img className={cx('thumb')} src={linksImage[0]} alt="" />
             <div className={cx('info')}>
-                <h4 className={cx('product-name')}>{name}</h4>
+                <h4 className={cx('product-name')}>
+                    {name +
+                        (rams ? `  ${rams}` : '') +
+                        (memorys ? `  ${memorys}` : '')}
+                </h4>
                 <div className={cx('price-group')}>
                     <p className={cx('price', 'new')}>
                         {convertToVND(newPrice)}
