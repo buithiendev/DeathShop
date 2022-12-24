@@ -8,11 +8,36 @@ import { getCategories } from '~/utils/categoriesRoute';
 import PromotionalSlides from './components/PromotionalSlides';
 import SomeProduct from '../../components/SomeProduct';
 import styles from './Home.module.scss';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { customer } from '~/utils/customerRoute';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { status } = useSelector((state) => state.currentUser);
+
     const [categories, setCategories] = useState();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                if (!status) {
+                    const { data } = await axios.get(customer);
+
+                    console.log(data)
+
+                    if (data) {
+                        dispatch(setInfoCurrentUser(data));
+                    }
+                }
+            } catch (ex) {}
+        })();
+    }, []);
+
 
     useEffect(() => {
         let unsubcribed = false;

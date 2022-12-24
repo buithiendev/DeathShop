@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'http://localhost:5000/api'
 
 let refresh = false;
 
@@ -10,10 +10,18 @@ axios.interceptors.response.use(
         if (error.response.status === 401 && !refresh) {
             refresh = true;
 
-            const response = await axios.post('/auth/refresh', {}, { withCredentials: true });
+            const response = await axios.post(
+                '/customer/refresh',
+                {},
+                { withCredentials: true },
+            );
 
+
+            console.log(response.data)
             if (response.status === 200) {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['token']}`;
+                axios.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${response.data['token']}`;
 
                 return axios(error.config);
             }

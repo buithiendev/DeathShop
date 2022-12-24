@@ -1,6 +1,6 @@
-import { Button } from '@mui/material';
 import classNames from 'classnames/bind';
 import styles from './SubTotal.module.scss';
+import Button from '~/components/Button';
 const cx = classNames.bind(styles);
 
 function SubTotal() {
@@ -11,8 +11,8 @@ function SubTotal() {
                 <p>$1912</p>
             </div>
             <p className={cx('description')}>Taxes and shipping will calculator in checkout</p>
-            <Button variant='contained' size='large' fullWidth color='primary'>Shop continue</Button>
-            <Button variant='contained' size='large' fullWidth color='primary'>Check out</Button>
+            <Button primary color='primary'>Shop continue</Button>
+            <Button style={{margin: 0}} primary color='primary'>Check out</Button>
         </div>
     );
 }

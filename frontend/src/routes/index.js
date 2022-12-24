@@ -5,6 +5,7 @@ import InstallmentPolicy from '~/pages/InstallmentPolicy';
 import Insurance from '~/pages/Insurance';
 import Introduce from '~/pages/Introduce';
 import Login from '~/pages/Login';
+import MyProfile from '~/pages/MyProfile';
 import NotFound from '~/pages/NotFound';
 import Payment from '~/pages/Payment';
 import Product from '~/pages/Product';
@@ -106,5 +107,9 @@ export const routes = [
         name: 'Login',
         component: Login,
     },
-
+    {
+        path: '/my-profile',
+        name: 'My Profile',
+        component: MyProfile,
+    },
 ];

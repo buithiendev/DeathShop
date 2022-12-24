@@ -13,8 +13,7 @@ const customerSchema = new Schema({
         default: 'Male',
     },
     dateOfBirth: {
-        type: String,
-        default: '',
+        type: Object,
     },
     email: {
         type: String,
@@ -31,6 +30,10 @@ const customerSchema = new Schema({
                 default: '',
             },
             phone: {
+                type: String,
+                default: '',
+            },
+            email: {
                 type: String,
                 default: '',
             },

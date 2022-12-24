@@ -2,12 +2,15 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
 import imgLogin from '~/assets/images/login.jpg';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
+import { customer, login } from '~/utils/customerRoute';
 import styles from './Login.module.scss';
 
 const cx = classNames.bind(styles);
@@ -22,12 +25,18 @@ Login.defaultProps = {
 
 function Login(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const initialValues = {
         email: '',
         password: '',
-        onSubmit: null,
     };
+
+    useEffect(() => {
+        const { status } = JSON.parse(localStorage.getItem('infoUser'));
+
+        if (status) navigate('/');
+    }, []);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email().required('Please enter your email'),
@@ -35,7 +44,31 @@ function Login(props) {
     });
 
     const handleOnSubmit = async (values) => {
-        
+        const { email, password } = values;
+        try {
+            const { data } = await axios.post(
+                login,
+                {
+                    email,
+                    password,
+                },
+                { withCredentials: true },
+            );
+            axios.defaults.headers.common[
+                'Authorization'
+            ] = `Bearer ${data['token']}`;
+
+            if (data.token) {
+                const { data } = await axios.get(customer);
+
+                console.log(data);
+
+                if (data) {
+                    dispatch(setInfoCurrentUser(data));
+                }
+                navigate('/');
+            }
+        } catch (ex) {}
     };
 
     return (

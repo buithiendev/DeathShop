@@ -7,6 +7,7 @@ import { BiCartAlt, BiSearchAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { getCategoriesActive } from '~/utils/categoriesRoute';
 import styles from './Header.module.scss';
+import UserOptions from './UserOptions';
 
 const cx = classNames.bind(styles);
 
@@ -84,6 +85,7 @@ function Header() {
                             </Badge>
                         </IconButton>
                     </Link>
+                    <UserOptions/>
                 </div>
             </div>
         </header>

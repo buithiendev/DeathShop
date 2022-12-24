@@ -2,7 +2,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import registerImg from '~/assets/images/Mobile-login.jpg';
@@ -11,7 +11,7 @@ import InputField from '~/components/CustomField/InputField';
 import SelectField from '~/components/CustomField/SelectField';
 import { dateOption, genderOption, monthOption, yearOption } from '~/constants';
 import { create } from '~/utils/customerRoute';
-import styles from './Login.module.scss';
+import styles from './Register.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -27,20 +27,31 @@ function Register(props) {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
 
+    useEffect(() => {
+        const { status } = JSON.parse(localStorage.getItem('infoUser'));
+
+        if (status) navigate('/');
+    }, []);
+
     const initialValues = {
         fullName: '',
         gender: 'Male',
-        date: '',
-        month: '',
-        year: '',
+        date: 1,
+        month: 1,
+        year: 2001,
         email: '',
         password: '',
+        confirmPassword: ''
     };
 
     const validationSchema = Yup.object().shape({
         fullName: Yup.string().required('Please enter a full name'),
         email: Yup.string().email().required('Please enter your email'),
         password: Yup.string().required('Please enter a password'),
+        confirmPassword: Yup.string().oneOf(
+            [Yup.ref('newPassword'), null],
+            'Passwords must match',
+        ).required('Please enter a new password'),
     });
 
     const handleOnSubmit = async (values) => {
@@ -133,12 +144,21 @@ function Register(props) {
                                             type="password"
                                             label="Password"
                                             component={InputField}
-                                            placeholder="Password"
+                                        />
+                                        <FastField
+                                            name="confirmPassword"
+                                            type="password"
+                                            label="Confirm Password"
+                                            component={InputField}
                                         />
                                         <Button primary type="submit">
                                             Register
                                         </Button>
-                                        {message && <span className={cx('message')}>{message}</span>}
+                                        {message && (
+                                            <span className={cx('message')}>
+                                                {message}
+                                            </span>
+                                        )}
                                     </Form>
                                 );
                             }}
