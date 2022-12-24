@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import registerImg from '~/assets/images/Mobile-login.jpg';
@@ -26,12 +27,9 @@ Register.defaultProps = {
 function Register(props) {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
+    const { status, info } = useSelector((state) => state.currentUser);
 
-    useEffect(() => {
-        const { status } = JSON.parse(localStorage.getItem('infoUser'));
-
-        if (status) navigate('/');
-    }, []);
+    if(status) navigate('/')
 
     const initialValues = {
         fullName: '',

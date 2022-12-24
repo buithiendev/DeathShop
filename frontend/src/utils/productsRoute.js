@@ -6,3 +6,4 @@ export const getProductByCateIdName = `${host}/product/getByCateIdName`;
 export const getProductById = `${host}/product/get`;
 export const getProductBySeriesId = `${host}/product/getBySeriesId`;
 export const getProductByName = `${host}/product/getByName`;
+export const getProductWithColor = `${host}/product/getProductWithColor`;

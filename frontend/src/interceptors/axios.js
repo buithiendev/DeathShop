@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = 'http://localhost:5000/api';
 
 let refresh = false;
 
@@ -16,8 +16,6 @@ axios.interceptors.response.use(
                 { withCredentials: true },
             );
 
-
-            console.log(response.data)
             if (response.status === 200) {
                 axios.defaults.headers.common[
                     'Authorization'
@@ -25,6 +23,8 @@ axios.interceptors.response.use(
 
                 return axios(error.config);
             }
+
+            
         }
         refresh = false;
         return error;

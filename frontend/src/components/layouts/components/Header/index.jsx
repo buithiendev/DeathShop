@@ -62,7 +62,7 @@ function Header() {
                     >
                         <BiSearchAlt color="white" size={20} />
                     </IconButton>
-                    <Link to="/cart">
+                    <Link to="/customer/cart">
                         <IconButton
                             sx={{
                                 '&:hover': {
@@ -85,7 +85,7 @@ function Header() {
                             </Badge>
                         </IconButton>
                     </Link>
-                    <UserOptions/>
+                    <UserOptions />
                 </div>
             </div>
         </header>

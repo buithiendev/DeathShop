@@ -43,6 +43,15 @@ const customerSchema = new Schema({
             },
         },
     ],
+    cart: [
+        {
+            colorSelect: String,
+            productSelected: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product',
+            },
+        },
+    ],
 });
 
 module.exports = mongoose.model('Customer', customerSchema);

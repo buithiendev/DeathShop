@@ -7,3 +7,4 @@ export const changeInfo = `${host}/customer/changeInfo`;
 export const addAddress = `${host}/customer/addAddress`;
 export const logout = `${host}/customer/logout`;
 export const customer = `${host}/customer/get`
+export const addToCart = `${host}/customer/addToCart`

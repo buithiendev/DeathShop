@@ -1,11 +1,9 @@
-import CartPage from '~/pages/Cart';
 import CheckImei from '~/pages/Checkimei';
 import Home from '~/pages/Home';
 import InstallmentPolicy from '~/pages/InstallmentPolicy';
 import Insurance from '~/pages/Insurance';
 import Introduce from '~/pages/Introduce';
 import Login from '~/pages/Login';
-import MyProfile from '~/pages/MyProfile';
 import NotFound from '~/pages/NotFound';
 import Payment from '~/pages/Payment';
 import Product from '~/pages/Product';
@@ -13,6 +11,7 @@ import Register from '~/pages/Register';
 import ShipCodPolicy from '~/pages/ShipCodPolicy';
 import Shop from '~/pages/Shop';
 import WarrantyPolicy from '~/pages/WarrantyPolicy';
+import Customer from './../pages/Customer/index';
 import Survey from './../pages/Survey/index';
 
 export const routes = [
@@ -93,11 +92,6 @@ export const routes = [
         component: ShipCodPolicy,
     },
     {
-        path: '/cart',
-        name: 'Cart',
-        component: CartPage,
-    },
-    {
         path: '/register',
         name: 'Register',
         component: Register,
@@ -108,8 +102,8 @@ export const routes = [
         component: Login,
     },
     {
-        path: '/my-profile',
-        name: 'My Profile',
-        component: MyProfile,
+        path: '/customer/',
+        name: 'Customer',
+        component: Customer,
     },
 ];

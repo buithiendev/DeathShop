@@ -20,17 +20,19 @@ function Product() {
     const params = useParams();
     const [product, setProduct] = useState();
     const [similarProducts, setSimilarProducts] = useState([]);
+    const [colorSelected, setColorSelected] = useState('');
 
     useEffect(() => {
         let unsubcribed = false;
 
         (async () => {
-            const resProduct = await axios.get(
+            const response = await axios.get(
                 `${getProductByIdName}/${params.id}`,
             );
-            if (!resProduct.data) navigate('/not-found');
-            if (resProduct.data && !unsubcribed) {
-                setProduct(resProduct.data);
+            if (!response.data) navigate('/not-found');
+            if (response.data && !unsubcribed) {
+                setProduct(response.data);
+                setColorSelected(response.data.colors[0]);
             }
         })();
 
@@ -50,6 +52,16 @@ function Product() {
             }
         })();
     }, [product]);
+
+    const chooseColor = (color) => {
+        setColorSelected(color);
+    };
+
+    const handleBuyProduct = (productSelected, colorSelected) => {
+        const listCart = JSON.parse(localStorage.getItem('carts')) || [];
+        listCart.push({ product: productSelected._id, colorSelected });
+        localStorage.setItem('carts', JSON.stringify(listCart));
+    };
 
     const Path = (p) => {
         return (
@@ -106,6 +118,7 @@ function Product() {
                                 memorys={product.memorys}
                                 colors={product.colors}
                                 id={product.id}
+                                chooseColor={chooseColor}
                             />
                             <div className={cx('buy-btns')}>
                                 <Button
@@ -115,6 +128,12 @@ function Product() {
                                         backgroundColor: '#3977CE',
                                         color: 'white',
                                         border: 'none',
+                                    }}
+                                    onClick={() => {
+                                        handleBuyProduct(
+                                            product,
+                                            colorSelected,
+                                        );
                                     }}
                                 >
                                     Mua Ngay

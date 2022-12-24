@@ -3,6 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { BiEdit, BiLocationPlus, BiTrash } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
@@ -173,14 +174,14 @@ const FormAddAddress = ({ customer }) => {
 };
 
 const FormAddress = () => {
-    const { customer } = JSON.parse(localStorage.getItem('infoUser'));
+    const { status, info } = useSelector((state) => state.currentUser);
 
     return (
         <div className={cx('form-address-container')}>
-            {customer?.deliveryInformation?.map((d, index) => {
-                return <AddressItem deliInfo={d} />;
+            {info?.deliveryInformation?.map((d, index) => {
+                return <AddressItem key={index} deliInfo={d} />;
             })}
-            <FormAddAddress customer={customer} />
+            <FormAddAddress customer={info} />
         </div>
     );
 };

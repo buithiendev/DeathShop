@@ -91,8 +91,8 @@ function ProductTable({ products }) {
         const thumb = (
             <img
                 style={{
-                    width: '50px',
                     height: '80px',
+                    maxWidth: '80px',
                     objectFit: 'cover',
                     borderRadius: '6px',
                 }}

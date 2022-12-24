@@ -2,15 +2,16 @@ import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { BiLogIn, BiLogOut, BiUser, BiUserCircle } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { clearCurrentUser } from '~/app/currentUserSlice';
 import cr from '~/assets/images/cr.jpg';
 import { logout } from '~/utils/customerRoute';
 
 function UserOptions({ avatar }) {
+    const dispatch = useDispatch();
+    const { status, info } = useSelector((state) => state.currentUser);
     const navigate = useNavigate();
-    const { status, customer } = JSON.parse(
-        localStorage.getItem('infoUser'),
-    ) || { status: false, customer: null };
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -27,7 +28,10 @@ function UserOptions({ avatar }) {
             {},
             { withCredentials: true },
         );
-        if (data.status) navigate('/login');
+        if (data.status) {
+            dispatch(clearCurrentUser());
+            navigate('/login');
+        }
     };
 
     return (
@@ -99,7 +103,7 @@ function UserOptions({ avatar }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                {!false ? (
+                {status ? (
                     <div>
                         <div
                             style={{
@@ -115,11 +119,11 @@ function UserOptions({ avatar }) {
                                 src={cr}
                             ></Avatar>
                             <h4 style={{ margin: 'auto 0' }}>
-                                {/* {customer.fullName} */}
+                                {info?.fullName}
                             </h4>
                         </div>
                         <Divider />
-                        <Link to="/my-profile">
+                        <Link to="/customer/my-profile">
                             <MenuItem>
                                 <BiUserCircle /> My Profile
                             </MenuItem>

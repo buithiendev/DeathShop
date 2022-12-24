@@ -1,6 +1,7 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
@@ -13,14 +14,14 @@ import styles from '../MyProfile.module.scss';
 const cx = classNames.bind(styles);
 
 const FormInfo = () => {
-    const { customer } = JSON.parse(localStorage.getItem('infoUser'));
+    const { status, info } = useSelector((state) => state.currentUser);
     const initialValues = {
-        fullName: customer.fullName || '',
-        email: customer.email || '',
-        gender: customer.gender || 'Male',
-        date: customer.dateOfBirth.date || 1,
-        month: customer.dateOfBirth.month || 1,
-        year: customer.dateOfBirth.year || 2001,
+        fullName: info?.fullName || '',
+        email: info?.email || '',
+        gender: info?.gender || 'Male',
+        date: info?.dateOfBirth?.date || 1,
+        month: info?.dateOfBirth?.month || 1,
+        year: info?.dateOfBirth?.year || 2001,
     };
 
     const validationSchema = Yup.object().shape({
@@ -30,7 +31,7 @@ const FormInfo = () => {
     const handleOnSubmit = async (values) => {
         const myPromise = new Promise((resolve, reject) => {
             axios
-                .post(`${changeInfo}/${customer?.email}`, values)
+                .post(`${changeInfo}/${info?.email}`, values)
                 .then((res) => {
                     setTimeout(() => {
                         localStorage.setItem(

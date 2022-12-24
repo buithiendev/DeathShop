@@ -10,6 +10,7 @@ const {
     changeStatus,
     update,
     getByName,
+    getProductWithColor,
 } = require('../controllers/productController');
 
 const router = require('express').Router();
@@ -30,7 +31,7 @@ router.get('/getBySeriesId/:id', getBySeriesId);
 router.get('/getAll', getAll);
 router.post('/delete/:id', deleteProduct);
 router.post('/changeStatus/:id', changeStatus);
-router.post('/update/:id',upload, uploadImage, update);
-router.get('/getByName/:name/:id',getByName)
-
+router.post('/update/:id', upload, uploadImage, update);
+router.get('/getByName/:name/:id', getByName);
+router.post('/getProductWithColor/:id', getProductWithColor);
 module.exports = router;

@@ -6,19 +6,15 @@ const { MoreThanOrEqual } = require('typeorm');
 
 module.exports.authenticated = async (req, res, next) => {
     try {
-        console.log("Auth",req.header('Authorization'))
         const accessToken = req.header('Authorization')?.split(' ')[1] || '';
 
         const payload = verify(accessToken, 'access_secret');
-
-        console.log(payload);
 
         if (!payload) {
             return res.status(401).send({
                 status: 'unauthenticated',
             });
         }
-
         const customer = await Customer.findOne({ _id: payload.id }).lean();
 
         if (!customer) {
@@ -65,7 +61,6 @@ module.exports.refresh = async (req, res) => {
             { expiresIn: '30s' },
         );
         res.send({ token });
-
     } catch (ex) {
         return res.status(401).send({
             status: 'unauthenticated',
@@ -245,6 +240,31 @@ module.exports.addAddress = async (req, res, next) => {
             },
             { new: true },
         );
+        return res.json({ status: true, customer });
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.addToCart = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const { productSelected, colorSelected } = req.body;
+
+        const customer = await Customer.findByIdAndUpdate(
+            id,
+            {
+                $push: {
+                    cart: {
+                        productSelected: productSelected._id,
+                        colorSelect: colorSelected,
+                    },
+                },
+            },
+            { new: true },
+        );
+
+        
         return res.json({ status: true, customer });
     } catch (ex) {
         next(ex);

@@ -21,6 +21,8 @@ axios.interceptors.response.use(
                     'Authorization'
                 ] = `Bearer ${response.data['token']}`;
 
+                
+
                 return axios(error.config);
             }
         }

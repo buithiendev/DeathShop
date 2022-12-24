@@ -9,6 +9,7 @@ import OrderHistory from './components/OrderHistory';
 import styles from './MyProfile.module.scss';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -19,14 +20,7 @@ const MyProfile = () => {
         { icon: <BiFoodMenu size={20} />, name: 'Order history' },
         { icon: <BiLock size={20} />, name: 'Change password' },
     ];
-    const navigate = useNavigate();
     const [selectNavigate, setSelectNavigate] = useState('Account information');
-
-    useEffect(() => {
-        const { status } = JSON.parse(localStorage.getItem('infoUser'));
-
-        if (!status) navigate('/login');
-    }, []);
 
     const NavItem = ({ nav }) => {
         return (

@@ -25,6 +25,7 @@ function Variants({
     colors,
     basicPrice,
     similarProducts = [],
+    chooseColor
 }) {
     const [colorSelect, setColorSelect] = useState(
         colors.length > 0 && colors[0],
@@ -140,6 +141,7 @@ function Variants({
                                     }}
                                     onClick={() => {
                                         handleSelectColor(index);
+                                        chooseColor(color)
                                     }}
                                 >
                                     {color.nameColor}

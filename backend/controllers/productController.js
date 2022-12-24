@@ -296,15 +296,54 @@ module.exports.update = async (req, res) => {
 
 module.exports.getByName = async (req, res) => {
     try {
-        const {name, id} = req.params
+        const { name, id } = req.params;
 
         const response = await Product.find({
-            id: { $ne: id},
+            id: { $ne: id },
             name: name,
             isDelete: false,
             status: true,
         });
         return res.send(response);
+    } catch {
+        return res.status(404).send({
+            status: 'failed',
+        });
+    }
+};
+
+module.exports.getProductWithColor = async (req, res) => {
+    try {
+        const idFind = req.params.id;
+        const {
+            _id,
+            id,
+            categoryId,
+            seriesId,
+            name,
+            newPrice,
+            rams,
+            memorys,
+            linksImage,
+            colors,
+        } = await Product.findById(idFind);
+        const { color } = req.body;
+
+        const colorSelect =
+            colors.find((c) => c.nameColor === color.nameColor) || '';
+
+        return res.send({
+            _id,
+            id,
+            categoryId,
+            seriesId,
+            name,
+            newPrice,
+            rams,
+            memorys,
+            linksImage,
+            colorSelect,
+        });
     } catch {
         return res.status(404).send({
             status: 'failed',

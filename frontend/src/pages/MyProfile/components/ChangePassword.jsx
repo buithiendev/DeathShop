@@ -1,6 +1,7 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
@@ -11,7 +12,7 @@ import { changePassword } from './../../../utils/customerRoute';
 const cx = classNames.bind(styles);
 
 const ChangePassword = () => {
-    const { customer } = JSON.parse(localStorage.getItem('infoUser'));
+    const { status, info } = useSelector((state) => state.currentUser);
     const initialValues = {
         oldPassword: '',
         newPassword: '',
@@ -29,7 +30,7 @@ const ChangePassword = () => {
     const handleOnSubmit = (values, { resetForm }) => {
         const myPromise = async () => {
             const { data } = await axios.post(
-                `${changePassword}/${customer?.email}`,
+                `${changePassword}/${info?.email}`,
                 values,
             );
 

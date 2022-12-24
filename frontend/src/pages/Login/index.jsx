@@ -2,7 +2,6 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -32,12 +31,6 @@ function Login(props) {
         password: '',
     };
 
-    useEffect(() => {
-        const { status } = JSON.parse(localStorage.getItem('infoUser'));
-
-        if (status) navigate('/');
-    }, []);
-
     const validationSchema = Yup.object().shape({
         email: Yup.string().email().required('Please enter your email'),
         password: Yup.string().required('Please enter a password'),
@@ -59,14 +52,11 @@ function Login(props) {
             ] = `Bearer ${data['token']}`;
 
             if (data.token) {
-                const { data } = await axios.get(customer);
-
-                console.log(data);
-
-                if (data) {
-                    dispatch(setInfoCurrentUser(data));
+                const response = await axios.get(customer);
+                if (response?.data) {
+                    dispatch(setInfoCurrentUser(response.data));
                 }
-                navigate('/');
+                navigate('/customer/my-profile');
             }
         } catch (ex) {}
     };
