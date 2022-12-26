@@ -25,22 +25,8 @@ const customerSchema = new Schema({
     },
     deliveryInformation: [
         {
-            name: {
-                type: String,
-                default: '',
-            },
-            phone: {
-                type: String,
-                default: '',
-            },
-            email: {
-                type: String,
-                default: '',
-            },
-            address: {
-                type: String,
-                default: '',
-            },
+            type: Schema.Types.ObjectId,
+            ref: 'DeliveryInformation',
         },
     ],
     cart: [
@@ -52,6 +38,12 @@ const customerSchema = new Schema({
             },
         },
     ],
+    invoice: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Order',
+        },
+    ]
 });
 
 module.exports = mongoose.model('Customer', customerSchema);

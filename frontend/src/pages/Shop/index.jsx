@@ -125,11 +125,11 @@ function Shop() {
                         }}
                     ></p>
                     {showMore ? (
-                        <Button onClick={() => setShowMore(false)}>
+                        <Button style={{color: 'var(--secondary-color)'}} onClick={() => setShowMore(false)}>
                             Hide Away <BiChevronUp size={24} />
                         </Button>
                     ) : (
-                        <Button onClick={() => setShowMore(true)}>
+                        <Button style={{color: 'var(--secondary-color)'}} onClick={() => setShowMore(true)}>
                             See More <BiChevronDown size={24} />
                         </Button>
                     )}

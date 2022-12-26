@@ -57,6 +57,10 @@
     scale: 1;
 }
 
+.col a:hover {
+    color: white;
+}
+
 .intro-company {
     max-width: 300px;
     color: white;
@@ -106,5 +110,9 @@
 
     p {
         color: var(--text-color);
+    }
+
+    &:hover p {
+        color: white;
     }
 }

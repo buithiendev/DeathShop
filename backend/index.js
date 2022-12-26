@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const bannerRoutes = require('./routes/bannerRoutes')
 const customerRoutes = require('./routes/customerRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 
 const uri =
     'mongodb+srv://buithiendev:yenanh123@deathshopcluster.20cpy1e.mongodb.net/?retryWrites=true&w=majority';
@@ -41,7 +42,7 @@ app.use('/api/product', productRoute);
 app.use('/api/variant', variantsProductRoute);
 app.use('/api/banner', bannerRoutes);
 app.use('/api/customer', customerRoutes)
-
+app.use('/api/order',orderRoutes)
 // mongoose
 //     .connect(process.env.MONGO_URL, {
 //         useNewUrlParser: true,

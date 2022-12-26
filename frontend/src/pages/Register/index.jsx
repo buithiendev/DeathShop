@@ -47,7 +47,7 @@ function Register(props) {
         email: Yup.string().email().required('Please enter your email'),
         password: Yup.string().required('Please enter a password'),
         confirmPassword: Yup.string().oneOf(
-            [Yup.ref('newPassword'), null],
+            [Yup.ref('password'), null],
             'Passwords must match',
         ).required('Please enter a new password'),
     });

@@ -1,13 +1,12 @@
 import CheckImei from '~/pages/Checkimei';
+import CompletePayment from '~/pages/CompletePayment';
 import Home from '~/pages/Home';
 import InstallmentPolicy from '~/pages/InstallmentPolicy';
 import Insurance from '~/pages/Insurance';
 import Introduce from '~/pages/Introduce';
-import Login from '~/pages/Login';
 import NotFound from '~/pages/NotFound';
 import Payment from '~/pages/Payment';
 import Product from '~/pages/Product';
-import Register from '~/pages/Register';
 import ShipCodPolicy from '~/pages/ShipCodPolicy';
 import Shop from '~/pages/Shop';
 import WarrantyPolicy from '~/pages/WarrantyPolicy';
@@ -92,18 +91,13 @@ export const routes = [
         component: ShipCodPolicy,
     },
     {
-        path: '/register',
-        name: 'Register',
-        component: Register,
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-    },
-    {
         path: '/customer/',
         name: 'Customer',
         component: Customer,
+    },
+    {
+        path: '/shoppingcart/completed/:id',
+        name: 'Form Payment',
+        component: CompletePayment,
     },
 ];

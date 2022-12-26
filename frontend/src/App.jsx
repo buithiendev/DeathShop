@@ -1,35 +1,16 @@
-import axios from 'axios';
-import { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { routes } from '~/routes';
-import DefaultLayout from './components/layouts/DefaultLayout';
+import Login from '~/pages/Login';
+import Register from '~/pages/Register';
+import Page from './pages/index';
 
 function App() {
     return (
         <Router>
             <div className="App">
                 <Routes>
-                    {routes.map((route, index) => {
-                        const Page = route.component;
-                        let Layout = DefaultLayout;
-                        if (route.layout) {
-                            Layout = route.layout;
-                        } else if (route.layout === null) {
-                            Layout = Fragment;
-                        }
-
-                        return (
-                            <Route
-                                key={index}
-                                path={`${route.path}/*`}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/*" element={<Page />} />
                 </Routes>
             </div>
         </Router>

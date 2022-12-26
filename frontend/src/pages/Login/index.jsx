@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { setInfoCurrentUser } from '~/app/currentUserSlice';
 import imgLogin from '~/assets/images/login.jpg';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
-import { customer, login } from '~/utils/customerRoute';
+import { login } from '~/utils/customerRoute';
 import styles from './Login.module.scss';
 
 const cx = classNames.bind(styles);
@@ -52,11 +51,7 @@ function Login(props) {
             ] = `Bearer ${data['token']}`;
 
             if (data.token) {
-                const response = await axios.get(customer);
-                if (response?.data) {
-                    dispatch(setInfoCurrentUser(response.data));
-                }
-                navigate('/customer/my-profile');
+                navigate('/');
             }
         } catch (ex) {}
     };

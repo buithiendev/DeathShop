@@ -11,7 +11,7 @@ export const theme = createTheme({
         allVariants: {
           fontFamily: 'Poppins, sans-serif',
           textTransform: 'none',
-          fontSize: 18,
+          fontSize: 14,
           fontWeight: 400,
         },
       },

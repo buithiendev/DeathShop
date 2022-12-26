@@ -61,6 +61,13 @@ function Product() {
         const listCart = JSON.parse(localStorage.getItem('carts')) || [];
         listCart.push({ product: productSelected._id, colorSelected });
         localStorage.setItem('carts', JSON.stringify(listCart));
+        navigate('/customer/cart');
+    };
+
+    const handleAddProductToCart = (productSelected, colorSelected) => {
+        const listCart = JSON.parse(localStorage.getItem('carts')) || [];
+        listCart.push({ product: productSelected._id, colorSelected });
+        localStorage.setItem('carts', JSON.stringify(listCart));
     };
 
     const Path = (p) => {
@@ -143,6 +150,12 @@ function Product() {
                                     style={{
                                         color: '#3977CE',
                                         borderColor: '#3977CE',
+                                    }}
+                                    onClick={() => {
+                                        handleAddProductToCart(
+                                            product,
+                                            colorSelected,
+                                        );
                                     }}
                                 >
                                     <FaCartPlus

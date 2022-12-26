@@ -1,4 +1,5 @@
 const Customer = require('../model/customerModal');
+const DeliveryInformation = require('../model/deliveryInformationModal');
 const brcypt = require('bcrypt');
 const Token = require('../model/tokenModal');
 const { sign, verify } = require('jsonwebtoken');
@@ -15,7 +16,9 @@ module.exports.authenticated = async (req, res, next) => {
                 status: 'unauthenticated',
             });
         }
-        const customer = await Customer.findOne({ _id: payload.id }).lean();
+        const customer = await Customer.findOne({ _id: payload.id })
+            .populate('deliveryInformation')
+            .lean();
 
         if (!customer) {
             return res.status(401).send({
@@ -226,16 +229,19 @@ module.exports.addAddress = async (req, res, next) => {
     try {
         const em = req.params.email;
         const { name, email, phone, address } = req.body;
+
+        const deliveryInformation = await DeliveryInformation.create({
+            name,
+            email,
+            phone,
+            address,
+        });
+
         const customer = await Customer.findOneAndUpdate(
             { email: em },
             {
                 $push: {
-                    deliveryInformation: {
-                        name: name,
-                        email: email,
-                        phone: phone,
-                        address: address,
-                    },
+                    deliveryInformation: deliveryInformation._id,
                 },
             },
             { new: true },
@@ -264,7 +270,6 @@ module.exports.addToCart = async (req, res, next) => {
             { new: true },
         );
 
-        
         return res.json({ status: true, customer });
     } catch (ex) {
         next(ex);

@@ -1,6 +1,8 @@
 table {
     width: 100%;
     border: none;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 table th,
@@ -11,8 +13,9 @@ table td {
 table th {
     color: #364d67;
     font-weight: 600;
-    background-color: #f1f7fd;
+    background-color: #ffffff;
     border-top: 1px solid #f0f4f8;
+    border-bottom: 1px solid #ccc;
 }
 
 table tbody tr {
@@ -29,13 +32,20 @@ table tbody td {
 
 .table-row {
     cursor: pointer;
+    background-color: white;
 
     &:hover {
-        background-color: #f0f1f3;
+        background-color: #f6f9ff;
     }
 }
 
 .img-product {
     height: 50px;
     object-fit: cover;
+}
+
+.list-empty {
+    margin: 8px;
+    font-size: 1.4rem;
+    font-weight: 500;
 }

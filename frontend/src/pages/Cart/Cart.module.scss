@@ -1,8 +1,11 @@
 .container {
-    width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #ededed;
+    padding-bottom: 24px;
+    min-height: calc(100vh - 64px - 550px);
 }
 
 .slider {
@@ -27,10 +30,18 @@
 }
 
 .wrapper {
-    width: 70%;
+    max-width: 1186px;
     display: grid;
     grid-template-columns: 3fr 1fr; 
     padding: 40px 0;
     gap: 1rem;
 }
 
+.info-payment {
+    margin-top: 18px;
+
+    >h2 {
+        margin-bottom: 8px;
+        color: var(--primary-color);
+    }
+}

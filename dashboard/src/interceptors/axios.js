@@ -16,13 +16,11 @@ axios.interceptors.response.use(
                 { withCredentials: true },
             );
 
+
             if (response.status === 200) {
                 axios.defaults.headers.common[
                     'Authorization'
                 ] = `Bearer ${response.data['token']}`;
-
-                
-
                 return axios(error.config);
             }
         }

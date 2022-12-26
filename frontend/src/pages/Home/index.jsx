@@ -27,9 +27,6 @@ function Home() {
             try {
                 if (!status) {
                     const { data } = await axios.get(customer);
-
-                    console.log(data)
-
                     if (data) {
                         dispatch(setInfoCurrentUser(data));
                     }

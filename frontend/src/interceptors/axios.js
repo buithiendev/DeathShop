@@ -15,7 +15,7 @@ axios.interceptors.response.use(
                 {},
                 { withCredentials: true },
             );
-
+            
             if (response.status === 200) {
                 axios.defaults.headers.common[
                     'Authorization'
@@ -23,8 +23,6 @@ axios.interceptors.response.use(
 
                 return axios(error.config);
             }
-
-            
         }
         refresh = false;
         return error;

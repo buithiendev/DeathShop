@@ -1,7 +1,7 @@
-import { Button } from '@mui/material';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import Button from '~/components/Button';
 import CardProduct from '~/components/CardProduct';
 import { getProductByCateId } from '~/utils/productsRoute';
 import styles from './SomeProduct.module.scss';
@@ -41,12 +41,12 @@ function SomeProduct({ category }) {
                 </div>
             )}
             <Button
-                sx={{
-                    marginTop: 4,
+                to={`/shop/${category.id}`}
+                style={{
+                    marginTop: '24px',
                     fontSize: 14,
                 }}
-                size="large"
-                variant="outlined"
+                outline
             >
                 Xem tất cả sản phẩm {category.name}
             </Button>
