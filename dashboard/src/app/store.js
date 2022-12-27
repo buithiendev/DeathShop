@@ -4,6 +4,7 @@ import seriesReducer from '~/pages/Categories/pages/EditCategory/components/AddO
 import usersReducer from '~/pages/Users/usersSlice';
 import productsReducer from '~/pages/Products/productsSlice'
 import currentUserReducer from './currentUserSlice';
+import ordersReducer from '~/pages/Orders/ordersSlice'
 
 const rootReducer = {
     users: usersReducer,
@@ -11,6 +12,7 @@ const rootReducer = {
     categories: categoriesReducer,
     series: seriesReducer,
     products: productsReducer,
+    orders: ordersReducer,
 };
 
 const store = configureStore({

@@ -17,6 +17,86 @@ module.exports.getById = async (req, res) => {
     }
 };
 
+module.exports.getAll = async (req, res, next) => {
+    try {
+        const response = await Order.find()
+            .populate('idInfoReceived')
+            .populate('anothorInfo');
+
+        return res.send(response);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.updateImei = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const { imei, productId } = req.body;
+
+        const response = await Order.updateOne(
+            { _id: id, 'products._id': productId },
+            {
+                $set: {
+                    'products.$.imei': imei,
+                },
+            },
+            { new: true },
+        );
+
+        let order = null;
+        if (response.modifiedCount) {
+            order = await Order.findById(id)
+                .populate('idInfoReceived')
+                .populate('anothorInfo');
+        }
+
+        return res.send(order);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.updateStatus = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const response = await Order.findByIdAndUpdate(
+            id,
+            {
+                status: req.body.status,
+            },
+            { new: true },
+        )
+            .populate('idInfoReceived')
+            .populate('anothorInfo');
+
+        return res.send(response);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.updateStatusPayment = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const response = await Order.findByIdAndUpdate(
+            id,
+            {
+                status: req.body.statusPayment,
+            },
+            { new: true },
+        )
+            .populate('idInfoReceived')
+            .populate('anothorInfo');
+
+        return res.send(response);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
 module.exports.add = async (req, res, next) => {
     try {
         const {
@@ -57,8 +137,8 @@ module.exports.add = async (req, res, next) => {
         }
 
         const TotalAmountOrdered = listProduct?.reduce((total, curr) => {
-            return total + curr.corlorSelect.priceColor;
-        })
+            return total + curr?.colorSelect?.priceColor * 1;
+        }, 0);
 
         const response = await Order.create({
             paymentMethod,

@@ -92,28 +92,6 @@ function MainProduct() {
                     options={optionSeries}
                 />
             </div>
-            {/* {products?.length > 0 ? (
-                <div className={cx('list-product')}>
-                    {products.map((product, index) => {
-                        return (
-                            <ProductCard
-                                handleDeleteProduct={handleDeleteProduct}
-                                key={index}
-                                product={product}
-                            />
-                        );
-                    })}
-                </div>
-            ) : (
-                <div className={cx('noti-product')}>
-                    <img
-                        className={cx('empty-img')}
-                        src={productEmpty}
-                        alt=""
-                    />
-                    <h1>There are no products available</h1>
-                </div>
-            )} */}
             <ProductTable products={products}/>
         </Container>
     );

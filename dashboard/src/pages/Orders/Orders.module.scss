@@ -1,0 +1,9 @@
+.filters {
+    display: flex;
+    gap: 1rem;
+
+    .select {
+        min-width: 240px;
+        z-index: 999;
+    }
+}

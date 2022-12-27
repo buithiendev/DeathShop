@@ -46,12 +46,34 @@
 }
 
 .primary {
-    background-color: var(--primary-color);
+    background-color: var(--color-success);
     color: var(--white-color);
-    border-color: var(--primary-color);
+    border-color: var(--color-success);
 
     &:hover {
-        border-color: var(--primary-color);
+        border-color: var(--color-success);
+        opacity: 0.9;
+    }
+}
+
+.error {
+    background-color: var(--color-error);
+    color: var(--white-color);
+    border-color: var(--color-error);
+
+    &:hover {
+        border-color: var(--color-error);
+        opacity: 0.9;
+    }
+}
+
+.success {
+    background-color: var(--color-success);
+    color: var(--white-color);
+    border-color: var(--color-success);
+
+    &:hover {
+        border-color: var(--color-success);
         opacity: 0.9;
     }
 }

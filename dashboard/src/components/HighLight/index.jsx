@@ -10,6 +10,8 @@ function HighLight({
     loader,
     outline = false,
     primary = false,
+    success = false,
+    error = false,
     small = false,
     large = false,
     text = false,
@@ -28,7 +30,9 @@ function HighLight({
 
     const classes = cx('wrapper', {
         primary,
+        success,
         outline,
+        error,
         small,
         large,
         text,

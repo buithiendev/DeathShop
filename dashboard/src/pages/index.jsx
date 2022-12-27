@@ -5,12 +5,13 @@ import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { routes } from '~/routes';
 import { user } from '~/utils/UsersAPIRoutes';
 
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInfoCurrentUser } from '~/app/currentUserSlice';
-import { getUsers } from './Users/usersSlice';
 import { getCategories } from './Categories/categoriesSlice';
 import { getAllSeries } from './Categories/pages/EditCategory/components/AddOrEditSeries/seriesSlice';
-import { memo } from 'react';
+import { getOrders } from './Orders/ordersSlice';
+import { getUsers } from './Users/usersSlice';
 
 function Pages() {
     const navigate = useNavigate();
@@ -33,10 +34,11 @@ function Pages() {
     }, []);
 
     useEffect(() => {
-        if(status){ 
+        if (status) {
             dispatch(getUsers());
             dispatch(getCategories());
             dispatch(getAllSeries());
+            dispatch(getOrders());
         }
     }, [status]);
 

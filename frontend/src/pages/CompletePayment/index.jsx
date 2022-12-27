@@ -28,6 +28,13 @@ const CompletePayment = () => {
         })();
     }, []);
 
+    const convertToVND = (money: Number) => {
+        return money.toLocaleString('vi', {
+            style: 'currency',
+            currency: 'VND',
+        });
+    };
+
     const ProductItem = (p) => {
         return (
             <div className={cx('product-item')}>
@@ -130,7 +137,7 @@ const CompletePayment = () => {
                             </div>
                             <Divider />
                             <div className={cx('info-group')}>
-                                <div className={cx('info-row')}>
+                                <div className={cx('info-row')} style={{gridTemplateColumns: '1fr 1fr'}}>
                                     <label>Total amount ordered:</label>
                                     <p
                                         style={{
@@ -138,7 +145,7 @@ const CompletePayment = () => {
                                             color: '#0066CC',
                                         }}
                                     >
-                                        {order.TotalAmountOrdered}
+                                        {convertToVND(order.TotalAmountOrdered)}
                                     </p>
                                 </div>
                             </div>
@@ -149,12 +156,8 @@ const CompletePayment = () => {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <Button primary>
-                                    Payment
-                                </Button>
-                                <Button outline>
-                                    Back to the shop
-                                </Button>
+                                <Button primary>Payment</Button>
+                                <Button outline>Back to the shop</Button>
                             </div>
                         </div>
                     </div>

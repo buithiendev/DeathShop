@@ -6,6 +6,7 @@ import Insurance from '~/pages/Insurance';
 import Introduce from '~/pages/Introduce';
 import NotFound from '~/pages/NotFound';
 import Payment from '~/pages/Payment';
+import PaymentTransfer from '~/pages/PaymentTransfer';
 import Product from '~/pages/Product';
 import ShipCodPolicy from '~/pages/ShipCodPolicy';
 import Shop from '~/pages/Shop';
@@ -99,5 +100,10 @@ export const routes = [
         path: '/shoppingcart/completed/:id',
         name: 'Form Payment',
         component: CompletePayment,
+    },
+    {
+        path: '/checkout/localbankpaymentinfo/:id',
+        name: 'Form Payment',
+        component: PaymentTransfer,
     },
 ];

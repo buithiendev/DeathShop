@@ -6,6 +6,7 @@ import Products from '~/pages/Products';
 import Profile from '~/pages/Profile';
 import Sellers from '~/pages/Sellers';
 import Users from '~/pages/Users';
+import DetailOrder from './../pages/DetailOrder/index';
 
 export const routes = [
     {
@@ -47,5 +48,10 @@ export const routes = [
         path: '/banner',
         title: 'Set Banner',
         component: Banner,
+    },
+    {
+        path: 'orders/detailorder/:id',
+        title: 'DetailOrder',
+        component: DetailOrder,
     },
 ];
