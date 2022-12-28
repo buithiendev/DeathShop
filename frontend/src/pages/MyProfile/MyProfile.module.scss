@@ -38,8 +38,8 @@
 }
 
 .nav-item.active {
-    background-color: #E5EFFA;
-    color: #0066CC;
+    background-color: #e5effa;
+    color: #0066cc;
 }
 
 .form-add-address,
@@ -63,7 +63,7 @@
 }
 
 .change-password .note {
-    background-color: #F5F5F7;
+    background-color: #f5f5f7;
     padding: 4px;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -81,10 +81,9 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 14px;
-
     }
 
-    .header >p {
+    .header > p {
         display: flex;
         font-weight: 500;
         align-items: center;
@@ -107,5 +106,41 @@
 
     p {
         font-size: 1.4rem;
+    }
+}
+
+.histories {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+
+}
+
+.info {
+    a {
+        font-size: 1.4rem;
+        color: #3977CE;
+    }
+}
+
+.info-row {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.4rem;
+
+    label {
+        color: var(--text-color);
+    }
+
+    p {
+        font-weight: 500;
     }
 }

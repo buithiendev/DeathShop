@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { BiSearch } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
 import Button from '~/components/Button';
@@ -23,13 +24,11 @@ function Orders() {
     const orders = useSelector((state) => state.orders.orders);
     const [filter, setFilter] = useState(filterOrders[0]);
     const [orderAfterFilter, setOrderAffterFilter] = useState(orders);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         (async () => {
             switch (filter.value) {
-                case 'all':
-                    setOrderAffterFilter(orders);
-                    break;
                 case 'pending':
                     const ordersPending = orders.filter(
                         (order) => order.status === 'Pending',
@@ -41,6 +40,12 @@ function Orders() {
                         (order) => order.status === 'Payment Confirmed',
                     );
                     setOrderAffterFilter(ordersConfirmed);
+                    break;
+                case 'unpaid':
+                    const ordersUnpaid = orders.filter(
+                        (order) => order.statusPayment === 'Pending',
+                    );
+                    setOrderAffterFilter(ordersUnpaid);
                     break;
                 case 'canceled':
                     const ordersCaneled = orders.filter(
@@ -61,6 +66,33 @@ function Orders() {
         })();
     }, [filter]);
 
+    const handleSearchOrder = () => {
+        const newList = orders.filter((order) => {
+            return (
+                (
+                    order?.anothorInfo !== null && order?.idInfoReceived?.name
+                )?.includes(search) ||
+                (
+                    order?.anothorInfo !== null && order?.idInfoReceived?.email
+                )?.includes(search) ||
+                (
+                    order?.anothorInfo !== null && order?.idInfoReceived?.phone
+                )?.includes(search) ||
+                (
+                    order?.anothorInfo !== null && order?.anothorInfo?.name
+                )?.includes(search) ||
+                (
+                    order?.anothorInfo !== null && order?.anothorInfo?.email
+                )?.includes(search) ||
+                (
+                    order?.anothorInfo !== null && order?.anothorInfo?.phone
+                )?.includes(search) ||
+                order?._id?.includes(search)
+            );
+        });
+        setOrderAffterFilter(newList);
+    };
+
     return (
         <Container
             style={{
@@ -71,8 +103,7 @@ function Orders() {
                 flexDirection: 'column',
             }}
         >
-            <HeaderChild title="Orders">
-            </HeaderChild>
+            <HeaderChild title="Orders"></HeaderChild>
             <div className={cx('filters')}>
                 <Select
                     className={cx('select')}
@@ -83,8 +114,24 @@ function Orders() {
                     }}
                     options={filterOrders}
                 />
+                <div className={cx('filters')}>
+                    <input
+                        className={cx('search')}
+                        type="text"
+                        value={search}
+                        placeholder="Search"
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <Button
+                        primary
+                        leftIcon={<BiSearch />}
+                        onClick={handleSearchOrder}
+                    />
+                </div>
             </div>
-            <OrdersTable orders={orderAfterFilter} />
+            <OrdersTable
+                orders={orderAfterFilter ? orderAfterFilter : orders}
+            />
         </Container>
     );
 }

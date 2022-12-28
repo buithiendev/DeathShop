@@ -94,7 +94,9 @@ function CartPage() {
                         />
                     </div>
                 </div>
-                <SubTotal listProduct={listProduct} />
+                <div>
+                    <SubTotal listProduct={listProduct} />
+                </div>
             </div>
         </div>
     );

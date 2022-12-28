@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Select from 'react-select';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HighLight from '~/components/HighLight';
 import { updateImei, updateStatusPayment } from '../Orders/ordersSlice';
 import HeaderChild from './../../components/HeaderChild/index';
-import { updateStatus } from './../Orders/ordersSlice';
+import { updateAllStatus, updateStatus } from './../Orders/ordersSlice';
 import styles from './DetailOrder.module.scss';
 
 const cx = classNames.bind(styles);
@@ -34,6 +36,7 @@ const DetailOrder = () => {
     const [statusSelect, setStatusSelect] = useState(
         statusOrder.find((s) => s.value === order?.status),
     );
+    const [code,setCode] = useState('')
     const [statusPaymentSelect, setStatusPaymentSelect] = useState(
         statusPayment.find((s) => s.value === order?.statusPayment),
     );
@@ -100,6 +103,10 @@ const DetailOrder = () => {
         );
     };
 
+    const sendCode = () => {
+
+    }
+
     const handleUpdateStatus = () => {
         dispatch(updateStatus({ id: order?._id, status: statusSelect.value }));
     };
@@ -111,6 +118,26 @@ const DetailOrder = () => {
                 statusPayment: statusPaymentSelect.value,
             }),
         );
+    };
+
+    const handleUpdate = () => {
+        dispatch(
+            updateAllStatus({
+                id: order?._id,
+                status: statusSelect.value,
+                statusPayment: statusPaymentSelect.value,
+            }),
+        );
+        toast('✅ Update success!', {
+            position: 'bottom-left',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
     };
 
     return (
@@ -175,63 +202,66 @@ const DetailOrder = () => {
                             </>
                         )}
                     </div>
-                    <div className={cx('status-order')}>
-                        <div>
-                            <HighLight
-                                small
-                                success={
-                                    order.status !== 'Order has been cancelled'
-                                }
-                                error={
-                                    order.status === 'Order has been cancelled'
-                                }
-                            >
-                                {order.status}
-                            </HighLight>
-                            <HighLight small success>
-                                {order.statusPayment}
-                            </HighLight>
+                    <div className={cx('change')}>
+                        <div className={cx('status-order')}>
+                            <div>
+                                <HighLight
+                                    small
+                                    success={
+                                        order?.status !==
+                                        'Order has been cancelled'
+                                    }
+                                    error={
+                                        order?.status ===
+                                        'Order has been cancelled'
+                                    }
+                                >
+                                    {order?.status}
+                                </HighLight>
+                                <HighLight small success>
+                                    {order?.statusPayment}
+                                </HighLight>
+                            </div>
+                            <div className={cx('flex')}>
+                                <label>Status:</label>
+                                <Select
+                                    className={cx('select')}
+                                    value={statusSelect}
+                                    isSearchable={false}
+                                    onChange={(value) => {
+                                        setStatusSelect(value);
+                                    }}
+                                    options={statusOrder}
+                                />
+                            </div>
+                            <div className={cx('flex')}>
+                                <label>Status Payment:</label>
+                                <Select
+                                    className={cx('select')}
+                                    value={statusPaymentSelect}
+                                    isSearchable={false}
+                                    onChange={(value) => {
+                                        setStatusPaymentSelect(value);
+                                    }}
+                                    options={statusPayment}
+                                />
+                            </div>
                         </div>
-                        <div className={cx('flex')}>
-                            <label>Status:</label>
-                            <Select
-                                className={cx('select')}
-                                value={statusSelect}
-                                isSearchable={false}
-                                onChange={(value) => {
-                                    setStatusSelect(value);
-                                }}
-                                options={statusOrder}
-                            />
-                            <Button
-                                style={{ fontWeight: 400 }}
-                                small
-                                primary
-                                onClick={handleUpdateStatus}
-                            >
-                                Update
-                            </Button>
-                        </div>
-                        <div className={cx('flex')}>
-                            <label>Status Payment:</label>
-                            <Select
-                                className={cx('select')}
-                                value={statusPaymentSelect}
-                                isSearchable={false}
-                                onChange={(value) => {
-                                    setStatusPaymentSelect(value);
-                                }}
-                                options={statusPayment}
-                            />
-                            <Button
-                                style={{ fontWeight: 400 }}
-                                small
-                                primary
-                                onClick={handleUpdateStatusPayment}
-                            >
-                                Update
-                            </Button>
-                        </div>
+                        <Button primary small onClick={handleUpdate}>
+                            Update{' '}
+                        </Button>
+                    </div>
+                    <div className={cx('filters')}>
+                        <input
+                            className={cx('search')}
+                            value={code}
+                            type="text"
+                            placeholder="Search"
+                            onChange={(e) => setCode(e.target.value)}
+                        />
+                        <Button small primary onClick={sendCode}>
+                            Gửi mã đơn hàng
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -241,6 +271,7 @@ const DetailOrder = () => {
                     return <ProductItem key={index} product={p} />;
                 })}
             </div>
+            <ToastContainer />
         </Container>
     );
 };

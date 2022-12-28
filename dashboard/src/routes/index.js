@@ -7,6 +7,7 @@ import Profile from '~/pages/Profile';
 import Sellers from '~/pages/Sellers';
 import Users from '~/pages/Users';
 import DetailOrder from './../pages/DetailOrder/index';
+import WarrantCheck from './../pages/WarrantyCheck/index';
 
 export const routes = [
     {
@@ -53,5 +54,10 @@ export const routes = [
         path: 'orders/detailorder/:id',
         title: 'DetailOrder',
         component: DetailOrder,
+    },
+    {
+        path: '/warrantycheck',
+        title: 'DetailOrder',
+        component: WarrantCheck,
     },
 ];

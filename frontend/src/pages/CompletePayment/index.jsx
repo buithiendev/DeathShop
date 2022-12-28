@@ -137,7 +137,10 @@ const CompletePayment = () => {
                             </div>
                             <Divider />
                             <div className={cx('info-group')}>
-                                <div className={cx('info-row')} style={{gridTemplateColumns: '1fr 1fr'}}>
+                                <div
+                                    className={cx('info-row')}
+                                    style={{ gridTemplateColumns: '1fr 1fr' }}
+                                >
                                     <label>Total amount ordered:</label>
                                     <p
                                         style={{
@@ -156,7 +159,12 @@ const CompletePayment = () => {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <Button primary>Payment</Button>
+                                <Button
+                                    to={`/checkout/localbankpaymentinfo/${order._id}`}
+                                    primary
+                                >
+                                    Payment
+                                </Button>
                                 <Button outline>Back to the shop</Button>
                             </div>
                         </div>

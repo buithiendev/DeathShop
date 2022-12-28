@@ -1,15 +1,13 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BiFoodMenu, BiLocationPlus, BiLock, BiUser } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ChangePassword from './components/ChangePassword';
 import FormAddress from './components/FormAddress';
 import FormInfo from './components/FormInfo';
 import OrderHistory from './components/OrderHistory';
 import styles from './MyProfile.module.scss';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -37,30 +35,32 @@ const MyProfile = () => {
     };
 
     const RenderSwitch = () => {
-        switch(selectNavigate) {
+        switch (selectNavigate) {
             case 'Account information':
-                return <FormInfo/>
+                return <FormInfo />;
             case 'Delivery address':
-                return <FormAddress/>
-            case 'Order history': 
-                return <OrderHistory/>
+                return <FormAddress />;
+            case 'Order history':
+                return <OrderHistory />;
             case 'Change password':
-                return <ChangePassword/>
+                return <ChangePassword />;
             default:
-                return <FormInfo/>
+                return <FormInfo />;
         }
-    }
+    };
 
     return (
         <div className={cx('container')}>
             <div className={cx('wrap')}>
-                <div className={cx('navigate')}>
-                    {navList.map((nav, index) => {
-                        return <NavItem key={index} nav={nav} />;
-                    })}
+                <div>
+                    <div className={cx('navigate')}>
+                        {navList.map((nav, index) => {
+                            return <NavItem key={index} nav={nav} />;
+                        })}
+                    </div>
                 </div>
                 <div className={cx('features')}>
-                    <RenderSwitch/>
+                    <RenderSwitch />
                 </div>
             </div>
             <ToastContainer />

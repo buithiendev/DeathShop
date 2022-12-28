@@ -1,6 +1,9 @@
 const Order = require('../model/orderModal');
 const DeliveryInformation = require('../model/deliveryInformationModal');
 const Customer = require('../model/customerModal');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const nodemailer = require('nodemailer');
 
 module.exports.getById = async (req, res) => {
     try {
@@ -84,12 +87,47 @@ module.exports.updateStatusPayment = async (req, res, next) => {
         const response = await Order.findByIdAndUpdate(
             id,
             {
-                status: req.body.statusPayment,
+                statusPayment: req.body.statusPayment,
             },
             { new: true },
         )
             .populate('idInfoReceived')
             .populate('anothorInfo');
+
+        return res.send(response);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.updateAllStatus = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const response = await Order.findByIdAndUpdate(
+            id,
+            {
+                statusPayment: req.body.statusPayment,
+                status: req.body.status,
+            },
+            { new: true },
+        )
+            .populate('idInfoReceived')
+            .populate('anothorInfo');
+
+        return res.send(response);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.getOrderByOrderAccout = async (req, res, next) => {
+    try {
+        const id = mongoose.Types.ObjectId(req.params.id);
+
+        const response = await Order.find({
+            orderAccount: id,
+        });
 
         return res.send(response);
     } catch (ex) {
@@ -171,4 +209,49 @@ module.exports.remove = async (req, res) => {
             status: 'failed',
         });
     }
+};
+
+module.exports.sendMail = async (req, res) => {
+    var transporter = nodemailer.createTransport({
+        // config mail server
+        host: 'waitingforlovebmt@gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'waitingforlovebmt@gmail.com', //Tài khoản gmail vừa tạo
+            pass: 'YenAnh!2#DEV', //Mật khẩu tài khoản gmail vừa tạo
+        },
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false,
+        },
+    });
+    var content = '';
+    content += `
+        <div style="padding: 10px; background-color: #003375">
+            <div style="padding: 10px; background-color: white;">
+                <h4 style="color: #0085ff">Gửi bạn mã vận chuyển</h4>
+                <span style="color: black">qq324242111</span>
+            </div>
+        </div>
+    `;
+    var mainOptions = {
+        // thiết lập đối tượng, nội dung gửi mail
+        from: 'NQH-Test nodemailer',
+        to: '20520772@gmail.com',
+        subject: 'Code vận chuyển',
+        text: 'Your text is here', //Thường thi mình không dùng cái này thay vào đó mình sử dụng html để dễ edit hơn
+        html: content, //Nội dung html mình đã tạo trên kia :))
+    };
+    transporter.sendMail(mainOptions, function (err, info) {
+        if (err) {
+            console.log(err);
+            req.flash('mess', 'Lỗi gửi mail: ' + err); //Gửi thông báo đến người dùng
+            res.redirect('/');
+        } else {
+            console.log('Message sent: ' + info.response);
+            req.flash('mess', 'Một email đã được gửi đến tài khoản của bạn'); //Gửi thông báo đến người dùng
+            res.redirect('/');
+        }
+    });
 };

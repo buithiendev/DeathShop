@@ -49,7 +49,7 @@ function Login(props) {
             axios.defaults.headers.common[
                 'Authorization'
             ] = `Bearer ${data['token']}`;
-            data.token && navigate('/profile');
+            data.token && navigate('/');
         } catch (ex) {}
     };
 

@@ -27,7 +27,7 @@ function Shop() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        setShowMore(false)
+        setShowMore(false);
     }, [params]);
 
     useEffect(() => {
@@ -112,24 +112,52 @@ function Shop() {
                 <div className={cx('list-product')}>
                     {products &&
                         products.map((product, index) => {
+                            if (!product.status) return null;
                             return (
                                 <CardProduct product={product} key={index} />
                             );
                         })}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: '1rem' }}>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                    }}
+                >
                     <p
-                        className={cx('description', showMore ? 'show-more': '')}
+                        className={cx(
+                            'description',
+                            showMore ? 'show-more' : '',
+                        )}
                         dangerouslySetInnerHTML={{
                             __html: category ? category.description : '',
                         }}
                     ></p>
                     {showMore ? (
-                        <Button style={{color: 'var(--secondary-color)'}} onClick={() => setShowMore(false)}>
+                        <Button
+                            style={{
+                                color: 'var(--secondary-color)',
+                                backgroundColor: 'white',
+                                borderBottomLeftRadius: '10px',
+                                borderBottomRightRadius: '10px',
+                            }}
+                            onClick={() => setShowMore(false)}
+                        >
                             Hide Away <BiChevronUp size={24} />
                         </Button>
                     ) : (
-                        <Button style={{color: 'var(--secondary-color)'}} onClick={() => setShowMore(true)}>
+                        <Button
+                            style={{
+                                color: 'var(--secondary-color)',
+                                backgroundColor: 'white',
+                                borderBottomLeftRadius: '10px',
+                                borderBottomRightRadius: '10px',
+                                height: '80px'
+
+                            }}
+                            onClick={() => setShowMore(true)}
+                        >
                             See More <BiChevronDown size={24} />
                         </Button>
                     )}

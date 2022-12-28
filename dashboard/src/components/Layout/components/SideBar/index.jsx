@@ -7,7 +7,6 @@ import axios from 'axios';
 import {
     BiAnalyse,
     BiChevronLeft,
-    BiCog,
     BiLogOut,
     BiMoon,
     BiSearch,
@@ -24,6 +23,7 @@ function SideBar() {
     const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState(true);
     const [closeSide, setCloseSide] = useState(false);
+    const [pathCurrent, setPathCurrent] = useState('/');
 
     const handleOpenSideBarWithBtn = () => {
         if (closeSide) {
@@ -77,10 +77,12 @@ function SideBar() {
                     {sideBars.map(({ title, path, icon }, index) => {
                         return (
                             <SideBarItem
+                                active={pathCurrent === path}
                                 key={index}
                                 title={title}
                                 path={path}
                                 icon={icon}
+                                onClick={() => setPathCurrent(path)}
                             />
                         );
                     })}

@@ -3,11 +3,17 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { BiNavigation, BiTrash } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
 import Paper from '~/components/Paper';
-import { deleteProduct, getProductByIdName, updateProduct } from '~/utils/ProductAPIRoutes';
+import {
+    deleteProduct,
+    getProductByIdName,
+    updateProduct,
+} from '~/utils/ProductAPIRoutes';
 import FormProduct from './components/FormProduct';
 import styles from './EditProduct.module.scss';
 
@@ -23,6 +29,7 @@ function EditProduct() {
             const resProduct = await axios.get(
                 `${getProductByIdName}/${params.id}`,
             );
+
             if (resProduct.data) {
                 setProduct(resProduct.data);
             }
@@ -35,7 +42,7 @@ function EditProduct() {
         name: (product && product.name) || '',
         description: (product && product.description) || '',
         details: (product && product.details) || '',
-        newPrice:  0,
+        newPrice: (product && product.newPrice) || 0,
         oldPrice: (product && product.newPrice) || 0,
         sticker: (product && product.sticker) || '',
         promotionInfo: (product && product.promotionInfo) || '',
@@ -75,16 +82,47 @@ function EditProduct() {
         formData.append('oldPrice', oldPrice);
         formData.append('promotionInfo', promotionInfo);
         formData.append('specifications', specifications);
-        formData.append('imagePreview', JSON.stringify(imagePreview?.filter((link) => typeof link === 'string')));
+        formData.append(
+            'imagePreview',
+            JSON.stringify(
+                imagePreview?.filter((link) => typeof link === 'string'),
+            ),
+        );
         formData.append('rams', rams);
         formData.append('memoryStorages', memoryStorages);
         formData.append('colors', JSON.stringify(colors));
         imagePreview.map((image) => {
-            if(typeof image != 'string')
-                formData.append('Image', image);
+            if (typeof image != 'string') formData.append('Image', image);
         });
 
-        const update = await axios.post(`${updateProduct}/${product._id}`,formData);
+        const addData = async () => {
+            const response = await axios.post(
+                `${updateProduct}/${product._id}`,
+                formData,
+            );
+            return response.data;
+        };
+
+        toast.promise(
+            addData,
+            {
+                pending: 'Đang cập nhật sản phẩm. Vui lòng chờ',
+                success: 'Cập nhật thành công',
+                error: 'Cập nhật thất bại',
+            },
+            {
+                position: 'bottom-left',
+                autoClose: 3000,
+                hideProgressBar: false,
+                newestOnTop: false,
+                closeOnClick: true,
+                rtl: false,
+                pauseOnFocusLoss: true,
+                draggable: true,
+                pauseOnHover: true,
+                theme: 'dark',
+            },
+        );
     };
 
     const handleDeleteProduct = async (id) => {
@@ -129,6 +167,7 @@ function EditProduct() {
                     )}
                 </Paper>
             </div>
+            <ToastContainer />
         </Container>
     );
 }

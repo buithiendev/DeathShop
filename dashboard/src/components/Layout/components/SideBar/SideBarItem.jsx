@@ -4,9 +4,12 @@ import styles from './SideBar.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SideBarItem({ title, path, icon, onClick, moreElement }) {
+function SideBarItem({ title, path, icon, onClick, moreElement, active }) {
     return (
-        <div className={cx('sidebar__item')} onClick={onClick}>
+        <div
+            className={cx('sidebar__item', active ? 'active' : '')}
+            onClick={onClick}
+        >
             <Link to={path}>
                 <span className={cx('icon')}>{icon}</span>
                 <span className={cx('title')}>{title}</span>
