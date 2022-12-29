@@ -1,3 +1,4 @@
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -103,7 +104,32 @@ const DetailOrder = () => {
         );
     };
 
-    const sendCode = () => {
+    const sendCode = async () => {
+        const addData = async () => {
+            const response = await axios.post('http://localhost:5000/api/order/sendMail',{code, order});
+            return response;
+        };
+
+        toast.promise(
+            addData,
+            {
+                pending: 'Đang gửi mail. Vui lòng chờ',
+                success: 'Gửi mail tới khách hàng thành công',
+                error: 'Gửi mail tới khách hàng thất bại',
+            },
+            {
+                position: 'bottom-left',
+                autoClose: 3000,
+                hideProgressBar: false,
+                newestOnTop: false,
+                closeOnClick: true,
+                rtl: false,
+                pauseOnFocusLoss: true,
+                draggable: true,
+                pauseOnHover: true,
+                theme: 'dark',
+            },
+        );
 
     }
 
@@ -256,7 +282,6 @@ const DetailOrder = () => {
                             className={cx('search')}
                             value={code}
                             type="text"
-                            placeholder="Search"
                             onChange={(e) => setCode(e.target.value)}
                         />
                         <Button small primary onClick={sendCode}>

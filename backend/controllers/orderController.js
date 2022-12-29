@@ -212,13 +212,14 @@ module.exports.remove = async (req, res) => {
 };
 
 module.exports.sendMail = async (req, res) => {
+    const { order, code } = req.body;
     var transporter = nodemailer.createTransport({
         // config mail server
-        host: 'waitingforlovebmt@gmail.com',
+        host: 'smtp.gmail.com',
         port: 465,
         secure: true,
         auth: {
-            user: 'waitingforlovebmt@gmail.com', //Tài khoản gmail vừa tạo
+            user: '20520772@gm.uit.edu.vn', //Tài khoản gmail vừa tạo
             pass: 'YenAnh!2#DEV', //Mật khẩu tài khoản gmail vừa tạo
         },
         tls: {
@@ -230,15 +231,17 @@ module.exports.sendMail = async (req, res) => {
     content += `
         <div style="padding: 10px; background-color: #003375">
             <div style="padding: 10px; background-color: white;">
-                <h4 style="color: #0085ff">Gửi bạn mã vận chuyển</h4>
-                <span style="color: black">qq324242111</span>
+                <h4 style="color: #0085ff">DeathShop gửi bạn mã vận chuyển</h4>
+                <div style="color: black">Tên người mua hàng: Bùi Thiện</div>
+                <div style="color: black">Số tiền đã thanh toán: 120.000.000 VNĐ</div>
+                <div style="color: black">Mã vận chuyển: ${req.body.code}</div>
             </div>
         </div>
     `;
     var mainOptions = {
         // thiết lập đối tượng, nội dung gửi mail
         from: 'NQH-Test nodemailer',
-        to: '20520772@gmail.com',
+        to: 'waitingforlovebmt@gmail.com',
         subject: 'Code vận chuyển',
         text: 'Your text is here', //Thường thi mình không dùng cái này thay vào đó mình sử dụng html để dễ edit hơn
         html: content, //Nội dung html mình đã tạo trên kia :))
@@ -254,4 +257,6 @@ module.exports.sendMail = async (req, res) => {
             res.redirect('/');
         }
     });
+
+    return res.json({ status: true });
 };

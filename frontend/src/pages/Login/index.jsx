@@ -107,6 +107,9 @@ function Login(props) {
                         <span className={cx('form__forgot')}>
                             Forgot <Link to="/forgot">Username/Password</Link>
                         </span>
+                        <span className={cx('form__forgot')}>
+                            <Link to="/register">Register</Link>
+                        </span>
                         <p className={cx('form__contact')}>
                             Contact Admin:{' '}
                             <a href="mailto:buithiendev@gmail.com">
