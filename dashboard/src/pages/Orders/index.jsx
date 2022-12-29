@@ -27,6 +27,10 @@ function Orders() {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
+        setOrderAffterFilter(orders);
+    }, [orders]);
+
+    useEffect(() => {
         (async () => {
             switch (filter.value) {
                 case 'pending':
@@ -55,7 +59,7 @@ function Orders() {
                     break;
                 case 'delivering':
                     const ordersDelivering = orders.filter(
-                        (order) => order.status === 'Customer has received',
+                        (order) => order.status === 'Order sent',
                     );
                     setOrderAffterFilter(ordersDelivering);
                     break;
@@ -67,27 +71,28 @@ function Orders() {
     }, [filter]);
 
     const handleSearchOrder = () => {
+        const key = search.trim();
         const newList = orders.filter((order) => {
             return (
                 (
                     order?.anothorInfo !== null && order?.idInfoReceived?.name
-                )?.includes(search) ||
+                )?.includes(key) ||
                 (
                     order?.anothorInfo !== null && order?.idInfoReceived?.email
-                )?.includes(search) ||
+                )?.includes(key) ||
                 (
                     order?.anothorInfo !== null && order?.idInfoReceived?.phone
-                )?.includes(search) ||
+                )?.includes(key) ||
                 (
                     order?.anothorInfo !== null && order?.anothorInfo?.name
-                )?.includes(search) ||
+                )?.includes(key) ||
                 (
                     order?.anothorInfo !== null && order?.anothorInfo?.email
-                )?.includes(search) ||
+                )?.includes(key) ||
                 (
                     order?.anothorInfo !== null && order?.anothorInfo?.phone
-                )?.includes(search) ||
-                order?._id?.includes(search)
+                )?.includes(key) ||
+                order?._id?.includes(key)
             );
         });
         setOrderAffterFilter(newList);
@@ -129,9 +134,7 @@ function Orders() {
                     />
                 </div>
             </div>
-            <OrdersTable
-                orders={orderAfterFilter ? orderAfterFilter : orders}
-            />
+            <OrdersTable orders={orderAfterFilter} />
         </Container>
     );
 }

@@ -104,12 +104,22 @@ const CompletePayment = () => {
                                     </p>
                                 </div>
                                 <div className={cx('info-row')}>
+                                    <label>Delivery Method:</label>
+                                    <p>
+                                        {order?.deliveryMethod === 'atstore'
+                                            ? 'At Store'
+                                            : 'Home Delivery'}
+                                    </p>
+                                </div>
+                                <div className={cx('info-row')}>
                                     <label>Delivery address:</label>
                                     <p>
-                                        {order.anothorInfo != null
-                                            ? order.anothorInfo.address
-                                            : order.storeAddress
-                                                  ?.specificAddress}
+                                        {order?.deliveryMethod !== 'atstore'
+                                            ? order.anothorInfo != null
+                                                ? order.anothorInfo.address
+                                                : order.storeAddress
+                                                      ?.specificAddress
+                                            : order?.storeAddress.address}
                                     </p>
                                 </div>
                             </div>
@@ -165,7 +175,9 @@ const CompletePayment = () => {
                                 >
                                     Payment
                                 </Button>
-                                <Button outline>Back to the shop</Button>
+                                <Button to="/" outline>
+                                    Back to the shop
+                                </Button>
                             </div>
                         </div>
                     </div>

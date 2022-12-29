@@ -4,9 +4,9 @@ import {
     BiCartAlt,
     BiCategory,
     BiCheckShield,
-    BiDollarCircle,
     BiGridAlt,
     BiGroup,
+    BiHome,
     BiImages,
     BiUser,
 } from 'react-icons/bi';
@@ -20,5 +20,10 @@ export const sideBars = [
     { title: 'Categories', path: '/categories', icon: <BiCategory /> },
     { title: 'Orders', path: '/orders', icon: <BiCartAlt /> },
     { title: 'Banner', path: '/banner', icon: <BiImages /> },
-    { title: 'Warranty Check', path: '/warrantycheck', icon: <BiCheckShield /> },
+    {
+        title: 'Warranty Check',
+        path: '/warrantycheck',
+        icon: <BiCheckShield />,
+    },
+    { title: 'Stores', path: '/stores', icon: <BiHome /> },
 ];

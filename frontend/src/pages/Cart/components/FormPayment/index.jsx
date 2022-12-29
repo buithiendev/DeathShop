@@ -18,13 +18,19 @@ import styles from './FormPayment.module.scss';
 
 const cx = classNames.bind(styles);
 
-const FormPayment = ({initialValues,handleOnSubmit,loading}) => {
+const FormPayment = ({ initialValues, handleOnSubmit, loading, info }) => {
+    const { stores } = useSelector((state) => state.stores);
     const listInfoPayment =
         JSON.parse(localStorage.getItem('list_info_payment')) || [];
     listInfoPayment.push({ value: 'NewInfo', label: 'Add new information' });
     const [showForm, setShowForm] = useState('NewInfo');
     const [showFormInfo, setShowFormInfo] = useState('homedelivery');
-    const { status, info } = useSelector((state) => state.currentUser);
+
+    const optionStore = [];
+
+    stores.map((store) => {
+        optionStore.push({ value: store._id, label: store.address });
+    });
 
     if (info) {
         info?.deliveryInformation.map((d) => {
@@ -208,7 +214,7 @@ const FormPayment = ({initialValues,handleOnSubmit,loading}) => {
                                                     name="storeAddress"
                                                     label="Choose store"
                                                     component={SelectField}
-                                                    // options={monthOption}
+                                                    options={optionStore}
                                                 />
                                             ) : (
                                                 <div>

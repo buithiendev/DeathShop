@@ -11,6 +11,7 @@ import { setInfoCurrentUser } from '~/app/currentUserSlice';
 import { getCategories } from './Categories/categoriesSlice';
 import { getAllSeries } from './Categories/pages/EditCategory/components/AddOrEditSeries/seriesSlice';
 import { getOrders } from './Orders/ordersSlice';
+import { getAllStore } from './StoreList/storesSlice';
 import { getUsers } from './Users/usersSlice';
 
 function Pages() {
@@ -39,6 +40,7 @@ function Pages() {
             dispatch(getCategories());
             dispatch(getAllSeries());
             dispatch(getOrders());
+            dispatch(getAllStore());
         }
     }, [status]);
 

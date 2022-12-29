@@ -3,17 +3,17 @@ import classNames from 'classnames/bind';
 import { FastField, Form, Formik } from 'formik';
 import { memo } from 'react';
 import Button from '~/components/Button';
-import DropFileInput from '~/components/CustomField/DropFileInput';
 import InputField from '~/components/CustomField/InputField';
 import styles from './FormBanner.module.scss';
 
 const cx = classNames.bind(styles);
 
-function FormStore({
+function FormBanner({
     initialValues,
     handleOnSubmit,
     validationSchema,
     isUpdate,
+    loading,
 }) {
     return (
         <>
@@ -26,22 +26,26 @@ function FormStore({
                     return (
                         <Form className={cx('form-wrap')}>
                             <FastField
-                                name="linkBanner"
+                                name="address"
                                 component={InputField}
-                                label="Link Banner"
-                                placeholder="http://localhost:3000/shop/iphone"
+                                label="Address Store"
+                                placeholder="Phạm Ngũ Lão Q4, TPHCM"
                             />
                             <FastField
-                                name="image"
-                                component={DropFileInput}
-                                single
-                                required
-                                label="Image preview"
-                                placeholder="Type here"
+                                name="phone"
+                                component={InputField}
+                                label="Phone Number"
+                                placeholder="+848173489"
+                            />
+                            <FastField
+                                name="email"
+                                component={InputField}
+                                label="Email Store"
+                                placeholder="deathshop_quan4@gmail.com"
                             />
                             <Button
+                                loader={loading}
                                 type="submit"
-                                loader={false}
                                 primary
                                 style={{
                                     margin: '10px auto',
@@ -58,4 +62,4 @@ function FormStore({
     );
 }
 
-export default memo(FormStore);
+export default memo(FormBanner);

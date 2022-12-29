@@ -2,8 +2,11 @@ import classNames from 'classnames/bind';
 // import img from '~/assets/images/macimg.jpg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { clearCart, removeItem } from '~/app/cartSlice';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
+import { customer } from '~/utils/customerRoute';
 import { getProductWithColor } from '~/utils/productsRoute';
 import { addOrder } from './../../utils/orderRoute';
 import styles from './Cart.module.scss';
@@ -14,16 +17,17 @@ import TableCart from './components/TableCart/index';
 const cx = classNames.bind(styles);
 
 function CartPage() {
-    const cart = JSON.parse(localStorage.getItem('carts')) || [];
+    const { cart } = useSelector((state) => state.cart);
     const { status, info } = useSelector((state) => state.currentUser);
     const [loading, setLoading] = useState(false);
     const [listProduct, setListProduct] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
             const listPromise = [];
-            cart.map((item) => {
+            cart?.map((item) => {
                 const response = axios
                     .post(`${getProductWithColor}/${item.product}`, {
                         color: item.colorSelected,
@@ -35,7 +39,19 @@ function CartPage() {
             const listItem = await Promise.all(listPromise);
             setListProduct(listItem);
         })();
-    }, []);
+    }, [cart]);
+
+    if (!status) {
+        (async () => {
+            try {
+                const { data } = await axios.get(customer);
+                if (!data) {
+                } else {
+                    dispatch(setInfoCurrentUser(data));
+                }
+            } catch (ex) {}
+        })();
+    }
 
     const initialValues = {
         fullInfo: 'NewInfo',
@@ -43,7 +59,7 @@ function CartPage() {
         phone: '',
         email: '',
         deliveryForm: 'homedelivery',
-        storeAddress: '1',
+        storeAddress: null,
         province: '',
         district: '',
         specificAddress: '',
@@ -51,6 +67,7 @@ function CartPage() {
     };
 
     const handleOnSubmit = async (values) => {
+
         setLoading(true);
         const data = {
             ...values,
@@ -64,6 +81,7 @@ function CartPage() {
                 setLoading(false);
                 if (response?.data) {
                     navigate(`/shoppingcart/completed/${response.data._id}`);
+                    dispatch(clearCart());
                 }
             }, 3000);
         } catch (e) {
@@ -71,10 +89,8 @@ function CartPage() {
         }
     };
 
-    const handleRemoveCartItem = (id) => {
-        const newList = listProduct.filter((item) => item.product !== id);
-        localStorage.setItem('carts', JSON.stringify(newList));
-        setListProduct(newList);
+    const handleRemoveCartItem = (index) => {
+        dispatch(removeItem(index));
     };
 
     return (
@@ -88,6 +104,7 @@ function CartPage() {
                     <div className={cx('info-payment')}>
                         <h2>Payment Information</h2>
                         <FormPayment
+                            info={info}
                             initialValues={initialValues}
                             handleOnSubmit={handleOnSubmit}
                             loading={loading}

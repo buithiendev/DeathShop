@@ -178,9 +178,11 @@ const FormAddress = () => {
 
     return (
         <div className={cx('form-address-container')}>
-            {info?.deliveryInformation?.map((d, index) => {
-                return <AddressItem key={index} deliInfo={d} />;
-            })}
+            <div className={cx('list-address')}>
+                {info?.deliveryInformation?.map((d, index) => {
+                    return <AddressItem key={index} deliInfo={d} />;
+                })}
+            </div>
             <FormAddAddress customer={info} />
         </div>
     );

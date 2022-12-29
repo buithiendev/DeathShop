@@ -9,6 +9,7 @@ module.exports.getById = async (req, res) => {
     try {
         const id = req.params.id;
         const order = await Order.findById(id)
+            .populate('storeAddress')
             .populate('idInfoReceived')
             .populate('anothorInfo');
 
@@ -23,6 +24,7 @@ module.exports.getById = async (req, res) => {
 module.exports.getAll = async (req, res, next) => {
     try {
         const response = await Order.find()
+            .populate('storeAddress')
             .populate('idInfoReceived')
             .populate('anothorInfo');
 
@@ -50,6 +52,7 @@ module.exports.updateImei = async (req, res, next) => {
         let order = null;
         if (response.modifiedCount) {
             order = await Order.findById(id)
+                .populate('storeAddress')
                 .populate('idInfoReceived')
                 .populate('anothorInfo');
         }
@@ -71,6 +74,7 @@ module.exports.updateStatus = async (req, res, next) => {
             },
             { new: true },
         )
+            .populate('storeAddress')
             .populate('idInfoReceived')
             .populate('anothorInfo');
 
@@ -91,6 +95,7 @@ module.exports.updateStatusPayment = async (req, res, next) => {
             },
             { new: true },
         )
+            .populate('storeAddress')
             .populate('idInfoReceived')
             .populate('anothorInfo');
 
@@ -113,6 +118,7 @@ module.exports.updateAllStatus = async (req, res, next) => {
             { new: true },
         )
             .populate('idInfoReceived')
+            .populate('storeAddress')
             .populate('anothorInfo');
 
         return res.send(response);
@@ -185,11 +191,14 @@ module.exports.add = async (req, res, next) => {
             idInfoReceived: fullInfo !== 'NewInfo' ? fullInfo : null,
             anothorInfo: deliveryInformation?._id,
             TotalAmountOrdered,
+            deliveryMethod: deliveryForm,
+            storeAddress: storeAddress,
         });
 
         const order = await Order.findById(response._id)
             .populate('idInfoReceived')
             .populate('anothorInfo')
+            .populate('storeAddress')
             .lean();
 
         return res.send(order);
@@ -227,14 +236,33 @@ module.exports.sendMail = async (req, res) => {
             rejectUnauthorized: false,
         },
     });
+
+    const convertToVND = (price) => {
+        return price.toLocaleString('vi', {
+            style: 'currency',
+            currency: 'VND',
+        });
+    };
+
     var content = '';
     content += `
-        <div style="padding: 10px; background-color: #003375">
+        <div style="padding: 0px; background-color: #003375">
             <div style="padding: 10px; background-color: white;">
                 <h4 style="color: #0085ff">DeathShop gửi bạn mã vận chuyển</h4>
-                <div style="color: black">Tên người mua hàng: Bùi Thiện</div>
-                <div style="color: black">Số tiền đã thanh toán: 120.000.000 VNĐ</div>
-                <div style="color: black">Mã vận chuyển: ${req.body.code}</div>
+                <div style="color: black">Tên người mua hàng: ${
+                    order.idInfoReceived === null
+                        ? order.anothorInfo.name
+                        : order.idInfoReceived.name
+                }</div>
+                <div style="color: black">Mã đơn hàng của bạn: #${
+                    order._id
+                }</div>
+                <div style="color: black">Số tiền đã thanh toán: ${convertToVND(
+                    order.TotalAmountOrdered * 1,
+                )}</div>
+                <div style="color: black">Mã vận chuyển: <span style="font-weight: 600;color: #3977CE">${
+                    req.body.code
+                }</span> </div>
             </div>
         </div>
     `;

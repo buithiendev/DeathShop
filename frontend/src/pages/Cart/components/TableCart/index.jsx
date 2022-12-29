@@ -30,7 +30,7 @@ function TableCart({ listProduct, handleRemoveCartItem }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {listProduct.map((product, index) => {
+                    {listProduct?.map((product, index) => {
                         const {
                             linksImage,
                             rams,
@@ -77,7 +77,7 @@ function TableCart({ listProduct, handleRemoveCartItem }) {
                                 <td>
                                     <IconButton
                                         onClick={() => {
-                                            handleRemoveCartItem(_id);
+                                            handleRemoveCartItem(index);
                                         }}
                                     >
                                         <BiTrash />

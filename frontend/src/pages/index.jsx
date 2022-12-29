@@ -1,16 +1,19 @@
 import axios from 'axios';
 import { Fragment, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import { setCart } from '~/app/cartSlice';
 import { setInfoCurrentUser } from '~/app/currentUserSlice';
+import { getAllStore } from '~/app/storesSlice';
 import DefaultLayout from '~/components/layouts/DefaultLayout';
 import { routes } from '~/routes';
 import { customer } from '~/utils/customerRoute';
 
 const Page = () => {
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
+        dispatch(getAllStore());
         (async () => {
             try {
                 const { data } = await axios.get(customer);
@@ -20,7 +23,10 @@ const Page = () => {
                 }
             } catch (ex) {}
         })();
-    },[dispatch]);
+    }, []);
+
+    const carts = JSON.parse(localStorage.getItem('carts'));
+    dispatch(setCart(carts));
 
     return (
         <div className="App">

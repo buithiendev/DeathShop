@@ -8,7 +8,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
-import HighLight from '~/components/HighLight';
 import { updateImei, updateStatusPayment } from '../Orders/ordersSlice';
 import HeaderChild from './../../components/HeaderChild/index';
 import { updateAllStatus, updateStatus } from './../Orders/ordersSlice';
@@ -20,7 +19,7 @@ const statusOrder = [
     { value: 'Pending', label: 'Pending' },
     { value: 'Payment Confirmed', label: 'Payment Confirmed' },
     { value: 'Order has been cancelled', label: 'Order has been cancelled' },
-    { value: 'Order sent', label: 'Order sent' },
+    { value: 'Order sent', label: 'Order has been sent' },
     { value: 'Customer has received', label: 'Customer has received' },
 ];
 
@@ -37,7 +36,7 @@ const DetailOrder = () => {
     const [statusSelect, setStatusSelect] = useState(
         statusOrder.find((s) => s.value === order?.status),
     );
-    const [code,setCode] = useState('')
+    const [code, setCode] = useState('');
     const [statusPaymentSelect, setStatusPaymentSelect] = useState(
         statusPayment.find((s) => s.value === order?.statusPayment),
     );
@@ -85,16 +84,16 @@ const DetailOrder = () => {
                     </div>
                 </div>
                 <div className={cx('right')}>
-                    <span className={cx('quantity')}>Quantity: 1</span>
                     <input
                         type="text"
                         value={imei}
                         onChange={(e) => setImei(e.target.value)}
+                        placeholder="Enter imei code"
                     />
                     <Button
                         style={{ fontWeight: 400 }}
                         primary
-                        small
+                        smallest
                         onClick={handleUpdateImei}
                     >
                         Update imei
@@ -106,7 +105,10 @@ const DetailOrder = () => {
 
     const sendCode = async () => {
         const addData = async () => {
-            const response = await axios.post('http://localhost:5000/api/order/sendMail',{code, order});
+            const response = await axios.post(
+                'http://localhost:5000/api/order/sendMail',
+                { code, order },
+            );
             return response;
         };
 
@@ -130,8 +132,7 @@ const DetailOrder = () => {
                 theme: 'dark',
             },
         );
-
-    }
+    };
 
     const handleUpdateStatus = () => {
         dispatch(updateStatus({ id: order?._id, status: statusSelect.value }));
@@ -150,7 +151,10 @@ const DetailOrder = () => {
         dispatch(
             updateAllStatus({
                 id: order?._id,
-                status: statusSelect.value,
+                status:
+                    statusPaymentSelect.value === 'Paid'
+                        ? statusSelect.value
+                        : order.value,
                 statusPayment: statusPaymentSelect.value,
             }),
         );
@@ -166,6 +170,14 @@ const DetailOrder = () => {
         });
     };
 
+    const convertToVND = (price) => {
+        if (typeof price !== 'number' || price === null) return 0;
+        return price.toLocaleString('vi', {
+            style: 'currency',
+            currency: 'VND',
+        });
+    };
+
     return (
         <Container
             style={{
@@ -176,9 +188,9 @@ const DetailOrder = () => {
                 flexDirection: 'column',
             }}
         >
-            <HeaderChild title="Products">
+            <HeaderChild title="Order Detail">
                 <Button small outline to="/orders">
-                    → Add Product
+                    → Back Order
                 </Button>
             </HeaderChild>
             <div className={cx('wrapper')}>
@@ -227,27 +239,115 @@ const DetailOrder = () => {
                                 </div>
                             </>
                         )}
+                        <div className={cx('info-item')}>
+                            <label>Total bill:</label>
+                            <p
+                                style={{
+                                    fontWeight: 600,
+                                    fontSize: 20,
+                                    color: '#3977CE',
+                                    marginBottom: '6px',
+                                }}
+                            >
+                                {convertToVND(order?.TotalAmountOrdered)}
+                            </p>
+                        </div>
+                        <div className={cx('info-item')}>
+                            <label>Delivery Method:</label>
+                            <p
+                                style={{
+                                    fontWeight: 600,
+                                    fontSize: 16,
+                                    color: '#3977CE',
+                                    marginBottom: '6px',
+                                }}
+                            >
+                                {order?.deliveryMethod}
+                            </p>
+                        </div>
+                        <div className={cx('info-item')} >
+                            <label>Address Shop Received:</label>
+                            <p
+                                style={{
+                                    fontWeight: 600,
+                                    fontSize: 16,
+                                    color: '#3977CE',
+                                    marginBottom: '6px',
+                                }}
+                            >
+                                {order?.storeAddress.address}
+                            </p>
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: '4rem',
+                                alignItems: 'center',
+                                marginBottom: '12px',
+                            }}
+                        >
+                            <div
+                                className={cx('info-item')}
+                                style={{
+                                    display: 'flex',
+                                    gap: '1rem',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <label>Status payment:</label>
+                                <p
+                                    style={{
+                                        fontWeight: 600,
+                                        color: '#3977CE',
+                                        fontSize: 16,
+                                        margin: 0,
+                                    }}
+                                >
+                                    {order?.statusPayment}
+                                </p>
+                            </div>
+                            <div
+                                className={cx('info-item')}
+                                style={{
+                                    display: 'flex',
+                                    gap: '1rem',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <label>Status order:</label>
+                                <p
+                                    style={{
+                                        fontWeight: 600,
+                                        color: '#3977CE',
+                                        fontSize: 16,
+                                        margin: 0,
+                                    }}
+                                >
+                                    {order?.status}
+                                </p>
+                            </div>
+                        </div>
+                        <div className={cx('filters')}>
+                            <input
+                                className={cx('search')}
+                                value={code}
+                                type="text"
+                                onChange={(e) => setCode(e.target.value)}
+                            />
+                            <Button
+                                smallest
+                                primary
+                                onClick={sendCode}
+                                disabled={order?.status !== 'Order sent'}
+                                style={{ fontWeight: 400 }}
+                            >
+                                Gửi mã đơn hàng
+                            </Button>
+                        </div>
                     </div>
                     <div className={cx('change')}>
                         <div className={cx('status-order')}>
-                            <div>
-                                <HighLight
-                                    small
-                                    success={
-                                        order?.status !==
-                                        'Order has been cancelled'
-                                    }
-                                    error={
-                                        order?.status ===
-                                        'Order has been cancelled'
-                                    }
-                                >
-                                    {order?.status}
-                                </HighLight>
-                                <HighLight small success>
-                                    {order?.statusPayment}
-                                </HighLight>
-                            </div>
+                            <h2>Update order status</h2>
                             <div className={cx('flex')}>
                                 <label>Status:</label>
                                 <Select
@@ -258,6 +358,9 @@ const DetailOrder = () => {
                                         setStatusSelect(value);
                                     }}
                                     options={statusOrder}
+                                    isDisabled={
+                                        statusPaymentSelect.value !== 'Paid'
+                                    }
                                 />
                             </div>
                             <div className={cx('flex')}>
@@ -272,20 +375,22 @@ const DetailOrder = () => {
                                     options={statusPayment}
                                 />
                             </div>
+                            <Button
+                                smallest
+                                outline
+                                style={{ fontWeight: 600 }}
+                            >
+                                Huỷ đơn hàng
+                            </Button>
                         </div>
-                        <Button primary small onClick={handleUpdate}>
+
+                        <Button
+                            primary
+                            small
+                            style={{ fontWeight: 400 }}
+                            onClick={handleUpdate}
+                        >
                             Update{' '}
-                        </Button>
-                    </div>
-                    <div className={cx('filters')}>
-                        <input
-                            className={cx('search')}
-                            value={code}
-                            type="text"
-                            onChange={(e) => setCode(e.target.value)}
-                        />
-                        <Button small primary onClick={sendCode}>
-                            Gửi mã đơn hàng
                         </Button>
                     </div>
                 </div>

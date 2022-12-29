@@ -51,6 +51,12 @@ const columns = [
         align: 'center',
     },
     {
+        id: 'DeliveryMethod',
+        label: 'Delivery Method',
+        minWidth: 40,
+        align: 'center',
+    },
+    {
         id: 'Status',
         label: 'Status',
         minWidth: 50,
@@ -82,7 +88,10 @@ function OrdersTable({ orders }) {
         sentDate,
         receivedDate,
         orderAccount,
+        deliveryMethod,
     ) {
+        const DeliveryMethod =
+            deliveryMethod === 'atstore' ? 'At Store' : 'Home Delivery';
         const newOrderDate = new Date(orderDate);
         const InfoDelivery = (
             <>
@@ -152,7 +161,7 @@ function OrdersTable({ orders }) {
 
         const Status = (
             <HighLight
-            small
+                small
                 success={status !== 'Order has been cancelled'}
                 error={status === 'Order has been cancelled'}
             >
@@ -175,6 +184,7 @@ function OrdersTable({ orders }) {
             OrderDate,
             InfoDelivery,
             action,
+            DeliveryMethod,
         };
     }
 
@@ -193,6 +203,7 @@ function OrdersTable({ orders }) {
                 sentDate,
                 receivedDate,
                 orderAccount,
+                deliveryMethod,
             } = o;
             return createData(
                 _id,
@@ -207,6 +218,7 @@ function OrdersTable({ orders }) {
                 sentDate,
                 receivedDate,
                 orderAccount,
+                deliveryMethod,
             );
         });
     }

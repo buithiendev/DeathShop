@@ -5,6 +5,7 @@ import Orders from '~/pages/Orders';
 import Products from '~/pages/Products';
 import Profile from '~/pages/Profile';
 import Sellers from '~/pages/Sellers';
+import StoreList from '~/pages/StoreList';
 import Users from '~/pages/Users';
 import DetailOrder from './../pages/DetailOrder/index';
 import WarrantCheck from './../pages/WarrantyCheck/index';
@@ -59,5 +60,10 @@ export const routes = [
         path: '/warrantycheck',
         title: 'DetailOrder',
         component: WarrantCheck,
+    },
+    {
+        path: '/stores',
+        title: 'DetailOrder',
+        component: StoreList,
     },
 ];

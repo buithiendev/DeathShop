@@ -31,6 +31,10 @@ const orderSchema = new Schema({
         type: Number,
         default: 0,
     },
+    deliveryMethod: {
+        type: String,
+        enum: ['homedelivery', 'atstore'],
+    },
     statusPayment: {
         type: String,
         enum: ['Pending', 'Paid'],
@@ -60,7 +64,7 @@ const orderSchema = new Schema({
     dateModify: {
         type: Date,
         default: new Date(),
-    }
+    },
 });
 
 module.exports = mongoose.model('Order', orderSchema);

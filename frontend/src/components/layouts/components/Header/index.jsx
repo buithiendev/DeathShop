@@ -8,11 +8,13 @@ import { Link } from 'react-router-dom';
 import { getCategoriesActive } from '~/utils/categoriesRoute';
 import styles from './Header.module.scss';
 import UserOptions from './UserOptions';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 function Header() {
     const [categories, setCategories] = useState();
+    const { cart } = useSelector((state) => state.cart);
 
     useEffect(() => {
         let unsubcribed = false;
@@ -78,7 +80,7 @@ function Header() {
                                         fontSize: 12,
                                     },
                                 }}
-                                badgeContent={4}
+                                badgeContent={cart?.length || 0}
                                 color="primary"
                             >
                                 <BiCartAlt color="action" />

@@ -4,7 +4,9 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { BiChevronRight } from 'react-icons/bi';
 import { FaCartPlus } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { addItem } from '~/app/cartSlice';
 import Button from '~/components/Button';
 import { getProductByIdName, getProductByName } from '~/utils/productsRoute';
 import DetailsProduct from './components/DetailsProduct/index';
@@ -21,6 +23,7 @@ function Product() {
     const [product, setProduct] = useState();
     const [similarProducts, setSimilarProducts] = useState([]);
     const [colorSelected, setColorSelected] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let unsubcribed = false;
@@ -58,16 +61,12 @@ function Product() {
     };
 
     const handleBuyProduct = (productSelected, colorSelected) => {
-        const listCart = JSON.parse(localStorage.getItem('carts')) || [];
-        listCart.push({ product: productSelected._id, colorSelected });
-        localStorage.setItem('carts', JSON.stringify(listCart));
+        dispatch(addItem({ product: productSelected._id, colorSelected }));
         navigate('/customer/cart');
     };
 
     const handleAddProductToCart = (productSelected, colorSelected) => {
-        const listCart = JSON.parse(localStorage.getItem('carts')) || [];
-        listCart.push({ product: productSelected._id, colorSelected });
-        localStorage.setItem('carts', JSON.stringify(listCart));
+        dispatch(addItem({ product: productSelected._id, colorSelected }));
     };
 
     const Path = (p) => {
