@@ -1,14 +1,25 @@
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from '@mui/material';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
-import { updateImei, updateStatusPayment } from '../Orders/ordersSlice';
+import {
+    cancelOrder,
+    updateImei,
+    updateStatusPayment,
+} from '../Orders/ordersSlice';
 import HeaderChild from './../../components/HeaderChild/index';
 import { updateAllStatus, updateStatus } from './../Orders/ordersSlice';
 import styles from './DetailOrder.module.scss';
@@ -30,6 +41,7 @@ const statusPayment = [
 
 const DetailOrder = () => {
     const orders = useSelector((state) => state.orders.orders) || [];
+    const navigate = useNavigate();
     const params = useParams();
     const dispatch = useDispatch();
     const order = orders.find((o) => o?._id === params.id);
@@ -40,6 +52,23 @@ const DetailOrder = () => {
     const [statusPaymentSelect, setStatusPaymentSelect] = useState(
         statusPayment.find((s) => s.value === order?.statusPayment),
     );
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const convertDate = (string) => {
+        const date = new Date(string);
+        return (
+            date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear()
+        );
+    };
 
     const ProductItem = (p) => {
         const [imei, setImei] = useState('');
@@ -147,6 +176,11 @@ const DetailOrder = () => {
         );
     };
 
+    const handleCancelOrder = () => {
+        dispatch(cancelOrder({ id: order?._id }));
+        navigate('/orders');
+    };
+
     const handleUpdate = () => {
         dispatch(
             updateAllStatus({
@@ -240,6 +274,10 @@ const DetailOrder = () => {
                             </>
                         )}
                         <div className={cx('info-item')}>
+                            <label>Date order:</label>
+                            <p>{convertDate(order?.orderDate)}</p>
+                        </div>
+                        <div className={cx('info-item')}>
                             <label>Total bill:</label>
                             <p
                                 style={{
@@ -252,6 +290,7 @@ const DetailOrder = () => {
                                 {convertToVND(order?.TotalAmountOrdered)}
                             </p>
                         </div>
+
                         <div className={cx('info-item')}>
                             <label>Delivery Method:</label>
                             <p
@@ -265,7 +304,7 @@ const DetailOrder = () => {
                                 {order?.deliveryMethod}
                             </p>
                         </div>
-                        <div className={cx('info-item')} >
+                        <div className={cx('info-item')}>
                             <label>Address Shop Received:</label>
                             <p
                                 style={{
@@ -275,7 +314,7 @@ const DetailOrder = () => {
                                     marginBottom: '6px',
                                 }}
                             >
-                                {order?.storeAddress.address}
+                                {order?.storeAddress?.address}
                             </p>
                         </div>
                         <div
@@ -359,7 +398,7 @@ const DetailOrder = () => {
                                     }}
                                     options={statusOrder}
                                     isDisabled={
-                                        statusPaymentSelect.value !== 'Paid'
+                                        statusPaymentSelect?.value !== 'Paid'
                                     }
                                 />
                             </div>
@@ -379,9 +418,43 @@ const DetailOrder = () => {
                                 smallest
                                 outline
                                 style={{ fontWeight: 600 }}
+                                onClick={handleClickOpen}
                             >
                                 Huỷ đơn hàng
                             </Button>
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">
+                                    {
+                                        'Are you sure you want to cancel this order?'
+                                    }
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText
+                                        sx={{ color: 'red' }}
+                                        id="alert-dialog-description"
+                                    >
+                                        After canceling this order you will no
+                                        longer be able to edit. Please confirm
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        primary
+                                        onClick={handleCancelOrder}
+                                        autoFocus
+                                    >
+                                        Agree
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
 
                         <Button

@@ -3,8 +3,11 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
 import CardProduct from '~/components/CardProduct';
+import { customer } from '~/utils/customerRoute';
 import {
     getProductByCateIdName,
     getProductBySeriesId,
@@ -24,6 +27,8 @@ function Shop() {
     const [category, setCategory] = useState();
     const [products, setProducts] = useState();
     const [showMore, setShowMore] = useState(false);
+    const { status, info } = useSelector((state) => state.currentUser);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -70,6 +75,18 @@ function Shop() {
             }
         })();
     }, [seriesSelect, params]);
+
+    if (!status) {
+        (async () => {
+            try {
+                const { data } = await axios.get(customer);
+                if (!data) {
+                } else {
+                    dispatch(setInfoCurrentUser(data));
+                }
+            } catch (ex) {}
+        })();
+    }
 
     return (
         <div className={cx('container')}>

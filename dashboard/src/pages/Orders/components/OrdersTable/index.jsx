@@ -141,6 +141,7 @@ function OrdersTable({ orders }) {
             <>
                 <Button
                     smallest
+                    disabled={status === 'Order has been cancelled'}
                     primary
                     style={{ height: 25, fontSize: '1.2rem' }}
                     onClick={() => {
@@ -243,7 +244,7 @@ function OrdersTable({ orders }) {
                 marginTop: '24px',
             }}
         >
-            <TableContainer sx={{ height: 800 }}>
+            <TableContainer sx={{ height: 600 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

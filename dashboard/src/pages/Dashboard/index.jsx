@@ -5,6 +5,7 @@
 // export default Dashboard;
 
 import { Box, Container, Grid } from '@mui/material';
+import thongke from '~/assets/images/thongke.png';
 import { Budget } from '~/components/dashboard/budget';
 import { TasksProgress } from '~/components/dashboard/tasks-progress';
 import { TotalCustomers } from '~/components/dashboard/total-customers';
@@ -18,7 +19,7 @@ const Dashboard = () => (
             sx={{
                 flexGrow: 1,
                 py: 3,
-                px: 2
+                px: 2,
             }}
         >
             <Container maxWidth={false}>
@@ -38,6 +39,9 @@ const Dashboard = () => (
                     </Grid>
                 </Grid>
             </Container>
+            <div style={{margin: '24px'}}>
+                <img style={{ width: '100%' }} src={thongke} alt="" />
+            </div>
         </Box>
     </>
 );

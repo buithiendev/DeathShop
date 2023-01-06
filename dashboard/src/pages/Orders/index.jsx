@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { BiSearch } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { BiRefresh, BiSearch } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import HeaderChild from '~/components/HeaderChild';
 import OrdersTable from './components/OrdersTable';
 import styles from './Orders.module.scss';
+import { getOrders } from './ordersSlice';
 
 const cx = classNames.bind(styles);
 
@@ -24,11 +25,20 @@ function Orders() {
     const orders = useSelector((state) => state.orders.orders);
     const [filter, setFilter] = useState(filterOrders[0]);
     const [orderAfterFilter, setOrderAffterFilter] = useState(orders);
+    const [refresh, setRefresh] = useState(false);
     const [search, setSearch] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setOrderAffterFilter(orders);
     }, [orders]);
+
+    useEffect(() => {
+        if (refresh === true) {
+            dispatch(getOrders());
+        }
+        setRefresh(false);
+    }, [refresh]);
 
     useEffect(() => {
         (async () => {
@@ -68,7 +78,7 @@ function Orders() {
                     break;
             }
         })();
-    }, [filter]);
+    }, [filter, refresh]);
 
     const handleSearchOrder = () => {
         const key = search.trim();
@@ -110,29 +120,39 @@ function Orders() {
         >
             <HeaderChild title="Orders"></HeaderChild>
             <div className={cx('filters')}>
-                <Select
-                    className={cx('select')}
-                    value={filter}
-                    isSearchable={false}
-                    onChange={(e) => {
-                        setFilter(e);
-                    }}
-                    options={filterOrders}
-                />
-                <div className={cx('filters')}>
-                    <input
-                        className={cx('search')}
-                        type="text"
-                        value={search}
-                        placeholder="Search"
-                        onChange={(e) => setSearch(e.target.value)}
+                <div className={cx('filters-item')}>
+                    <Select
+                        className={cx('select')}
+                        value={filter}
+                        isSearchable={false}
+                        onChange={(e) => {
+                            setFilter(e);
+                        }}
+                        options={filterOrders}
                     />
-                    <Button
-                        primary
-                        leftIcon={<BiSearch />}
-                        onClick={handleSearchOrder}
-                    />
+                    <div className={cx('filters')}>
+                        <input
+                            className={cx('search')}
+                            type="text"
+                            value={search}
+                            placeholder="Search"
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <Button
+                            primary
+                            leftIcon={<BiSearch />}
+                            onClick={handleSearchOrder}
+                        />
+                    </div>
                 </div>
+
+                <Button
+                    primary
+                    onClick={() => setRefresh(true)}
+                    leftIcon={<BiRefresh size={30} />}
+                >
+                    Refresh
+                </Button>
             </div>
             <OrdersTable orders={orderAfterFilter} />
         </Container>

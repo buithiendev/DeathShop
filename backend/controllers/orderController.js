@@ -192,7 +192,7 @@ module.exports.add = async (req, res, next) => {
             anothorInfo: deliveryInformation?._id,
             TotalAmountOrdered,
             deliveryMethod: deliveryForm,
-            storeAddress: storeAddress,
+            storeAddress: storeAddress === '' ? null : storeAddress,
         });
 
         const order = await Order.findById(response._id)
@@ -202,6 +202,25 @@ module.exports.add = async (req, res, next) => {
             .lean();
 
         return res.send(order);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+module.exports.cancelOrder = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const response = await Order.findOneAndUpdate(
+            { _id: id },
+            {
+                status: req.body.status,
+            },
+            { new: true },
+        )
+            .populate('idInfoReceived')
+            .populate('anothorInfo')
+            .populate('storeAddress');
     } catch (ex) {
         next(ex);
     }

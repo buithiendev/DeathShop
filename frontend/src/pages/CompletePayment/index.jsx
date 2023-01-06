@@ -35,6 +35,13 @@ const CompletePayment = () => {
         });
     };
 
+    const convertDate = (string) => {
+        const date = new Date(string);
+        return (
+            date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear()
+        );
+    };
+
     const ProductItem = (p) => {
         return (
             <div className={cx('product-item')}>
@@ -71,7 +78,7 @@ const CompletePayment = () => {
                                 </div>
                                 <div className={cx('info-row')}>
                                     <label>Order date:</label>
-                                    <p>{order.orderDate}</p>
+                                    <p>{convertDate(order.orderDate)}</p>
                                 </div>
                                 <div className={cx('info-row')}>
                                     <label>Status:</label>
@@ -114,12 +121,11 @@ const CompletePayment = () => {
                                 <div className={cx('info-row')}>
                                     <label>Delivery address:</label>
                                     <p>
-                                        {order?.deliveryMethod !== 'atstore'
-                                            ? order.anothorInfo != null
+                                        {order.deliveryMethod === 'homedelivery'
+                                            ? order?.anothorInfo
                                                 ? order.anothorInfo.address
-                                                : order.storeAddress
-                                                      ?.specificAddress
-                                            : order?.storeAddress.address}
+                                                : order?.idInfoReceived?.address
+                                            : order.storeAddress.address}
                                     </p>
                                 </div>
                             </div>

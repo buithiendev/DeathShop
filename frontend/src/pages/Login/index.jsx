@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import imgLogin from '~/assets/images/login.jpg';
+import imgLogin from '~/assets/images/13.jpg';
 import Button from '~/components/Button';
 import InputField from '~/components/CustomField/InputField';
 import { login } from '~/utils/customerRoute';

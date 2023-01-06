@@ -6,6 +6,7 @@ const WarrantCheck = () => {
   return (
     <Container>
         <HeaderChild title="Warranty Check"></HeaderChild>
+        
     </Container>
   )
 }

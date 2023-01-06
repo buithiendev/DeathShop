@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
+    cancelOrderAPI,
     getAllOrders,
     updateAllStatusAPI,
     updateImeiAPI,
@@ -42,6 +43,17 @@ export const updateStatusPayment = createAsyncThunk(
             `${updateStatusPaymentAPI}/${data.id}`,
             data,
         );
+
+        return response.data;
+    },
+);
+
+export const cancelOrder = createAsyncThunk(
+    'orders/cancelOrder',
+    async (data, thunkAPI) => {
+        const response = await axios.post(`${cancelOrderAPI}/${data.id}`, {
+            status: 'Order has been cancelled',
+        });
 
         return response.data;
     },
@@ -135,6 +147,25 @@ const categories = createSlice({
             });
         },
         [updateAllStatus.rejected]: (state, action) => {
+            state.loading = false;
+            state.success = false;
+        },
+        [cancelOrder.pending]: (state, action) => {
+            state.loading = true;
+            state.success = false;
+        },
+        [cancelOrder.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.orders.find((order, index) => {
+                if (order._id === action.payload._id) {
+                    state.orders[index] = action.payload;
+                    return true;
+                }
+                return false;
+            });
+        },
+        [cancelOrder.rejected]: (state, action) => {
             state.loading = false;
             state.success = false;
         },

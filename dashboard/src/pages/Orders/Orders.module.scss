@@ -2,11 +2,18 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+    justify-content: space-between;
 
     .select {
         min-width: 240px;
         z-index: 999;
     }
+}
+
+.filters-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .search {

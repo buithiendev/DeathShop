@@ -59,7 +59,7 @@ function CartPage() {
         phone: '',
         email: '',
         deliveryForm: 'homedelivery',
-        storeAddress: null,
+        storeAddress: '',
         province: '',
         district: '',
         specificAddress: '',
@@ -97,10 +97,12 @@ function CartPage() {
         <div className={cx('container')}>
             <div className={cx('wrapper')}>
                 <div>
-                    <TableCart
-                        listProduct={listProduct}
-                        handleRemoveCartItem={handleRemoveCartItem}
-                    />
+                    <div style={{maxHeight: '550px', overflowY: 'scroll'}}>
+                        <TableCart
+                            listProduct={listProduct}
+                            handleRemoveCartItem={handleRemoveCartItem}
+                        />
+                    </div>
                     <div className={cx('info-payment')}>
                         <h2>Payment Information</h2>
                         <FormPayment

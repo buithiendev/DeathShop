@@ -1,8 +1,12 @@
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { BiFoodMenu, BiLocationPlus, BiLock, BiUser } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setInfoCurrentUser } from '~/app/currentUserSlice';
+import { customer } from '~/utils/customerRoute';
 import ChangePassword from './components/ChangePassword';
 import FormAddress from './components/FormAddress';
 import FormInfo from './components/FormInfo';
@@ -12,6 +16,9 @@ import styles from './MyProfile.module.scss';
 const cx = classNames.bind(styles);
 
 const MyProfile = () => {
+    const dispatch = useDispatch();
+    const { status, info } = useSelector((state) => state.currentUser);
+
     const navList = [
         { icon: <BiUser size={20} />, name: 'Account information' },
         { icon: <BiLocationPlus size={20} />, name: 'Delivery address' },
@@ -33,6 +40,18 @@ const MyProfile = () => {
             </div>
         );
     };
+
+    if (!status) {
+        (async () => {
+            try {
+                const { data } = await axios.get(customer);
+                if (!data) {
+                } else {
+                    dispatch(setInfoCurrentUser(data));
+                }
+            } catch (ex) {}
+        })();
+    }
 
     const RenderSwitch = () => {
         switch (selectNavigate) {
