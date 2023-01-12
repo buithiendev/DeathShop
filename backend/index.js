@@ -45,20 +45,9 @@ app.use('/api/banner', bannerRoutes);
 app.use('/api/customer', customerRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/store', storeRoutes);
-// mongoose
-//     .connect(process.env.MONGO_URL, {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//     })
-//     .then(() => {
-//         console.log('DB connection succesfull');
-//     })
-//     .catch((err) => {
-//         console.log(err.message);
-//     });
 
 mongoose
-    .connect(uri, {
+    .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -68,6 +57,18 @@ mongoose
     .catch((err) => {
         console.log(err.message);
     });
+
+// mongoose
+//     .connect(uri, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//     })
+//     .then(() => {
+//         console.log('DB connection succesfull');
+//     })
+//     .catch((err) => {
+//         console.log(err.message);
+//     });
 
 const server = app.listen(process.env.PORT, () => {
     console.log(`Server stated on PORT ${process.env.PORT}`);
